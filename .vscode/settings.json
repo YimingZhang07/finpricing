@@ -1,0 +1,35 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": [
+                "-NoExit",
+                "-Command",
+                "conda activate finpricing_dev"
+            ]
+        }
+    },
+    "pylint.args": [
+        "--max-line-length=100",
+        "--disable=C0411, W1203, C0115, C0103"
+    ],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "args": [
+                "--init-file",
+                "./finpricing_dev_init.sh"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "cSpell.enableFiletypes": [
+        "!python"
+    ],
+}

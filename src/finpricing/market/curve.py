@@ -110,8 +110,7 @@ class Curve(BaseCurve):
     def FromValues(cls,
                    times: list,
                    dfs: list,
-                   valuation_date:
-                   Date = None,
+                   valuation_date:Date = None,
                    interp_type=InterpTypes.FLAT_FWD_RATES,
                    day_count_type: DayCountTypes = DayCountTypes.ACT_ACT_ISDA):
         """Construct a discount curve from a list of times and discount factors
