@@ -1,5 +1,6 @@
 import datetime
 from dateutil.relativedelta import relativedelta
+from typing import Union
 
 
 class Date:

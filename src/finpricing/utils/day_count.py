@@ -1,7 +1,10 @@
 from enum import Enum
 import calendar
+import datetime
 from .date import Date
 from .error import NotSupportedError
+from typing import Union
+
 
 # reference: http://www.eclipsesoftware.biz/DayCountConventions.html#x3_01a
 # reference: https://en.wikipedia.org/wiki/Day_count_convention
@@ -89,7 +92,10 @@ class DayCount:
             raise NotSupportedError("DayCountTypes is not supported")
         return (days, frac)
 
-    def year_fraction(self, start_date: Date, end_date: Date, next_coupon_date: Date = None) -> float:
+    def year_fraction(self,
+                      start_date: Union[Date, datetime.date], 
+                      end_date: Union[Date, datetime.date],
+                      next_coupon_date: Date = None) -> float:
         """Return the fraction of year between two dates using a specific day count convention
 
         The actual calculation is done in days_between() method.
@@ -99,8 +105,25 @@ class DayCount:
             end_date (Date): end date of the accrual period. For a bond trade, it is the settlement date of the trade.
             next_coupon_date (Date): next coupon date of the bond / maturity date of the bond if no more coupon payment
         """
+        if isinstance(start_date, datetime.date):
+            start_date = Date.from_datetime(start_date)
+        if isinstance(end_date, datetime.date):
+            end_date = Date.from_datetime(end_date)
+        
         frac = self.days_between(start_date, end_date)[1]
         return frac
+    
+    def convert_dates_to_times(self, anchor_date: Date, dates: list[Date]) -> list[float]:
+        """Return a list of time fraction (year fraction) between anchor date and each date in the list
+
+        Args:
+            anchor_date (Date): anchor date
+            dates (list[Date]): list of dates
+
+        Returns:
+            list[float]: list of time fraction (year fraction)
+        """
+        return [self.year_fraction(anchor_date, date) for date in dates]
 
     def __repr__(self) -> str:
         """Return the string representation of the object"""
