@@ -22,6 +22,18 @@ class Date:
     def to_tuple(self) -> tuple:
         """Return a tuple of (year, month, day)"""
         return self._date.year, self._date.month, self._date.day
+    
+    @classmethod
+    def convert_from_datetime(cls, date: Union[datetime.date, 'Date']) -> 'Date':
+        """Return a Date object from a datetime.date object"""
+        if isinstance(date, Date):
+            return date
+        return cls.from_datetime(date)
+    
+    @classmethod
+    def convert_from_datetimes(cls, dates: list[Union[datetime.date, 'Date']]) -> list['Date']:
+        """Return a list of Date objects from a list of datetime.date objects"""
+        return [cls.convert_from_datetime(date) for date in dates]
 
     @classmethod
     def from_datetime(cls, date: datetime.date) -> 'Date':

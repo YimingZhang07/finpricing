@@ -16,7 +16,7 @@ class DayCountTypes(Enum):
     ACT_360 = 0
     ACT_365 = 1
     # ISDA 4.16(f)
-    Thirty_360 = 2
+    THIRTY_360 = 2
     ACT_ACT_ISDA = 3
     # ISDA 4.16(g)
     Thirty_E_360 = 4
@@ -49,7 +49,7 @@ class DayCount:
             denominator = 365
             frac = days / denominator
         # This follows the ISDA 4.16(f) definition
-        elif self._dccType == DayCountTypes.Thirty_360:
+        elif self._dccType == DayCountTypes.THIRTY_360:
             y1, m1, d1 = start_date.to_tuple()
             y2, m2, d2 = end_date.to_tuple()
             d1 = 30 if d1 == 31 else d1
