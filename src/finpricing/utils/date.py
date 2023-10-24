@@ -2,7 +2,6 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from typing import Union
 
-
 class Date:
     MON = 0
     TUE = 1

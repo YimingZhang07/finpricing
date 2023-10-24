@@ -33,7 +33,7 @@ class VanillaInterestRateSwap:
                  notional: float = Literal.ONE_MILLION.value,
                  counterparty_type: SwapCounterpartyTypes = SwapCounterpartyTypes.FIXED_RATE_PAYER,
                  fixed_freq_type: FrequencyTypes = FrequencyTypes.QUARTERLY,
-                 fixed_day_count_type: DayCountTypes = DayCountTypes.Thirty_360,
+                 fixed_day_count_type: DayCountTypes = DayCountTypes.THIRTY_360,
                  float_freq_type: FrequencyTypes = FrequencyTypes.QUARTERLY,
                  float_day_count_type: DayCountTypes = DayCountTypes.Thirty_E_360,
                  calendar_type: CalendarTypes = CalendarTypes.WEEKEND,

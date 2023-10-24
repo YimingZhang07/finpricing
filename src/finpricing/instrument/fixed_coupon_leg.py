@@ -44,9 +44,12 @@ class FixedCouponLeg(ClassUtil):
         self.accrual_end = []
         self.accrual_days = []
         self.accrual_factors = []
-        self.cashflows = []
+        self.payment_amounts = []
         self.generate_cashflows()
         
+    @property
+    def cashflows(self) -> list:
+        return list(zip(self.payment_dates, self.payment_amounts))
         
     def generate_cashflows(self) -> None:
         """Generate the cashflows for the fixed coupon leg"""
@@ -59,7 +62,7 @@ class FixedCouponLeg(ClassUtil):
             days, frac = self.day_counter.days_between(self.accrual_start[i], self.accrual_end[i])
             self.accrual_days.append(days)
             self.accrual_factors.append(frac)
-            self.cashflows.append(self.coupon_rate * self.accrual_factors[i] * self.notional)
+            self.payment_amounts.append(self.coupon_rate * self.accrual_factors[i] * self.notional)
             
     def print_cashflows(self):
         d = {   "Payment Date": self.payment_dates,
