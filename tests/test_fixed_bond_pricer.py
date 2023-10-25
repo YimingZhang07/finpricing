@@ -22,8 +22,8 @@ class TestPricer(object):
             date_gen_rule_type          = utils.DateGenRuleTypes.BACKWARD,
         )
         self.principal_leg = PrincipalLeg(
-            date        = datetime.date(2028, 11, 15),
-            amount      = 100.0
+            maturity_date        = datetime.date(2028, 11, 15),
+            principal_amount     = 100.0
         )
         self.fixed_bond = FixedBond(
             fixed_coupon_leg    = self.fixed_coupon_leg,
@@ -57,6 +57,16 @@ class TestPricer(object):
             hazard_rates=[0.0, 0.0],
             
         )
+        
+        self.example_survival_curve = SurvivalCurveStep(
+            anchor_date=self.valuation_date,
+            dates=[
+                datetime.date(2023, 10, 9),
+                datetime.date(2023, 12, 31),
+                datetime.date(2024, 12, 31),
+            ],
+            hazard_rates=[0.02, 0.02, 0.04],
+        )
 
     def test_dummy_curves(self):
         res = self.fixed_bond_pricer.Price(
@@ -74,10 +84,20 @@ class TestPricer(object):
         )
         assert res == pytest.approx(100.64875434603033)
 
-    # def test_dummy_discount_curve(self):
-    #     res = self.fixed_bond_pricer.Price(
-    #         valuation_date=self.valuation_date,
-    #         discount_curve=self.dummy_discount_curve,
-    #         survival_curve=self.example_survival_curve,
-    #     )
-    #     assert res == pytest.approx(132.3125)
+    def test_dummy_discount_curve_no_recovery(self):
+        res = self.fixed_bond_pricer.Price(
+            valuation_date=self.valuation_date,
+            discount_curve=self.dummy_discount_curve,
+            survival_curve=self.example_survival_curve,
+            recovery_rate=0.
+        )
+        assert res == pytest.approx(1.4683197878320822)
+        
+    def test_dummy_discount_curve_with_recovery(self):
+        res = self.fixed_bond_pricer.Price(
+            valuation_date=self.valuation_date,
+            discount_curve=self.dummy_discount_curve,
+            survival_curve=self.example_survival_curve,
+            recovery_rate=0.4
+        )
+        assert res == pytest.approx(42.15024760233873)

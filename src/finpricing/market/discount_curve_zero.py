@@ -7,7 +7,7 @@ class DiscountCurve:
     def __init__(self) -> None:
         pass  
     
-    def factor(date: Date):
+    def discount(date: Date):
         return NotImplementedError("Please implement factor() method in derived class")
     
     
