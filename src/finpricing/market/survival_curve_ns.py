@@ -20,11 +20,11 @@ class SurvivalCurveNelsonSiegel(SurvivalCurve):
                  params: list[float]) -> None:
         anchor_date = Date.convert_from_datetime(anchor_date)
         super().__init__(anchor_date)
-        self._pivot_dates = Date.convert_from_datetimes(pivot_dates)
+        self.pivot_dates = Date.convert_from_datetimes(pivot_dates)
         self.params = params
         
         # derived attributes
-        self.pivots = [ date - anchor_date for date in self._pivot_dates ]
+        self.pivots = [ date - anchor_date for date in self.pivot_dates ]
         
     @staticmethod
     def f(t, a):

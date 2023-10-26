@@ -32,10 +32,12 @@ class SurvivalCurveStep:
         survival_probability = 1
         prev_date = self.anchor_date
         
+        # 1. extrapolate the survival curve if the target date is before the first date in the list
         if date <= self.dates[0]:
             days_in_interval = self.day_counter.days_between(prev_date, date)[0]
             return math.exp(-self.hazard_rates[0] * days_in_interval)
 
+        # 2. calculate the survival probability for the date between given dates
         for i, curr_date in enumerate(self.dates):
             # If the target date falls within this interval
             if prev_date < date <= curr_date:
@@ -48,7 +50,7 @@ class SurvivalCurveStep:
             survival_probability *= math.exp(-self.hazard_rates[i - 1] * days_in_interval)
             prev_date = curr_date
 
-        # If the target date is beyond the last date in the list
+        # 3. If the target date is beyond the last date in the list
         days = self.day_counter.days_between(prev_date, date)[0]
         survival_probability *= math.exp(-self.hazard_rates[-1] * days)
 

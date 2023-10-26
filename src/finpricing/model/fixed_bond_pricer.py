@@ -16,7 +16,7 @@ class FixedBondPricer(ClassUtil):
     def coupon_cashflows(self):
         return self.inst.fixed_coupon_leg.cashflows
     
-    def principal_pv(self, valuation_date, recovery_rate, discount_curve, survival_curve):
+    def principal_pv(self, valuation_date, discount_curve, survival_curve, recovery_rate):
         # principal leg value 
         principal_date = self.inst.principal_leg.maturity_date
         principal_amount = self.principal_amount
@@ -41,29 +41,44 @@ class FixedBondPricer(ClassUtil):
               survival_curve,
               discount_curve,
               recovery_rate: float = 0.4) -> float:
-        """risky discounting of a fixed bond"""
+        """risky pricing of a fixed bond
+        
+        Args:
+            valuation_date: valuation date
+            survival_curve: survival curve
+            discount_curve: discount curve
+            recovery_rate: recovery rate
+            
+        Returns:
+            Dirty price of the bond.
+        """
         valuation_date = Date.convert_from_datetime(valuation_date)
         
         pv = 0.0
-        prev_date = valuation_date
         
-        for date, amount in self.coupon_cashflows:
+        for i, item in enumerate(self.coupon_cashflows):
+            date = item[0]
+            amount = item[1]
+            accrual_start_date = self.inst.fixed_coupon_leg.accrual_start[i].add_tenor("-1d")
+            accrual_end_date = self.inst.fixed_coupon_leg.accrual_end[i].add_tenor("-1d")
+            period_start_date = max(valuation_date, accrual_start_date)
+        
             if date > valuation_date:
                 df = discount_curve.discount(date)
                 
-                # here the survival date is moved 1 day back as convention for the non-integral part
                 pv += df * survival_curve.survival(date.add_tenor("-1d")) * amount
                 
                 pv += amount * accrual_integral(
-                    start_date=prev_date,
-                    end_date=date,
+                    start_date=period_start_date,
                     granularity_in_days=14,
                     R=recovery_rate,
                     survival_curve=survival_curve,
                     discount_curve=discount_curve,
+                    accrual_start_date=accrual_start_date,
+                    accrual_end_date=accrual_end_date
                 )
-            prev_date = date
-            
-        pv += self.principal_pv(valuation_date, recovery_rate, discount_curve, survival_curve)
+    
+        pv += self.principal_pv(valuation_date, discount_curve, survival_curve, recovery_rate)
         
         return pv
+            

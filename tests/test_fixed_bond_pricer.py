@@ -55,7 +55,6 @@ class TestPricer(object):
                 datetime.date(2024, 12, 31),
             ],
             hazard_rates=[0.0, 0.0],
-            
         )
         
         self.example_survival_curve = SurvivalCurveStep(
@@ -66,6 +65,16 @@ class TestPricer(object):
                 datetime.date(2024, 12, 31),
             ],
             hazard_rates=[0.02, 0.02, 0.04],
+        )
+        
+        self.example_survival_curve2 = SurvivalCurveStep(
+            anchor_date=self.valuation_date,
+            dates=[
+                datetime.date(2023, 10, 9),
+                datetime.date(2023, 12, 31),
+                datetime.date(2024, 12, 31),
+            ],
+            hazard_rates=[0.0001, 0.0002, 0.0003],
         )
 
     def test_dummy_curves(self):
@@ -101,3 +110,63 @@ class TestPricer(object):
             recovery_rate=0.4
         )
         assert res == pytest.approx(42.15024760233873)
+        
+    def test_principal_only_with_recovery(self):
+        fixed_coupon_leg = FixedCouponLeg(
+            start_date                  = self.valuation_date,
+            maturity_date_or_tenor      = datetime.date(2028, 11, 15),
+            coupon_rate                 = 0.0,
+            freq_type                   = utils.FrequencyTypes.SEMI_ANNUAL,
+            day_count_type              = utils.DayCountTypes.THIRTY_360,
+            bus_day_adj_type            = utils.BusDayAdjustTypes.NONE,
+            date_gen_rule_type          = utils.DateGenRuleTypes.BACKWARD,
+        )
+        principal_leg = PrincipalLeg(
+            maturity_date        = datetime.date(2028, 11, 15),
+            principal_amount     = 100.0
+        )
+        fixed_bond = FixedBond(
+            fixed_coupon_leg    = fixed_coupon_leg,
+            principal_leg       = principal_leg
+        )
+        
+        fixed_bond_pricer = FixedBondPricer(inst=fixed_bond)
+        
+        res = fixed_bond_pricer.Price(
+            valuation_date=self.valuation_date,
+            discount_curve=self.dummy_discount_curve,
+            survival_curve=self.example_survival_curve2,
+            recovery_rate=0.4
+        )
+        
+        assert res == pytest.approx(76.17414229023053)
+        
+    def test_coupon_only_with_recovery(self):
+        fixed_coupon_leg = FixedCouponLeg(
+            start_date                  = self.valuation_date,
+            maturity_date_or_tenor      = datetime.date(2028, 11, 15),
+            coupon_rate                 = 0.05875,
+            freq_type                   = utils.FrequencyTypes.SEMI_ANNUAL,
+            day_count_type              = utils.DayCountTypes.THIRTY_360,
+            bus_day_adj_type            = utils.BusDayAdjustTypes.NONE,
+            date_gen_rule_type          = utils.DateGenRuleTypes.BACKWARD,
+        )
+        principal_leg = PrincipalLeg(
+            maturity_date        = datetime.date(2028, 11, 15),
+            principal_amount     = 0.0
+        )
+        fixed_bond = FixedBond(
+            fixed_coupon_leg    = fixed_coupon_leg,
+            principal_leg       = principal_leg
+        )
+        
+        fixed_bond_pricer = FixedBondPricer(inst=fixed_bond)
+        
+        res = fixed_bond_pricer.Price(
+            valuation_date=self.valuation_date,
+            discount_curve=self.dummy_discount_curve,
+            survival_curve=self.example_survival_curve2,
+            recovery_rate=0.4
+        )
+        
+        assert res == pytest.approx(26.043172656123353)
