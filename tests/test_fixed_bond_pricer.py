@@ -39,7 +39,7 @@ class TestPricer(object):
             ],
             rates=[0.0, 0.0],
         )
-        
+
         self.example_discount_curve = DiscountCurveZeroRates(
             anchor_date=self.valuation_date,
             dates=[
@@ -56,7 +56,7 @@ class TestPricer(object):
             ],
             hazard_rates=[0.0, 0.0],
         )
-        
+
         self.example_survival_curve = SurvivalCurveStep(
             anchor_date=self.valuation_date,
             dates=[
@@ -66,7 +66,7 @@ class TestPricer(object):
             ],
             hazard_rates=[0.02, 0.02, 0.04],
         )
-        
+
         self.example_survival_curve2 = SurvivalCurveStep(
             anchor_date=self.valuation_date,
             dates=[
@@ -78,7 +78,7 @@ class TestPricer(object):
         )
 
     def test_dummy_curves(self):
-        res = self.fixed_bond_pricer.Price(
+        res = self.fixed_bond_pricer.price(
             valuation_date=self.valuation_date,
             discount_curve=self.dummy_discount_curve,
             survival_curve=self.dummy_survival_curve,
@@ -86,7 +86,7 @@ class TestPricer(object):
         assert res == pytest.approx(132.3125)
         
     def test_dummy_survival_curve(self):
-        res = self.fixed_bond_pricer.Price(
+        res = self.fixed_bond_pricer.price(
             valuation_date=self.valuation_date,
             discount_curve=self.example_discount_curve,
             survival_curve=self.dummy_survival_curve,
@@ -94,7 +94,7 @@ class TestPricer(object):
         assert res == pytest.approx(100.64875434603033)
 
     def test_dummy_discount_curve_no_recovery(self):
-        res = self.fixed_bond_pricer.Price(
+        res = self.fixed_bond_pricer.price(
             valuation_date=self.valuation_date,
             discount_curve=self.dummy_discount_curve,
             survival_curve=self.example_survival_curve,
@@ -103,7 +103,7 @@ class TestPricer(object):
         assert res == pytest.approx(1.4683197878320822)
         
     def test_dummy_discount_curve_with_recovery(self):
-        res = self.fixed_bond_pricer.Price(
+        res = self.fixed_bond_pricer.price(
             valuation_date=self.valuation_date,
             discount_curve=self.dummy_discount_curve,
             survival_curve=self.example_survival_curve,
@@ -132,7 +132,7 @@ class TestPricer(object):
         
         fixed_bond_pricer = FixedBondPricer(inst=fixed_bond)
         
-        res = fixed_bond_pricer.Price(
+        res = fixed_bond_pricer.price(
             valuation_date=self.valuation_date,
             discount_curve=self.dummy_discount_curve,
             survival_curve=self.example_survival_curve2,
@@ -159,14 +159,66 @@ class TestPricer(object):
             fixed_coupon_leg    = fixed_coupon_leg,
             principal_leg       = principal_leg
         )
-        
+
         fixed_bond_pricer = FixedBondPricer(inst=fixed_bond)
-        
-        res = fixed_bond_pricer.Price(
+
+        res = fixed_bond_pricer.price(
             valuation_date=self.valuation_date,
             discount_curve=self.dummy_discount_curve,
             survival_curve=self.example_survival_curve2,
             recovery_rate=0.4
         )
-        
+
         assert res == pytest.approx(26.043172656123353)
+
+    def test_with_recovery(self):
+        res = self.fixed_bond_pricer.price(
+            valuation_date=self.valuation_date,
+            discount_curve=self.dummy_discount_curve,
+            survival_curve=self.example_survival_curve2,
+            recovery_rate=0.4
+        )
+        assert res == pytest.approx(102.2173149463539)
+        
+    def test_price_with_basis(self):
+        res = self.fixed_bond_pricer.price_with_basis(
+            valuation_date=self.valuation_date,
+            discount_curve=self.example_discount_curve,
+            survival_curve=self.example_survival_curve2,
+            recovery_rate=0.4,
+            basis=-0.06254360955435342,
+            basis_type='AdditiveZeroRates'
+        )
+        assert res == pytest.approx(102.61128888888888)
+        
+    def test_bond_basis_solver(self):
+        basis = self.fixed_bond_pricer.solve_basis(
+            valuation_date=self.valuation_date,
+            dirty_price=102.61128888888888,
+            discount_curve=self.example_discount_curve,
+            survival_curve=self.example_survival_curve2,
+            recovery_rate=0.4,
+            basis_type='AdditiveZeroRates'
+        )
+        
+        assert basis == pytest.approx(-0.06254360955435342)
+        
+        basis = self.fixed_bond_pricer.solve_basis(
+            valuation_date=self.valuation_date,
+            dirty_price=102.61128888888888,
+            discount_curve=self.example_discount_curve,
+            survival_curve=self.example_survival_curve2,
+            recovery_rate=0.9,
+            basis_type='AdditiveZeroRates'
+        )
+        assert basis == pytest.approx(-0.013954262384843241)
+        
+        basis = self.fixed_bond_pricer.solve_basis(
+            valuation_date=self.valuation_date,
+            dirty_price=100.,
+            discount_curve=self.example_discount_curve,
+            survival_curve=self.example_survival_curve2,
+            recovery_rate=0.9,
+            basis_type='AdditiveZeroRates'
+        )
+        assert basis == pytest.approx(-0.0068330977173039565)

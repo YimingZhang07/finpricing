@@ -1,7 +1,9 @@
+import numpy as np
+from typing import Union
+import datetime
 from ..utils.interpolator import InterpTypes, Interpolator
 from ..utils.day_count import DayCountTypes, DayCount
 from ..utils.date import Date
-import numpy as np
 
 class DiscountCurve:
     def __init__(self) -> None:
@@ -35,3 +37,25 @@ class DiscountCurveZeroRates(DiscountCurve):
     def discount(self, date: Date):
         dt                  = self.day_counter.year_frac(self.anchor_date, date)
         return self.interpolator.eval(dt)
+    
+
+class DiscountCurveZeroShifted:
+    def __init__(self,
+                 underlying_curve: DiscountCurveZeroRates,
+                 alpha: float,
+                 beta: float=1.0,
+                 day_count_type: DayCountTypes=DayCountTypes.ACT_365) -> None:
+        self.underlying_curve = underlying_curve
+        self.alpha = alpha
+        self.beta = beta
+        self.day_count_type = day_count_type
+        # derived
+        self.day_counter    = DayCount(self.day_count_type)
+        assert self.day_count_type == self.underlying_curve.day_count_type, "DiscountCurveZeroShifted: day_count_type must be the same as underlying_curve.day_count_type"
+        
+    def discount(self, date: Union[Date, datetime.date]):
+        factor = self.underlying_curve.discount(date)
+        time   = self.day_counter.year_fraction(self.underlying_curve.anchor_date, date)
+        factor_adjusted = np.power(factor, self.beta) * np.exp(-self.alpha * time)
+        return factor_adjusted
+        

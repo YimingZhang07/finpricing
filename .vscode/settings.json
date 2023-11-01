@@ -1,4 +1,20 @@
 {
+    // linting config
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": false,
+    "pylint.args": [
+        "--max-line-length=100",
+        "--disable=C0411, W1203, C0115, C0103"
+    ],
+
+    // testing config
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+
+    // terminal config
     "terminal.integrated.profiles.windows": {
         "PowerShell": {
             "source": "PowerShell",
@@ -9,16 +25,6 @@
             ]
         }
     },
-    "pylint.args": [
-        "--max-line-length=100",
-        "--disable=C0411, W1203, C0115, C0103"
-    ],
-    "python.testing.pytestArgs": [
-        "tests"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-
     "terminal.integrated.profiles.linux": {
         "bash": {
             "path": "bash",
@@ -29,6 +35,8 @@
         }
     },
     "terminal.integrated.defaultProfile.linux": "bash",
+
+    // spell check config
     "cSpell.enableFiletypes": [
         "!python"
     ],
