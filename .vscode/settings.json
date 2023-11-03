@@ -4,7 +4,7 @@
     "python.linting.enabled": false,
     "pylint.args": [
         "--max-line-length=100",
-        "--disable=C0411, W1203, C0115, C0103"
+        "--disable=C0411, W1203, C0114, C0115, C0116, C0103"
     ],
 
     // testing config
