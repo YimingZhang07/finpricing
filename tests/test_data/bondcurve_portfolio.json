@@ -1,0 +1,102 @@
+{
+    "bond1": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 3.625,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2025-06-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 97.45796188119483,
+        "AmountOutstanding": 500000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond2": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 5.375,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2029-11-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 98.47593444444445,
+        "AmountOutstanding": 900000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond3": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 5.875,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2025-02-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 102.85712222222223,
+        "AmountOutstanding": 800000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond4": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 3.625,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2025-06-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 97.45796188119483,
+        "AmountOutstanding": 500000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond5": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 4.375,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2026-11-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 97.87555555555555,
+        "AmountOutstanding": 1000000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond6": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 6.375,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2029-05-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 104.84126718711933,
+        "AmountOutstanding": 800000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond7": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 4.875,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2030-06-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 95.09173333333334,
+        "AmountOutstanding": 1000000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond8": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 4.875,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2028-04-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 98.73763333333333,
+        "AmountOutstanding": 1600000000.0,
+        "CouponStartDate": "30/360"
+    },
+    "bond9": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 5.75,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2024-03-01",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 100.62719107573301,
+        "AmountOutstanding": 400000000.0,
+        "CouponStartDate": "30/360"
+      },
+      "bond10": {
+        "CouponFrequency": "Semiannual",
+        "CouponRate": 5.875,
+        "CurrentNotional": 1.0,
+        "MaturityDate": "2028-11-15",
+        "CouponTypes": "Fixed Coupon",
+        "DirtyPrice": 102.61128888888888,
+        "AmountOutstanding": 1900000000.0,
+        "CouponStartDate": "30/360"
+      }
+}
