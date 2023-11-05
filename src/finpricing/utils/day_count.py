@@ -34,6 +34,12 @@ class DayCount:
         Returns:
             tuple: (days, fraction of year)
         """
+        
+        if isinstance(start_date, datetime.date):
+            start_date = Date.from_datetime(start_date)
+        if isinstance(end_date, datetime.date):
+            end_date = Date.from_datetime(end_date)
+            
         if self._dccType == DayCountTypes.ACT_360:
             if include_end:
                 days = end_date - start_date + 1
@@ -105,11 +111,6 @@ class DayCount:
             end_date (Date): end date of the accrual period. For a bond trade, it is the settlement date of the trade.
             next_coupon_date (Date): next coupon date of the bond / maturity date of the bond if no more coupon payment
         """
-        if isinstance(start_date, datetime.date):
-            start_date = Date.from_datetime(start_date)
-        if isinstance(end_date, datetime.date):
-            end_date = Date.from_datetime(end_date)
-        
         frac = self.days_between(start_date, end_date)[1]
         return frac
     

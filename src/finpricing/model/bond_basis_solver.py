@@ -3,13 +3,13 @@ import scipy
 from ..utils import *
 
 BASIS_SOLVER_PARAMS = {
-    'a': -0.1,
-    'b': 0.1,
-    'xtol': 1e-10,
-    'rtol': 1e-10,
-    'maxiter': 100,
-    'full_output': False,
-    'disp': True,
+    'a'             : -0.1,
+    'b'             : 0.1,
+    'xtol'          : 1e-8,
+    'rtol'          : 1e-8,
+    'maxiter'       : 100,
+    'full_output'   : False,
+    'disp'          : True,
 }
 
 def BondBasisSolver(

@@ -6,6 +6,10 @@ from ..utils.calendar import Calendar, DateGenRuleTypes
 from ..utils.frequency import FrequencyTypes
 from ..utils.error import NotSupportedError
 
+class FixedBondPaymentSchedule:
+    def __init__(self, anchor_date, date_gen_rule_type, freq_type, maturity_date):
+        pass
+
 
 class PaymentSchedule:
     """Generate a list of adjusted payment dates according to the given parameters.

@@ -15,7 +15,26 @@ def test_cashflows():
     )
 
     inst.print_cashflows()
+    
+def test_classmethod_from_cashflows():
+    inst = FixedCouponLeg.from_cashflows(
+        coupon_rate=0.05875,
+        accrual_start=[datetime.date(2023, 4, 15),
+                       datetime.date(2023, 10, 15),
+                       datetime.date(2024, 4, 15),
+                       datetime.date(2024, 10, 15),],
+        accrual_end=[datetime.date(2023, 10, 15),
+                     datetime.date(2024, 4, 15),
+                     datetime.date(2024, 10, 15),
+                     datetime.date(2025, 2, 15),],
+        payment_dates=[datetime.date(2023, 10, 15),
+                       datetime.date(2024, 4, 15),
+                       datetime.date(2024, 10, 15),
+                       datetime.date(2025, 2, 15),],
+        notional=100.
+    )
+    inst.print_cashflows()
 
 
 if __name__ == "__main__":
-    test_cashflows()
+    test_classmethod_from_cashflows()

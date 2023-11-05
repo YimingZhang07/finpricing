@@ -57,7 +57,7 @@ def test_forwards_annual_compounding():
     
 def test_real_discount_curve():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_dir, 'test_data/discount_curve_rates_20231009.pickle')
+    file_path = os.path.join(script_dir, 'testing_data/discount_curve_rates_20231009.pickle')
     with open(file_path, 'rb') as f:
         dates_rates = pickle.load(f)
 
@@ -90,7 +90,7 @@ def test_real_discount_curve():
 
 def test_real_discount_curve_annual_compounding():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_dir, 'test_data/discount_curve_rates_20231009.pickle')
+    file_path = os.path.join(script_dir, 'testing_data/discount_curve_rates_20231009.pickle')
     with open(file_path, 'rb') as f:
         dates_rates = pickle.load(f)
 

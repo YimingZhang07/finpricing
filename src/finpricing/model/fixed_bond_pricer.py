@@ -104,14 +104,16 @@ class FixedBondPricer(ClassUtil):
                     dirty_price: float,
                     survival_curve,
                     discount_curve,
+                    settlement_date: Union[datetime.date, Date]=None,
                     recovery_rate: float = 0.4,
                     basis_type: str='AdditiveZeroRates',
                     basis_solver_params=BASIS_SOLVER_PARAMS) -> float:
-        
+        if settlement_date is None:
+            settlement_date = valuation_date
         return BondBasisSolver(
             bond_pricer=self,
             valuation_date=valuation_date,
-            dirty_price=dirty_price,
+            dirty_price=dirty_price * discount_curve.discount(settlement_date),
             survival_curve=survival_curve,
             discount_curve=discount_curve,
             recovery_rate=recovery_rate,

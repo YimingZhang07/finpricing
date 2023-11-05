@@ -15,6 +15,7 @@ class BondCurveAnalyticsHelper:
         self._discount_curves = None
         self._survival_curves = None
         self._recovery_rates = None
+        self._settlement_dates = None
         
     @property
     def recovery_rates(self):
@@ -73,21 +74,34 @@ class BondCurveAnalyticsHelper:
             raise NotImplementedError('list of survival curves not implemented yet.')
         else:
             self._survival_curves = [curve] * len(self.bonds)
+            
+    @property
+    def settlement_dates(self):
+        if self._settlement_dates is None:
+            return [None] * len(self.bonds)
+        else:
+            return self._settlement_dates
+    
+    @settlement_dates.setter
+    def settlement_dates(self, values: List):
+        if isinstance(values, list) and len(values) == len(self.bonds):
+            self._settlement_dates = values
+        elif isinstance(values, datetime.date, Date) or isinstance(values, Date):
+            self._settlement_dates = [values] * len(self.bonds)
+        else:
+            raise TypeError('settlement_dates must be a list of dates.')
         
     def get_bond_bases(self,
                      valuation_date: Union[datetime.date, Date],
                      basis_type: str='AdditiveZeroRates'):
         def f(i):
             return self.bond_pricers[i].solve_basis(
-                valuation_date,
-                self.dirty_prices[i],
-                self.survival_curves[i],
-                self.discount_curves[i],
-                self.recovery_rates[i],
-                basis_type
+                valuation_date=valuation_date,
+                dirty_price=self.dirty_prices[i],
+                survival_curve=self.survival_curves[i],
+                discount_curve=self.discount_curves[i],
+                recovery_rate=self.recovery_rates[i],
+                settlement_date=self.settlement_dates[i],
+                basis_type=basis_type
             )
         return [f(i) for i in range(len(self.bonds))]
-
-class BondCurveSolver:
-    def __init__(self) -> None:
-        pass
