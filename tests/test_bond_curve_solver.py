@@ -3,6 +3,7 @@ import pytest
 import json
 import pickle
 import os
+import sys
 from finpricing.market.discount_curve_zero import DiscountCurveZeroRates
 from finpricing.market.survival_curve_ns import SurvivalCurveNelsonSiegel
 from finpricing.model.bond_curve_solver import BondCurveAnalyticsHelper
@@ -34,7 +35,7 @@ class TestPricer(object):
             anchor_date=self.valuation_date,
             dates=[x[0] for x in dates_rates],
             rates=[x[1] for x in dates_rates],
-            spot_date=self.valuation_date,
+            spot_date=self.spot_date,
             continuous_compounding=False,
         )
 
@@ -62,6 +63,19 @@ class TestPricer(object):
             0.0020300800449633265,
             0.01052,
         ]
+        
+        self.bases_with_survival = [
+            0.0010001171767692624,
+            0.00021537413144240574,
+            -0.00029855969059188435,
+            0.0010001171767692624,
+            0.0004883447507213166,
+            -0.0007319546919854503,
+            0.00038863482011926504,
+            -1.6631544682909477e-05,
+            -0.0012612601502053795,
+            -0.00047138721938673467
+        ]
 
     def test_get_bond_bases_no_survival(self):
         helper = BondCurveAnalyticsHelper(self.bonds)
@@ -71,12 +85,21 @@ class TestPricer(object):
         helper.recovery_rates = [0.4] * len(self.bonds)
         helper.settlement_dates = [self.spot_date] * len(self.bonds)
         bases = helper.get_bond_bases(self.valuation_date)
-        # it's hard for the solver the match exactly, so a 10 basis point tolerance is used
+        # it's hard for the solver the match exactly, so a 5 basis point tolerance is used
         for i in range(len(bases)):
-            assert bases[i] == pytest.approx(self.bases_no_survival[i], abs=10e-4)
+            assert bases[i] == pytest.approx(self.bases_no_survival[i], abs=5e-4)
 
 
-# if __name__ == "__main__":
-#     test = TestPricer()
-#     test.setup_class()
-#     test.test_get_bond_bases_no_survival()
+    def test_get_bond_bases_with_survival(self):
+        helper = BondCurveAnalyticsHelper(self.bonds)
+        helper.dirty_prices = self.dirty_prices
+        helper.discount_curves = self.discount_curve
+        helper.survival_curves = self.survival_curve
+        helper.recovery_rates = [0.4] * len(self.bonds)
+        helper.settlement_dates = [self.spot_date] * len(self.bonds)
+        bases = helper.get_bond_bases(self.valuation_date)
+        # it's hard for the solver the match exactly, so a 5 basis point tolerance is used
+        print(bases)
+        for i in range(len(bases)):
+            assert bases[i] == pytest.approx(self.bases_with_survival[i], abs=5e-4)
+    

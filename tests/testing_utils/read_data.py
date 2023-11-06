@@ -30,6 +30,29 @@ def parse_bond_info(valuation_date, bonds_info_dict):
                     datetime.date(2025, 2, 15),
                 ]
             )
+        elif bond == "bond2":
+            tmp_dates = [
+                datetime.date(2023, 6, 15),
+                datetime.date(2023, 12, 15),
+                datetime.date(2024, 6, 15),
+                datetime.date(2024, 12, 15),
+                datetime.date(2025, 6, 15),
+                datetime.date(2025, 12, 15),
+                datetime.date(2026, 6, 15),
+                datetime.date(2026, 12, 15),
+                datetime.date(2027, 6, 15),
+                datetime.date(2027, 12, 15),
+                datetime.date(2028, 6, 15),
+                datetime.date(2028, 12, 15),
+                datetime.date(2029, 6, 15),
+                datetime.date(2029, 11, 15),
+            ]
+            fixed_coupon_leg = FixedCouponLeg.from_cashflows(
+                coupon_rate=float(bonds_info_dict[bond]["CouponRate"]) / 100,
+                accrual_start=tmp_dates[:-1],
+                accrual_end=tmp_dates[1:],
+                payment_dates=tmp_dates[1:]
+            )
         else:
             fixed_coupon_leg = FixedCouponLeg(
                 start_date=valuation_date,

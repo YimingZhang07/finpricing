@@ -53,3 +53,11 @@ class SurvivalCurveNelsonSiegel(SurvivalCurve):
             integral += self.params[i + 1] * self.f_integral(tenor, p)
             
         return math.exp(-integral)
+    
+    def getSurvivalCurve(self, params: list[float]):
+        """create a new survival curve with the same anchor date and pivot dates but different parameters"""
+        return SurvivalCurveNelsonSiegel(
+            anchor_date=self.anchor_date,
+            pivot_dates=self.pivot_dates,
+            params=params
+        )

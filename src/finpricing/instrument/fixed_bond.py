@@ -7,3 +7,8 @@ class FixedBond(ClassUtil):
                  fixed_coupon_leg: FixedCouponLeg,
                  principal_leg: PrincipalLeg):
         self.save_attributes()
+        
+    @property
+    def maturity_date(self):
+        # this is better to be the latest maturity date of all legs
+        return self.principal_leg.maturity_date
