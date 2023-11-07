@@ -124,11 +124,7 @@ class TestPricer(object):
         assert res[0] == pytest.approx(0.0029277204519966874)
         assert res[1] == pytest.approx(0.0032200447143373888)
         assert res[2] == pytest.approx(0.006250857335682448)
-
-        res = solver.solve(     params=[0, 0, 0],
-                                dirty_prices=[100, 100, 100],
-                                weights=[.3, .3, .4])
-        # assert res == 0.
+        
 
     def test_residuals_and_penalty(self):
         helper = BondCurveAnalyticsHelper(self.bonds)
@@ -149,3 +145,13 @@ class TestPricer(object):
         assert res[2] == pytest.approx(0.006250857335682448,    rel=1e-2)
         assert res[3] == pytest.approx(0.)
     
+        res = solver.solve( params=[0, 0, 0],
+                            dirty_prices=self.dirty_prices,
+                            weights=solver.get_weights())
+        
+        # integer flag should be 1-4 if the solver converged
+        assert res[1] in [1, 2, 3, 4]
+        params = res[0]
+        assert params[0] * 1e5 == pytest.approx(9.3027303, rel=10e-2)
+        assert params[1] * 1e5 == pytest.approx(-6514.7438, rel=10e-2)
+        assert params[2] * 1e5 == pytest.approx(4588.886406, rel=10e-2)

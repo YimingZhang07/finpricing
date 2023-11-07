@@ -13,7 +13,7 @@ class BondCurveAnalyticsHelper:
         else:
             raise TypeError('bonds must be a list of bonds.')
         self.bond_pricers = list(map(lambda x: FixedBondPricer(x), self.bonds))
-        
+        self.n_underlyings = len(self.bonds)
         self._dirty_prices = None
         self._discount_curves = None
         self._survival_curves = None
@@ -121,6 +121,7 @@ class BondCurveAnalyticsHelper:
     def get_bond_bases(self,
                        valuation_date: Union[datetime.date, Date]=None,
                        dirty_prices: List[float]=None,
+                       survival_curves=None,
                        basis_type: str='AdditiveZeroRates'):
         
         if valuation_date is None:
@@ -128,12 +129,20 @@ class BondCurveAnalyticsHelper:
 
         if dirty_prices is None:
             dirty_prices = self.dirty_prices
+            
+        if survival_curves is None:
+            survival_curves = self.survival_curves
+            
+        assert isinstance(dirty_prices, list), \
+            "dirty_prices must be a list of floats."
+        assert isinstance(survival_curves, list), \
+            "survival_curves must be a list of survival curves."
         
         def f(i):
             return self.bond_pricers[i].solve_basis(
                 valuation_date  = valuation_date,
                 dirty_price     = dirty_prices[i],
-                survival_curve  = self.survival_curves[i],
+                survival_curve  = survival_curves[i],
                 discount_curve  = self.discount_curves[i],
                 recovery_rate   = self.recovery_rates[i],
                 settlement_date = self.settlement_dates[i],
@@ -237,8 +246,12 @@ class BondCurveSolver:
                                            weights: List[float],
                                            valuation_date: Union[datetime.date, Date]=None,
                                            basis_type: str='AdditiveZeroRates'):
+        
+        new_survival_curve = self.survival_curve_generator.getSurvivalCurve(params)
+        
         bases = self.helper.get_bond_bases(valuation_date=valuation_date,
-                                           dirty_prices=dirty_prices, 
+                                           dirty_prices=dirty_prices,
+                                           survival_curves=[new_survival_curve] * len(dirty_prices),
                                            basis_type=basis_type)
 
         assert len(dirty_prices) == len(weights), "Input dirty_prices and weights must have the same length."
