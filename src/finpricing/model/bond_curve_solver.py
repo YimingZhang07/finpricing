@@ -1,6 +1,7 @@
 from typing import Union, List
 import datetime
 import math
+import scipy
 from dataclasses import dataclass
 from ..utils.date import Date
 from .fixed_bond_pricer import FixedBondPricer
@@ -115,25 +116,30 @@ class BondCurveAnalyticsHelper:
     @property
     def maturity_span(self):
         """maximum maturity minus minimum maturity in years"""
-        return (max(self.maturity_dates) - min(self.maturity_dates)).days / 365
+        return (max(self.maturity_dates) - min(self.maturity_dates)) / 365
         
-    def get_bond_bases(self, valuation_date: Union[datetime.date, Date]=None,
+    def get_bond_bases(self,
+                       valuation_date: Union[datetime.date, Date]=None,
+                       dirty_prices: List[float]=None,
                        basis_type: str='AdditiveZeroRates'):
         
         if valuation_date is None:
             valuation_date = self.valuation_date
+
+        if dirty_prices is None:
+            dirty_prices = self.dirty_prices
         
         def f(i):
             return self.bond_pricers[i].solve_basis(
-                valuation_date=valuation_date,
-                dirty_price=self.dirty_prices[i],
-                survival_curve=self.survival_curves[i],
-                discount_curve=self.discount_curves[i],
-                recovery_rate=self.recovery_rates[i],
-                settlement_date=self.settlement_dates[i],
-                basis_type=basis_type
+                valuation_date  = valuation_date,
+                dirty_price     = dirty_prices[i],
+                survival_curve  = self.survival_curves[i],
+                discount_curve  = self.discount_curves[i],
+                recovery_rate   = self.recovery_rates[i],
+                settlement_date = self.settlement_dates[i],
+                basis_type      = basis_type
             )
-        return [f(i) for i in range(len(self.bonds))]
+        return [f(i) for i in range(len(dirty_prices))]
 
 @dataclass
 class PenaltyParameter:
@@ -169,9 +175,18 @@ class BondCurveSolver:
             raise ValueError('Survival curves must be the same for all bonds to use bond curve solver.')
         return survival_curves_set.pop()
         
-    @property
     def get_weights(self):
-        pass
+        fake = [0.07679328308116748,
+                0.09058956234521516,
+                0.10346082175856133,
+                0.0768401250707676,
+                0.09767649270635165,
+                0.0844079519326119,
+                0.09482679241380954,
+                0.14687480949360318,
+                0.06274016230573569,
+                0.16578999889217658]
+        return fake
     
     @staticmethod
     def welsch_loss(x):
@@ -189,7 +204,7 @@ class BondCurveSolver:
         penalty = tuning_scalar * sum([param ** 2 for param in params[1:]])
         # inverted curve penalty
         if self.penalty_params.penalize_inverted_curve:
-            tuning_scalar = self.get_tuning_scalar()
+            tuning_scalar = self._get_tuning_scalar()
             derivative_at_zero = self._get_hazard_rate_derivative_at_zero(params)
             penalty += tuning_scalar * max(0., -1 * derivative_at_zero)
             
@@ -207,15 +222,27 @@ class BondCurveSolver:
         derivative_at_zero = -1 * sum([param / (2 * pivot ** 2) for param, pivot in zip(params[1:], pivots)])
         return derivative_at_zero
         
-    def solve(self):
-        pass
+    def solve(self, dirty_prices, weights, params):
+        res = scipy.optimize.leastsq(self.get_weighted_residuals_and_penalty,
+                                     params,
+                                     args = (dirty_prices, weights),
+                                     xtol = 1e-15,
+                                     ftol = 1e-15,
+                                     full_output=False)
+        return res
     
     def get_weighted_residuals_and_penalty(self,
                                            params: List[float],
+                                           dirty_prices: List[float],
+                                           weights: List[float],
                                            valuation_date: Union[datetime.date, Date]=None,
                                            basis_type: str='AdditiveZeroRates'):
-        bases = self.helper.get_bond_bases(valuation_date, basis_type)
-        loss = self.welsch_loss(bases)
-        weighted_loss = [ math.sqrt(weight * loss) for weight, loss in zip(self.weights, loss) ]
+        bases = self.helper.get_bond_bases(valuation_date=valuation_date,
+                                           dirty_prices=dirty_prices, 
+                                           basis_type=basis_type)
+
+        assert len(dirty_prices) == len(weights), "Input dirty_prices and weights must have the same length."
+        loss = [self.welsch_loss(basis) for basis in bases]
+        weighted_loss = [ math.sqrt(weight * loss) for weight, loss in zip(weights, loss) ]
         regularization_penalty = weighted_loss + [ math.sqrt( self.get_penalty( params ) ) ]
         return regularization_penalty

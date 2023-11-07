@@ -3,10 +3,10 @@ import pytest
 import json
 import pickle
 import os
-import sys
+from unittest.mock import patch
 from finpricing.market.discount_curve_zero import DiscountCurveZeroRates
 from finpricing.market.survival_curve_ns import SurvivalCurveNelsonSiegel
-from finpricing.model.bond_curve_solver import BondCurveAnalyticsHelper
+from finpricing.model.bond_curve_solver import BondCurveAnalyticsHelper, BondCurveSolver
 from .testing_utils.read_data import parse_bond_info
 
 
@@ -102,4 +102,50 @@ class TestPricer(object):
         print(bases)
         for i in range(len(bases)):
             assert bases[i] == pytest.approx(self.bases_with_survival[i], abs=5e-4)
+
+    @patch('finpricing.model.bond_curve_solver.BondCurveAnalyticsHelper.get_bond_bases')
+    def test_residuals_and_penalty_mocked(self, mocked_bases):
+        helper = BondCurveAnalyticsHelper(self.bonds)
+        helper.discount_curves = self.discount_curve
+        helper.survival_curves = self.dummy_survial_curve
+        helper.recovery_rates = [0.4] * len(self.bonds)
+        helper.settlement_dates = [self.spot_date] * len(self.bonds)
+        helper.valuation_date = self.valuation_date
+
+        solver = BondCurveSolver(helper)
+
+        # avoid the errors introduced by the bond bases. mock the outputs.
+        mocked_bases.return_value = [-0.008203386683620558,
+                                      0.009209468358311422,
+                                      0.027440538436771397]
+        res = solver.get_weighted_residuals_and_penalty(params=[0, 0, 0],
+                                                        dirty_prices=[100, 100, 100],
+                                                        weights=[.3, .3, .4])
+        assert res[0] == pytest.approx(0.0029277204519966874)
+        assert res[1] == pytest.approx(0.0032200447143373888)
+        assert res[2] == pytest.approx(0.006250857335682448)
+
+        res = solver.solve(     params=[0, 0, 0],
+                                dirty_prices=[100, 100, 100],
+                                weights=[.3, .3, .4])
+        # assert res == 0.
+
+    def test_residuals_and_penalty(self):
+        helper = BondCurveAnalyticsHelper(self.bonds)
+        helper.discount_curves = self.discount_curve
+        helper.survival_curves = self.dummy_survial_curve
+        helper.recovery_rates = [0.4] * len(self.bonds)
+        helper.settlement_dates = [self.spot_date] * len(self.bonds)
+        helper.valuation_date = self.valuation_date
+
+        solver = BondCurveSolver(helper)
+
+        res = solver.get_weighted_residuals_and_penalty([0, 0, 0],
+                                                  [100, 100, 100],
+                                                  [.3, .3, .4])
+        # with our own bond bases, allow 1% differences.
+        assert res[0] == pytest.approx(0.0029277204519966874,   rel=1e-2)
+        assert res[1] == pytest.approx(0.0032200447143373888,   rel=1e-2)
+        assert res[2] == pytest.approx(0.006250857335682448,    rel=1e-2)
+        assert res[3] == pytest.approx(0.)
     
