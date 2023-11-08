@@ -48,6 +48,7 @@ class BondCurveAnalyticsHelper:
     
     @dirty_prices.setter
     def dirty_prices(self, values: List):
+        if values is None: return
         if isinstance(values, list) and len(values) == len(self.bonds):
             self._dirty_prices = values
         else:
@@ -106,6 +107,7 @@ class BondCurveAnalyticsHelper:
         
     @valuation_date.setter
     def valuation_date(self, value):
+        if value is None: return
         if isinstance(value, datetime.date) or isinstance(value, Date):
             self._valuation_date = value
         else:
@@ -127,6 +129,20 @@ class BondCurveAnalyticsHelper:
         o_args = args[1:]
         return bond_pricer.solve_basis(*o_args)
     """
+    def setup(self,
+              valuation_date: Union[datetime.date, Date]=None,
+              dirty_prices: List[float]=None,
+              discount_curves=None,
+              survival_curves=None,
+              recovery_rates=None,
+              settlement_dates=None):
+        self.valuation_date = valuation_date
+        self.dirty_prices = dirty_prices
+        self.discount_curves = discount_curves
+        self.survival_curves = survival_curves
+        self.recovery_rates = recovery_rates
+        self.settlement_dates = settlement_dates
+    
         
     def get_bond_bases(self,
                        valuation_date: Union[datetime.date, Date]=None,

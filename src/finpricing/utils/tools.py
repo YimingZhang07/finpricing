@@ -12,16 +12,45 @@ def dict_to_obj_str(d: dict) -> str:
     return res
 
 
-def prettyTableByColumn(d: dict, float_format=".4") -> str:
-    """Return the string representation of a dictionary in a pretty table format
-    
-    The dictionary contains the column names as keys and the list of values as values.
+def prettyTableByColumn(d: dict, align="") -> str:
     """
+    Return the string representation of a dictionary in a pretty table format where
+    dictionary values can be either iterables for direct use or tuples where the first
+    element is an iterable and the second is a format string.
+
+    Args:
+    d (dict): Dictionary with data to be displayed by the table.
+    align (str): String with column alignments. Use 'l' for left, 'r' for right, and 'c' for center.
+
+    Returns:
+    str: A string representation of the table.
+    """
+    # Initialize table
     x = PrettyTable()
-    for col in d:
-        x.add_column(fieldname=col, column=d.get(col))
-    x.float_format = float_format
-    return x.get_string()
+
+    # Add columns to the table with optional formatting
+    for col, val in d.items():
+        if isinstance(val, tuple):  # If the value is a tuple (iterable, format)
+            iterable, fmt = val
+            formatted_values = [format(v, fmt) for v in iterable]
+            x.add_column(col, formatted_values)
+        else:  # If the value is just an iterable
+            x.add_column(col, val)
+    
+    # Set alignment for columns if provided
+    if align:
+        align = align.ljust(len(x.field_names), ' ')  # Default to left align if not enough align chars
+        if len(align) != len(x.field_names):
+            raise ValueError("Alignment string length must match the number of columns or be empty for default.")
+        
+        for field_name, alignment in zip(x.field_names, align):
+            if alignment not in "lrc":
+                raise ValueError("Alignment string can only contain 'l', 'r', or 'c'")
+            x.align[field_name] = alignment
+
+    # Return table string representation
+    # return x.get_string()
+    print(x.get_string())
 
 def prettyTableByRow(d: dict) -> str:
     """Return the string representation of a dictionary in a pretty table format

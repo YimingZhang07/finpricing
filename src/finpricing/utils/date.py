@@ -125,6 +125,10 @@ class Date:
             return self.add_years(int(tenor[:-1]))
         else:
             raise ValueError("tenor must be one of 'd', 'w', 'm', 'y'")
+        
+    def strftime(self, fmt: str) -> str:
+        """Return a string representing the date, controlled by an explicit format string"""
+        return self._date.strftime(fmt)
 
     def __hash__(self) -> int:
         return hash(self._date)

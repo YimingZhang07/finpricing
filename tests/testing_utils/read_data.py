@@ -11,7 +11,9 @@ from finpricing.market.discount_curve_zero import DiscountCurveZeroRates
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(script_dir)
 
-def parse_bond_info(valuation_date, bonds_info_dict, sort_by_maturity=True):
+def parse_bond_info(valuation_date,
+                    bonds_info_dict,
+                    sort_by_maturity=True):
     bonds = []
     dirty_prices = []
     for bond in bonds_info_dict:
