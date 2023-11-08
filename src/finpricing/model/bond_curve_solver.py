@@ -32,6 +32,7 @@ class BondCurveAnalyticsHelper:
     
     @recovery_rates.setter
     def recovery_rates(self, values: List):
+        if values is None: return
         if isinstance(values, list) and len(values) == len(self.bonds):
             self._recovery_rates = values
         elif isinstance(values, float):
@@ -63,6 +64,7 @@ class BondCurveAnalyticsHelper:
         
     @discount_curves.setter
     def discount_curves(self, curve):
+        if curve is None: return
         if isinstance(curve, list):
             raise NotImplementedError('list of discount curves not implemented yet.')
         else:
@@ -77,6 +79,7 @@ class BondCurveAnalyticsHelper:
         
     @survival_curves.setter
     def survival_curves(self, curve):
+        if curve is None: return
         if isinstance(curve, list):
             raise NotImplementedError('list of survival curves not implemented yet.')
         else:
@@ -115,6 +118,7 @@ class BondCurveAnalyticsHelper:
         
     @property
     def maturity_dates(self):
+        """maturity dates of all bonds in the portfolio"""
         return [bond.maturity_date for bond in self.bonds]
     
     @property
@@ -136,6 +140,7 @@ class BondCurveAnalyticsHelper:
               survival_curves=None,
               recovery_rates=None,
               settlement_dates=None):
+        """setup the helper in one go"""
         self.valuation_date = valuation_date
         self.dirty_prices = dirty_prices
         self.discount_curves = discount_curves
@@ -229,6 +234,7 @@ class BondCurveSolver:
         return survival_curves_set.pop()
         
     def get_euqal_weights(self):
+        """return a list of equal weights for all bonds"""
         return [ 1. / self.helper.n_underlyings ] * self.helper.n_underlyings
     
     @staticmethod
@@ -265,7 +271,12 @@ class BondCurveSolver:
         derivative_at_zero = -1 * sum([param / (2 * pivot ** 2) for param, pivot in zip(params[1:], pivots)])
         return derivative_at_zero
         
-    def solve(self, dirty_prices, weights=None, params=None):
+    def solve(self,
+              dirty_prices: List[float]=None,
+              weights: List[float]=None,
+              params: List[float]=None):
+        """solve the best parameters for the survival curve that minimizes the weighted residuals"""
+        if dirty_prices is None: dirty_prices = self.helper.dirty_prices
         if weights is None: weights = self.weights
         if params is None: params = self.initial_params
 

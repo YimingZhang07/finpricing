@@ -17,9 +17,5 @@ class FixedBond(ClassUtil):
     def coupon_rate(self):
         return self.fixed_coupon_leg.coupon_rate
     
-    @property
-    def payment_dates(self):
-        return self.fixed_coupon_leg.payment_dates
-    
     def __repr__(self) -> str:
         return f"{self.coupon_rate:.3%} {self.maturity_date.strftime(r'%m/%d/%y')}"
