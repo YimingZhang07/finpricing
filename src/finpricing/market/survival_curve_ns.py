@@ -17,11 +17,11 @@ class SurvivalCurveNelsonSiegel(SurvivalCurve):
     def __init__(self,
                  anchor_date: Union[Date, datetime.date],
                  pivot_dates: list[Union[Date, datetime.date]],
-                 params: list[float]) -> None:
+                 params: list[float]=None) -> None:
         anchor_date = Date.convert_from_datetime(anchor_date)
         super().__init__(anchor_date)
         self.pivot_dates = Date.convert_from_datetimes(pivot_dates)
-        self.params = params
+        self.params = [0., 0., 0.] if params is None else params
         
         # derived attributes
         self.pivots = [ date - anchor_date for date in self.pivot_dates ]

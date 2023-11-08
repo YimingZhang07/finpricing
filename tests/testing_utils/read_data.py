@@ -1,10 +1,17 @@
 import datetime
+import json
+import os
+import pickle
 import finpricing.utils as utils
 from finpricing.instrument.fixed_coupon_leg import FixedCouponLeg
 from finpricing.instrument.fixed_bond import FixedBond
 from finpricing.instrument.principal_leg import PrincipalLeg
+from finpricing.market.discount_curve_zero import DiscountCurveZeroRates
 
-def parse_bond_info(valuation_date, bonds_info_dict):
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(script_dir)
+
+def parse_bond_info(valuation_date, bonds_info_dict, sort_by_maturity=True):
     bonds = []
     dirty_prices = []
     for bond in bonds_info_dict:
@@ -76,4 +83,34 @@ def parse_bond_info(valuation_date, bonds_info_dict):
         )
         bonds.append(bond_inst)
         dirty_prices.append(float(bonds_info_dict[bond]["DirtyPrice"]))
+    if sort_by_maturity:
+        tmp = sorted(list(zip(bonds, dirty_prices)), key = lambda x: x[0].maturity_date)
+        bonds = [x[0] for x in tmp]
+        dirty_prices = [x[1] for x in tmp]
     return bonds, dirty_prices
+
+def get_sample_bonds_portfolio(valuation_date=datetime.date(2023, 10, 9),
+                               rel_file_path='testing_data/bondcurve_portfolio.json'):
+    assert valuation_date == datetime.date(2023, 10, 9), "All bonds information is as of 2023-10-09."
+    file_path = os.path.join(parent_dir, rel_file_path)
+    with open(file_path, "rb") as json_data:
+        bonds_info_dict = json.load(json_data)
+        json_data.close()
+
+    return parse_bond_info(valuation_date, bonds_info_dict)
+
+def get_sample_discount_curve(valuation_date=datetime.date(2023, 10, 9),
+                              spot_date=datetime.date(2023, 10, 11),
+                              rel_file_path='testing_data/discount_curve_rates_20231009.pickle'):
+    file_path = os.path.join(parent_dir, rel_file_path)
+    with open(file_path, "rb") as f:
+        dates_rates = pickle.load(f)
+
+    discount_curve = DiscountCurveZeroRates(
+        anchor_date=valuation_date,
+        dates=[x[0] for x in dates_rates],
+        rates=[x[1] for x in dates_rates],
+        spot_date=spot_date,
+        continuous_compounding=False,
+    )
+    return discount_curve

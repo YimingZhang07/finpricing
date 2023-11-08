@@ -2,6 +2,8 @@ from typing import Union, List
 import datetime
 import math
 import scipy
+from multiprocessing import Pool
+import os
 from dataclasses import dataclass
 from ..utils.date import Date
 from .fixed_bond_pricer import FixedBondPricer
@@ -90,7 +92,7 @@ class BondCurveAnalyticsHelper:
     def settlement_dates(self, values: List):
         if isinstance(values, list) and len(values) == len(self.bonds):
             self._settlement_dates = values
-        elif isinstance(values, datetime.date, Date) or isinstance(values, Date):
+        elif isinstance(values, datetime.date) or isinstance(values, Date):
             self._settlement_dates = [values] * len(self.bonds)
         else:
             raise TypeError('settlement_dates must be a list of dates.')
@@ -117,6 +119,14 @@ class BondCurveAnalyticsHelper:
     def maturity_span(self):
         """maximum maturity minus minimum maturity in years"""
         return (max(self.maturity_dates) - min(self.maturity_dates)) / 365
+    
+    """
+    @staticmethod
+    def _solve_basis(args):
+        bond_pricer = args[0]
+        o_args = args[1:]
+        return bond_pricer.solve_basis(*o_args)
+    """
         
     def get_bond_bases(self,
                        valuation_date: Union[datetime.date, Date]=None,
@@ -148,7 +158,23 @@ class BondCurveAnalyticsHelper:
                 settlement_date = self.settlement_dates[i],
                 basis_type      = basis_type
             )
+        
         return [f(i) for i in range(len(dirty_prices))]
+
+        # args = [(self.bond_pricers[i],
+        #          valuation_date,
+        #          dirty_prices[i],
+        #          survival_curves[i],
+        #          self._discount_curves[i],
+        #          self.settlement_dates[i],
+        #          self.recovery_rates[i],
+        #          basis_type) for i in range(len(dirty_prices))]
+        # # n_cores = min(len(dirty_prices), os.cpu_count())
+        # with Pool(4) as p:
+        #     res = p.map(self._solve_basis, args)
+
+        # return res
+
 
 @dataclass
 class PenaltyParameter:
@@ -164,14 +190,16 @@ class BondCurveSolver:
     def __init__(self,
                  bondAnalyticsHelper: BondCurveAnalyticsHelper,
                  initial_params=None,
+                 weights=None,
                  penalty_params: PenaltyParameter=None) -> None:
+        self.helper = bondAnalyticsHelper
         if initial_params is None:
             self.initial_params = [0.0, 0.0, 0.0]
         if penalty_params is None:
             self.penalty_params = PenaltyParameter()
-        self.helper = bondAnalyticsHelper
+        if weights is None:
+            self.weights = self.get_euqal_weights()
         self.survival_curve_generator = self.getSurvivalCurveGenerator(self.helper)
-        self.weights = self.get_weights()
         
     def getSurvivalCurveGenerator(self, bondAnalyticsHelper: BondCurveAnalyticsHelper):
         """return a survival curve generator that can generate survival curves from parameters
@@ -184,18 +212,8 @@ class BondCurveSolver:
             raise ValueError('Survival curves must be the same for all bonds to use bond curve solver.')
         return survival_curves_set.pop()
         
-    def get_weights(self):
-        fake = [0.07679328308116748,
-                0.09058956234521516,
-                0.10346082175856133,
-                0.0768401250707676,
-                0.09767649270635165,
-                0.0844079519326119,
-                0.09482679241380954,
-                0.14687480949360318,
-                0.06274016230573569,
-                0.16578999889217658]
-        return fake
+    def get_euqal_weights(self):
+        return [ 1. / self.helper.n_underlyings ] * self.helper.n_underlyings
     
     @staticmethod
     def welsch_loss(x):
@@ -231,7 +249,10 @@ class BondCurveSolver:
         derivative_at_zero = -1 * sum([param / (2 * pivot ** 2) for param, pivot in zip(params[1:], pivots)])
         return derivative_at_zero
         
-    def solve(self, dirty_prices, weights, params):
+    def solve(self, dirty_prices, weights=None, params=None):
+        if weights is None: weights = self.weights
+        if params is None: params = self.initial_params
+
         res = scipy.optimize.leastsq(self.get_weighted_residuals_and_penalty,
                                      params,
                                      args = (dirty_prices, weights),
