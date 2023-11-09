@@ -1,5 +1,7 @@
+import datetime
 from typing import Union, List
-from finpricing.utils import TimeInterval, CDSStyle, CDSStubType, Date
+
+from finpricing.utils import TimeInterval, CDSStyle, CDSStubType, Date, TimeInterval, Calendar
 
 class DateGenerator:
     def __init__(self):
@@ -7,11 +9,23 @@ class DateGenerator:
 
     @staticmethod
     def generate_extended(
-        start_date,
-        maturity_date,
-        time_interval: TimeInterval,
+        start_date: Union[datetime.date, Date],
+        maturity_date: Union[datetime.date, Date],
+        time_interval: Union[TimeInterval, str],
         stub_at_end: bool
     ):
+        """generate a list of dates from start_date to maturity_date with given time_interval
+        
+        NOTE:
+            if stub_at_end is True, the dates will be generated from start_date and roll forward until and after maturity_date
+            if stub_at_end is False, the dates will be generated from maturity_date and roll backward until and before start_date
+        
+        Args:
+            start_date (Union[datetime.date, Date]): start date
+            maturity_date (Union[datetime.date, Date]): maturity date
+            time_interval (Union[TimeInterval, str]): time interval
+            stub_at_end (bool): whether the stub is at the end of the period
+        """
         if isinstance(time_interval, str):
             time_interval = TimeInterval.from_string(time_interval)
 
@@ -41,6 +55,12 @@ class DateGenerator:
         cds_style: CDSStyle,
         stub_at_end: bool=False
     ):
+        """generate a list of dates from start_date to maturity_date with given cds_style
+        
+        NOTE:
+            Most likely, the stub is at the end of the period. In a NO_STUB case, the first date will be removed. \
+                So the first date will be after start_date.
+        """
         start_date=Date.convert_from_datetime(start_date)
         maturity_date=Date.convert_from_datetime(maturity_date)
 
@@ -53,3 +73,35 @@ class DateGenerator:
             return unadjust_dates[1:]
         else:
             raise NotImplementedError("Given CDS Stub Type is not implemented yet.")
+        
+    @staticmethod
+    def generate_cds_adjust(
+        start_date,
+        maturity_date,
+        cds_style: CDSStyle,
+        stub_at_end: bool=False
+    ):
+        start_date = Date.convert_from_datetime(start_date)
+        maturity_date = Date.convert_from_datetime(maturity_date)
+        # generate unadjusted dates
+        dates = DateGenerator.generate_cds(start_date, maturity_date, cds_style, stub_at_end)
+        # calendar type considers the holidays, and business day adjustment type considers the following, previous, etc.
+        calendar = Calendar(cds_style.calendar_type)
+        bus_adj_type = cds_style.bus_day_adj_type
+        
+        accrual_start_dates = list()
+        accrual_end_dates = list()
+        payment_dates = list()
+        
+        this_accrual_start_date = start_date
+        for i, x in enumerate(dates):
+            this_accrual_end_date = x
+            this_payment_date = calendar.adjust(this_accrual_end_date, bus_adj_type)
+            if this_accrual_end_date < maturity_date: this_accrual_end_date = this_payment_date
+            accrual_start_dates.append(this_accrual_start_date)
+            accrual_end_dates.append(this_accrual_end_date)
+            payment_dates.append(this_payment_date)
+            
+            this_accrual_start_date = this_accrual_end_date
+        assert this_accrual_start_date == maturity_date
+        return accrual_start_dates, accrual_end_dates, payment_dates

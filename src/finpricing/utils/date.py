@@ -152,12 +152,9 @@ class Date:
         else:
             raise ValueError("tenor must be one of 'd', 'w', 'm', 'y'")
         
-<<<<<<< HEAD
-=======
     def add_interval(self, time_interval: TimeInterval) -> 'Date':
         return self.add_tenor(time_interval.__repr__())
         
->>>>>>> a584d46 (add cds utils)
     def strftime(self, fmt: str) -> str:
         """Return a string representing the date, controlled by an explicit format string"""
         return self._date.strftime(fmt)
