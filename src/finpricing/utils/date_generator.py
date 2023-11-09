@@ -94,10 +94,11 @@ class DateGenerator:
         payment_dates = list()
         
         this_accrual_start_date = start_date
-        for i, x in enumerate(dates):
+        for x in dates:
             this_accrual_end_date = x
             this_payment_date = calendar.adjust(this_accrual_end_date, bus_adj_type)
-            if this_accrual_end_date < maturity_date: this_accrual_end_date = this_payment_date
+            if this_accrual_end_date < maturity_date:
+                this_accrual_end_date = this_payment_date
             accrual_start_dates.append(this_accrual_start_date)
             accrual_end_dates.append(this_accrual_end_date)
             payment_dates.append(this_payment_date)

@@ -1,11 +1,5 @@
-from ..utils.date import Date
+from ..utils import *
 from ..utils.literal import Literal
-from ..utils.day_count import DayCountTypes, DayCount
-from ..utils.holiday import CalendarTypes
-from ..utils.calendar import Calendar, DateGenRuleTypes
-from ..utils.frequency import FrequencyTypes
-from ..utils.bus_day_adj import BusDayAdjustTypes
-from ..utils.tools import prettyTableByColumn, prettyTableByRow, ClassUtil
 from ..utils.payment_schedule import PaymentSchedule
 from typing import Union, List
 import datetime
@@ -61,7 +55,7 @@ class FixedCouponLegBase:
             "Accrual Days": self.accrual_days,
             "Accrual Factor": self.accrual_factors,
         }
-        print(prettyTableByColumn(d))
+        prettyTableByColumn(d)
 
 
 class FixedCouponLeg(ClassUtil, FixedCouponLegBase):

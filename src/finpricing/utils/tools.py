@@ -82,3 +82,9 @@ class ClassUtil:
             self.maturity_date = self.start_date.add_tenor(maturity_date_or_tenor)
         else:
             raise ValueError("maturity_date_or_tenor must be either datetime.date or str")
+        
+    def first_valid(self, *args):
+        for arg in args:
+            if arg is not None:
+                return arg
+        return None
