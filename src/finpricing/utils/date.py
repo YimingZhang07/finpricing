@@ -2,6 +2,29 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from typing import Union
 
+class TimeInterval:
+    def __init__(
+            self,
+            value: int,
+            period: str
+    ):
+        if not isinstance(value, int):
+            raise TypeError("Time interval must has a integer amount.")
+        if not isinstance(period, str) or len(period) != 1:
+            raise TypeError("Period of a time interval must be single character.")
+        self.value = value
+        self.period = period
+
+    @classmethod
+    def from_string(cls, interval_string):
+        return cls(int(interval_string[:-1]), interval_string[-1])
+    
+    def __neg__(self):
+        return TimeInterval(-self.value, self.period)
+
+    def __repr__(self) -> str:
+        return f"{self.value}{self.period}"
+
 class Date:
     MON = 0
     TUE = 1
@@ -51,9 +74,12 @@ class Date:
         return self.add_days(days)
 
     def __eq__(self, other: object) -> bool:
-        if isinstance(other, Date) is False:
+        if isinstance(other, Date):
+            return self._date == other._date
+        elif isinstance(other, datetime.date):
+            return self._date == other
+        else:
             return False
-        return self._date == other._date
 
     def __le__(self, other: object) -> bool:
         if isinstance(other, Date) is False:
@@ -126,6 +152,12 @@ class Date:
         else:
             raise ValueError("tenor must be one of 'd', 'w', 'm', 'y'")
         
+<<<<<<< HEAD
+=======
+    def add_interval(self, time_interval: TimeInterval) -> 'Date':
+        return self.add_tenor(time_interval.__repr__())
+        
+>>>>>>> a584d46 (add cds utils)
     def strftime(self, fmt: str) -> str:
         """Return a string representing the date, controlled by an explicit format string"""
         return self._date.strftime(fmt)
