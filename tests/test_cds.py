@@ -67,7 +67,7 @@ class TestCDSInstrument:
             cds_style=self.cds_style
         )
         
-        # cds.fixed_coupon_leg.print_cashflows()
+        cds.fixed_coupon_leg.print_cashflows()
         
         assert cds.contingent_leg.protection_start_date == datetime.date(2023, 8, 15)
         assert cds.fixed_coupon_leg.payment_dates[-1] == datetime.date(2028, 11, 15)
@@ -97,7 +97,7 @@ class TestCDSPricer:
                                              granularity=14,
                                              include_accrued=True)
     def test_pv(self):
-        # assert self.survival_curve.survival(datetime.date(2023, 11, 14)) == pytest.approx(0.99960523209460694)
+        assert self.survival_curve.survival(datetime.date(2023, 11, 14)) == pytest.approx(0.99960523209460694)
         assert self.cds_pricer.pv_coupon_leg() == pytest.approx(4.553353410660466)
         
         
@@ -105,3 +105,4 @@ if __name__ == "__main__":
     test = TestCDSPricer()
     test.setup_class()
     test.test_pv()
+    

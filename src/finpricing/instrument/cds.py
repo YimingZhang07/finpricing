@@ -12,7 +12,7 @@ from ..utils import (
 
 from .fixed_coupon_leg import FixedCouponLegBase
 
-class CDSFixedCouponLeg(FixedCouponLegBase):
+class CDSFixedCouponLeg(ClassUtil, FixedCouponLegBase):
     def __init__(self,
                  effective_date: Union[Date, datetime.date],
                  maturity_date: Union[Date, datetime.date],
@@ -23,6 +23,11 @@ class CDSFixedCouponLeg(FixedCouponLegBase):
         """
         TODO: add pay_day_delay to generate_cds_adjust
         """
+        self.save_attributes(ignore=["effective_date", "maturity_date"])
+        effective_date = Date.convert_from_datetime(effective_date)
+        maturity_date = Date.convert_from_datetime(maturity_date)
+        
+        # generate CDS schedule with business and calendar day adjustment
         accrual_start, accrual_end, payment_dates = \
             DateGenerator.generate_cds_adjust(
                 start_date=effective_date,
@@ -30,19 +35,15 @@ class CDSFixedCouponLeg(FixedCouponLegBase):
                 cds_style=cds_style,
                 stub_at_end=False,
         )
+            
         super().__init__(
             coupon_rate=spread,
             payment_dates=payment_dates,
             accrual_start=accrual_start,
             accrual_end=accrual_end,
             notional=notional,
-            day_count_type=DayCountTypes.ACT_360,
-            with_additional_day=True
+            day_count_type=cds_style.day_count_type,
         )
-        
-    @property
-    def spread(self):
-        return self.coupon_rate
     
 class CDSContingentLeg(ClassUtil):
     def __init__(self,

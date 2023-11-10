@@ -14,7 +14,6 @@ class FixedCouponLegBase:
         accrual_end: List,
         notional: float = Literal.ONE_HUNDRED.value,
         day_count_type: DayCountTypes = DayCountTypes.THIRTY_360,
-        with_additional_day: bool = False,
     ) -> None:
         """
         NOTE: with_additional_day is a dangerous parameter. It is used to add an additional day \
@@ -26,7 +25,6 @@ class FixedCouponLegBase:
         self.coupon_rate = coupon_rate
         self.notional = notional
         self.day_count_type = day_count_type
-        self.with_additional_day = with_additional_day
 
         # derived attributes
         self.day_counter = DayCount(self.day_count_type)
