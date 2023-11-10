@@ -96,13 +96,12 @@ def principal_integral(
 
 
 def accrual_integral(
-    start_date,
-    granularity_in_days,
-    R,
     survival_curve,
     discount_curve,
     accrual_start_date,
     accrual_end_date,
+    granularity_in_days,
+    R,
     day_count_type=DayCountTypes.ACT_ACT_ISDA
 ):
     """calculate the accrual of a coupon leg
@@ -119,13 +118,16 @@ def accrual_integral(
     Returns:
         The accrual value
     """
-    start_date = Date.convert_from_datetime(start_date)
+    # start_date = Date.convert_from_datetime(start_date)
     accrual_start_date = Date.convert_from_datetime(accrual_start_date)
     accrual_end_date = Date.convert_from_datetime(accrual_end_date)
     day_counter = DayCount(day_count_type)
     
     partition = []
-    current_date = start_date
+    current_date = max(accrual_start_date, discount_curve.anchor_date)
+    prev_factor = discount_curve.discount(current_date)
+    prev_prob = survival_curve.survival(current_date)
+    
     while current_date <= accrual_end_date:
         partition.append(current_date)
         current_date = current_date.add_days(granularity_in_days)
@@ -135,9 +137,6 @@ def accrual_integral(
         
     G = len(partition) - 1  # number of intervals in the partition
     sum_accrual = 0.
-    
-    prev_factor = discount_curve.discount(start_date)
-    prev_prob = survival_curve.survival(start_date)
     
     for g in range(1, G + 1):
         partition_start = partition[g - 1]

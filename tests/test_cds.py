@@ -3,8 +3,12 @@ import datetime
 from finpricing.utils import *
 from finpricing.instrument.cds import *
 from finpricing.model.cds_pricer import CDSPricer
-from .testing_utils.read_data import get_sample_discount_curve
 from finpricing.market.survival_curve_ns import SurvivalCurveNelsonSiegel
+from .testing_utils.read_data import get_sample_discount_curve
+
+# import sys
+# sys.path.append(r'./')
+# from testing_utils.read_data import get_sample_discount_curve
 
 
 class TestCDSUtils(object):
@@ -63,7 +67,11 @@ class TestCDSInstrument:
             cds_style=self.cds_style
         )
         
+        # cds.fixed_coupon_leg.print_cashflows()
+        
         assert cds.contingent_leg.protection_start_date == datetime.date(2023, 8, 15)
+        assert cds.fixed_coupon_leg.payment_dates[-1] == datetime.date(2028, 11, 15)
+        assert cds.fixed_coupon_leg.accrual_start[-1] == datetime.date(2028, 8, 15)
         
         
 class TestCDSPricer:
@@ -89,5 +97,11 @@ class TestCDSPricer:
                                              granularity=14,
                                              include_accrued=True)
     def test_pv(self):
-        assert self.survival_curve.survival(datetime.date(2023, 11, 14)) == pytest.approx(0.99960523209460694)
-        # assert self.cds_pricer.pv_coupon_leg() == pytest.approx(4.553353410660466)
+        # assert self.survival_curve.survival(datetime.date(2023, 11, 14)) == pytest.approx(0.99960523209460694)
+        assert self.cds_pricer.pv_coupon_leg() == pytest.approx(4.553353410660466)
+        
+        
+if __name__ == "__main__":
+    test = TestCDSPricer()
+    test.setup_class()
+    test.test_pv()

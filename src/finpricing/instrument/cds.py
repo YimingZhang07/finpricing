@@ -37,6 +37,7 @@ class CDSFixedCouponLeg(FixedCouponLegBase):
             accrual_end=accrual_end,
             notional=notional,
             day_count_type=DayCountTypes.ACT_360,
+            with_additional_day=True
         )
         
     @property

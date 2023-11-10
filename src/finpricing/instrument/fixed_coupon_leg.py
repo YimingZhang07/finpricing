@@ -14,13 +14,19 @@ class FixedCouponLegBase:
         accrual_end: List,
         notional: float = Literal.ONE_HUNDRED.value,
         day_count_type: DayCountTypes = DayCountTypes.THIRTY_360,
+        with_additional_day: bool = False,
     ) -> None:
+        """
+        NOTE: with_additional_day is a dangerous parameter. It is used to add an additional day \
+            at the last of the accrual period. This is used in the case of CDS pricing.\
+        """
         self.payment_dates = Date.convert_from_datetimes(payment_dates)
         self.accrual_start = Date.convert_from_datetimes(accrual_start)
         self.accrual_end = Date.convert_from_datetimes(accrual_end)
         self.coupon_rate = coupon_rate
         self.notional = notional
         self.day_count_type = day_count_type
+        self.with_additional_day = with_additional_day
 
         # derived attributes
         self.day_counter = DayCount(self.day_count_type)
@@ -38,13 +44,11 @@ class FixedCouponLegBase:
         num_payments = len(self.payment_dates)
         for i in range(num_payments):
             days, frac = self.day_counter.days_between(
-                self.accrual_start[i], self.accrual_end[i]
-            )
+                self.accrual_start[i], self.accrual_end[i])
             self.accrual_days.append(days)
             self.accrual_factors.append(frac)
             self.payment_amounts.append(
-                self.coupon_rate * self.accrual_factors[i] * self.notional
-            )
+                self.coupon_rate * self.accrual_factors[i] * self.notional)
 
     def print_cashflows(self):
         d = {

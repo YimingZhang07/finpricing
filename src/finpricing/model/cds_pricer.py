@@ -67,20 +67,23 @@ class CDSPricer(ClassUtil):
             amount = item[1]
             accrual_start_date = self.fixed_coupon_leg.accrual_start[i].add_tenor("-1d")
             accrual_end_date = self.fixed_coupon_leg.accrual_end[i].add_tenor("-1d")
-            period_start_date = max(valuation_date, accrual_start_date)
+            # period_start_date = max(valuation_date, accrual_start_date)
 
             if date > valuation_date:
                 df = discount_curve.discount(date)
         
-                pv += df * survival_curve.survival(date.add_tenor("-1d")) * amount
-
-                pv += amount * accrual_integral(
-                    start_date=period_start_date,
+                discounted_amount = df * survival_curve.survival(date.add_tenor("-1d")) * amount
+                
+                accrual = amount * accrual_integral(
+                    start_date=None,
                     granularity_in_days=14,
-                    R=recovery_rate,
+                    R=1.,
                     survival_curve=survival_curve,
                     discount_curve=discount_curve,
                     accrual_start_date=accrual_start_date,
                     accrual_end_date=accrual_end_date
                 )
+
+                print(f"{amount:.12f}\t{df:.12f}\t{discounted_amount:.12f}\t{accrual:.12f}\t{discounted_amount+accrual:.12f}")
+                pv = pv + discounted_amount + accrual
         return pv

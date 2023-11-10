@@ -63,7 +63,6 @@ class FixedBondPricer(ClassUtil):
             amount = item[1]
             accrual_start_date = self.inst.fixed_coupon_leg.accrual_start[i].add_tenor("-1d")
             accrual_end_date = self.inst.fixed_coupon_leg.accrual_end[i].add_tenor("-1d")
-            period_start_date = max(valuation_date, accrual_start_date)
 
             if date > valuation_date:
                 df = discount_curve.discount(date)
@@ -71,7 +70,6 @@ class FixedBondPricer(ClassUtil):
                 pv += df * survival_curve.survival(date.add_tenor("-1d")) * amount
 
                 pv += amount * accrual_integral(
-                    start_date=period_start_date,
                     granularity_in_days=14,
                     R=recovery_rate,
                     survival_curve=survival_curve,

@@ -111,7 +111,7 @@ class DiscountCurveZeroRates(DiscountCurve):
                  continuous_compounding: bool = True,
                  interp_type=InterpTypes.FLAT_FWD_RATES,
                  day_count_type: DayCountTypes = DayCountTypes.ACT_365) -> None:
-        self.anchor_date = anchor_date
+        self.anchor_date = Date.convert_from_datetime(anchor_date)
         self.dates = dates
         self.rates = rates
         self.interp_type = interp_type
@@ -147,6 +147,7 @@ class DiscountCurveZeroShifted:
                  beta: float = 1.0,
                  day_count_type: DayCountTypes = DayCountTypes.ACT_365) -> None:
         self.underlying_curve = underlying_curve
+        self.anchor_date = self.underlying_curve.anchor_date
         self.alpha = alpha
         self.beta = beta
         self.day_count_type = day_count_type

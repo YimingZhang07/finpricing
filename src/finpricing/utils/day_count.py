@@ -27,7 +27,7 @@ class DayCountTypes(Enum):
 class DayCount:
     def __init__(self, dccType: DayCountTypes) -> None:
         self._dccType = dccType
-
+    
     def days_between(self, start_date: Date, end_date: Date, include_end=False) -> tuple:
         """Return the number of days and year fraction using a specific day count convention
 
