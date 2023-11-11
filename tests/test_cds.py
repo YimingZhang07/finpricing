@@ -97,8 +97,13 @@ class TestCDSPricer:
                                              granularity=14,
                                              include_accrued=True)
     def test_pv(self):
-        assert self.survival_curve.survival(datetime.date(2023, 11, 14)) == pytest.approx(0.99960523209460694)
         assert self.cds_pricer.pv_coupon_leg() == pytest.approx(4.553353410660466)
+        assert self.cds_pricer.pv_contingent_leg(recovery_rate=0.0) ==\
+            pytest.approx(-0.07993120902753376)
+        assert self.cds_pricer.pv_contingent_leg(recovery_rate=0.4) ==\
+            pytest.approx(-0.04795872541652026)
+        assert self.cds_pricer.pv_contingent_leg(recovery_rate=1.0) ==\
+            pytest.approx(0.0)
         
         
 if __name__ == "__main__":
