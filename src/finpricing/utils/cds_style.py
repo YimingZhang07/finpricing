@@ -19,8 +19,37 @@ class CDSEffectiveDateStyle(Enum):
 
 class CDSTermStyle(Enum):
     IMM_CORPORATE = "IMM_CORPORATE"
+    
+class CDSAccruedStyle(Enum):
+    SNAC = "SNAC"  # use standard North American CDS accrual convention, T+1
+    CONVENTIONAL = "CONVENTIONAL"  # use conventional CDS accrual convention, T
 
 class CDSStyle(ClassUtil):
+    def __new__(cls, *args, **kwargs):
+        if len(args) == 1 and isinstance(args[0], str):
+            return cls.from_name(args[0])
+        elif len(args) == 1 and isinstance(args[0], CDSStyleBase):
+            return args[0]
+        else:
+            raise TypeError("Invalid CDSStyle initialization")
+        
+    def __init__(self) -> None:
+        pass
+    
+    @classmethod
+    def from_name(cls, name):
+        """Return a CDSStyle instance from a string of name"""
+        # if the name is already a CDSStyle instance, return it
+        if name == "CORP_NA":
+            return CDSStyleCorpNA()
+        else:
+            raise ValueError(f"Unknown CDSStyle name: {name}")
+        
+    @classmethod
+    def CORP_NA(cls):
+        return CDSStyleCorpNA()
+
+class CDSStyleBase(ClassUtil):
     def __init__(
         self,
         name,
@@ -32,13 +61,14 @@ class CDSStyle(ClassUtil):
         cds_stub_length,
         minimal_stub_period: int,
         eom_adj: bool,
-        calendar_type
+        calendar_type,
+        accrued_style
     ):
         self.save_attributes()
-
-    @classmethod
-    def CORP_NA(cls):
-        return cls(
+        
+class CDSStyleCorpNA(CDSStyleBase):
+    def __init__(self):
+        super().__init__(
             name="CORP_NA",
             day_count_type=DayCountTypes.ACT_360,
             frequency_type=FrequencyTypes.QUARTERLY,
@@ -48,16 +78,8 @@ class CDSStyle(ClassUtil):
             cds_stub_length=CDSStubType.NO_STUB,
             minimal_stub_period=TimeInterval(0, "d"),
             eom_adj=True,
+            # calendar_type controls the holidays
             calendar_type=CalendarTypes.WEEKEND,
+            # this is additional parameter I make for simplicity for CDSStyle
+            accrued_style=CDSAccruedStyle.SNAC
         )
-        
-    @classmethod
-    def from_name(cls, name):
-        """Return a CDSStyle instance from a string of name"""
-        # if the name is already a CDSStyle instance, return it
-        if isinstance(name, cls):
-            return name
-        if name == "CORP_NA":
-            return cls.CORP_NA()
-        else:
-            raise ValueError(f"Unknown CDSStyle name: {name}")

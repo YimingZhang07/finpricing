@@ -7,8 +7,8 @@ from ...utils.day_count import DayCountTypes, DayCount
 from ...utils.frequency import FrequencyTypes
 from ...utils.literal import Literal
 from ...utils.error import NotSupportedError
-from ...market.discount_curve import DiscountCurve
-from ...market.survival_curve import SurvivalCurve
+from ...market.legacy.discount_curve import DiscountCurve
+from ...market.legacy.survival_curve import SurvivalCurve
 
 
 class SingleNameCDS:

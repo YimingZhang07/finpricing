@@ -33,6 +33,21 @@ class Calendar:
             return True
         else:
             return False
+        
+    def add_business_days(self, date: Date, num_days: int) -> Date:
+        """Return a new Date object by adding num_days business days to the date"""
+        if num_days == 0:
+            return date
+        if num_days > 0:
+            date = date.add_days(1)
+            while self.is_business_day(date) is False:
+                date = date.add_days(1)
+            return self.add_business_days(date, num_days - 1)
+        else:
+            date = date.add_days(-1)
+            while self.is_business_day(date) is False:
+                date = date.add_days(-1)
+            return self.add_business_days(date, num_days + 1)
 
     def adjust(self, date: Date, busDayAdjType: BusDayAdjustTypes) -> Date:
         """Return a new Date object by adjusting the date according to the Business Day Convention

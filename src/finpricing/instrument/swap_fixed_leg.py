@@ -9,7 +9,7 @@ from ..utils.literal import Literal
 from ..utils.payment_schedule import PaymentSchedule
 from ..utils.error import NotSupportedError
 from ..utils.tools import prettyTableByColumn, prettyTableByRow
-from ..market.curve import BaseCurve
+from ..market.legacy.curve import BaseCurve
 
 
 class SwapFixedLeg:

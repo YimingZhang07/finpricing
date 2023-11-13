@@ -1,7 +1,7 @@
 import datetime
+from bisect import bisect_left
 from typing import Union, List
-
-from finpricing.utils import TimeInterval, CDSStyle, CDSStubType, Date, TimeInterval, Calendar
+from finpricing.utils import TimeInterval, CDSStyle, CDSStubType, Date, Calendar
 
 class DateGenerator:
     def __init__(self):
@@ -106,3 +106,14 @@ class DateGenerator:
             this_accrual_start_date = this_accrual_end_date
         assert this_accrual_start_date == maturity_date
         return accrual_start_dates, accrual_end_dates, payment_dates
+
+    @staticmethod
+    def generate_cds_effective_date(market_date: Union[Date, datetime.date],
+                                    maturity_date: Union[Date, datetime.date],
+                                    cds_style: Union[CDSStyle, str]):
+        step_in_date = market_date.add_interval(-1, "d")
+        time_interval = TimeInterval(int(12 / cds_style.frequency_type.value), "m")
+        safe_start_date = step_in_date.add_interval(-3 * time_interval)
+        dates = DateGenerator.generate_cds_adjust(safe_start_date, maturity_date, cds_style)
+        idx_effective_date = bisect_left(dates, market_date) - 1
+        return dates[idx_effective_date]

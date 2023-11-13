@@ -1,7 +1,7 @@
 from scipy.optimize import brentq, newton
 from ..instrument.vanilla_swap import VanillaInterestRateSwap
 from ..utils.date import Date
-from ..market.curve import BaseCurve
+from ..market.legacy.curve import BaseCurve
 
 
 def swap_value_by_df(df_input: float,

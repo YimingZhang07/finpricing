@@ -1,6 +1,6 @@
 import numpy as np
 from financepy.products.rates.ibor_single_curve import IborSingleCurve
-from ..market.discount_curve import DiscountCurve
+from ..market.legacy.discount_curve import DiscountCurve
 from .tools import prettyTableByColumn
 
 

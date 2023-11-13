@@ -9,7 +9,7 @@ from ..utils.literal import Literal
 from ..utils.error import NotSupportedError
 from .swap_fixed_leg import SwapFixedLeg
 from .swap_float_leg import SwapFloatLeg
-from ..market.curve import BaseCurve
+from ..market.legacy.curve import BaseCurve
 
 # Reference: https://www.quantlib.org/reference/class_quant_lib_1_1_vanilla_swap.html
 # Reference: https://quant.opengamma.io/Interest-Rate-Instruments-and-Market-Conventions.pdf

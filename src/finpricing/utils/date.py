@@ -25,7 +25,14 @@ class TimeInterval:
 
     def __repr__(self) -> str:
         return f"{self.value}{self.period}"
+    
+    def __mul__(self, other: int):
+        if isinstance(other, int):
+            return TimeInterval(self.value * other, self.period)
+        else:
+            raise TypeError("Time interval can only be multiplied by an integer.")
 
+# with total_ordering decorator, we only need to implement __eq__ and __lt__
 @total_ordering
 class Date:
     MON = 0
@@ -83,11 +90,6 @@ class Date:
         else:
             return False
 
-    # def __le__(self, other: object) -> bool:
-    #     if isinstance(other, Date) is False:
-    #         return False
-    #     return self._date <= other._date
-
     def __lt__(self, other: object) -> bool:
         if isinstance(other, Date):
             return self._date < other._date
@@ -95,16 +97,6 @@ class Date:
             return self._date < other
         else:
             return False
-
-    # def __ge__(self, other: object) -> bool:
-    #     if isinstance(other, Date) is False:
-    #         return False
-    #     return self._date >= other._date
-
-    # def __gt__(self, other: object) -> bool:
-    #     if isinstance(other, Date) is False:
-    #         return False
-    #     return self._date > other._date
 
     def __repr__(self) -> str:
         # return "Date({0}, {1:>2s}, {2:>2s})".format(self.year, str(self.month), str(self.day))

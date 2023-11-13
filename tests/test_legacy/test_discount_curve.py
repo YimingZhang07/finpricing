@@ -1,7 +1,7 @@
-from finpricing.market.discount_curve import DiscountCurve
+from finpricing.market.legacy.discount_curve import DiscountCurve
 from finpricing.utils.date import Date
 from finpricing.instrument.deposit import Deposit
-from finpricing.market.dummy_curve import DummyCurve
+from finpricing.market.legacy.dummy_curve import DummyCurve
 from finpricing.utils.frequency import FrequencyTypes
 from finpricing.utils.day_count import DayCountTypes
 from finpricing.instrument.vanilla_swap import VanillaInterestRateSwap, SwapCounterpartyTypes

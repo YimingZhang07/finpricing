@@ -3,6 +3,7 @@ import datetime
 from finpricing.utils import *
 from finpricing.instrument.cds import *
 from finpricing.model.cds_pricer import CDSPricer
+from finpricing.model.cds_analytics import cds_market_spread
 from finpricing.market.survival_curve_ns import SurvivalCurveNelsonSiegel
 from .testing_utils.read_data import get_sample_discount_curve
 
@@ -28,7 +29,7 @@ class TestCDSUtils(object):
         dates = self.date_generator.generate_cds(
             start_date=datetime.date(2023, 8, 15),
             maturity_date=datetime.date(2028, 11, 15),
-            cds_style=CDSStyle.CORP_NA(),
+            cds_style=CDSStyle("CORP_NA"),
         )
         assert dates[0] == datetime.date(2023, 11, 15)
         assert dates[-1] == datetime.date(2028, 11, 15)
@@ -41,7 +42,7 @@ class TestCDSUtils(object):
         ) = self.date_generator.generate_cds_adjust(
             start_date=datetime.date(2023, 8, 15),
             maturity_date=datetime.date(2028, 11, 15),
-            cds_style=CDSStyle.CORP_NA(),
+            cds_style=CDSStyle("CORP_NA"),
         )
         
         assert datetime.date(2025, 2, 17) in accrual_start
@@ -104,6 +105,43 @@ class TestCDSPricer:
             pytest.approx(-0.04795872541652026)
         assert self.cds_pricer.pv_contingent_leg(recovery_rate=1.0) ==\
             pytest.approx(0.0)
+        assert self.cds_pricer.par_spread() == pytest.approx(0.010532616533616227)
+            
+    def test_accrued_interest(self):
+        assert self.cds_pricer.coupon_leg_accrued_interest() == pytest.approx(0.15555555555555556)
+        
+class TestCDSAnalytics:
+    def setup_class(self):
+        self.valuation_date = datetime.date(2023, 10, 9)
+        self.discount_curve = get_sample_discount_curve()
+        self.survival_curve = SurvivalCurveNelsonSiegel(
+            anchor_date=self.valuation_date,
+            pivot_dates=[datetime.date(2025, 6, 15), datetime.date(2029, 5, 15)],
+            params=[9.302730314829907e-05, -0.06514745005077575, 0.045888893535974966],
+        )
+        self.cds = CreditDefaultSwap.make_standard(
+            effective_date=datetime.date(2023, 8, 15),
+            maturity_date=datetime.date(2028, 11, 15),
+            spread=1.,
+            notional=1.,
+            cds_style="CORP_NA"
+        )
+        self.cds_pricer = CDSPricer.from_cds(cds=self.cds,
+                                             discount_curve=self.discount_curve,
+                                             survival_curve=self.survival_curve,
+                                             recovery_rate=0.4,
+                                             granularity=14,
+                                             include_accrued=True)
+        
+    def test_cds_market_spread(self):
+        assert cds_market_spread(
+            discount_curve=self.discount_curve,
+            survival_curve=self.survival_curve,
+            recovery_rate=0.4,
+            cds_style="CORP_NA",
+            expiry=datetime.date(2028, 11, 15),
+            granularity=14,
+        ) == pytest.approx(0.01090499740022582)
         
         
 if __name__ == "__main__":

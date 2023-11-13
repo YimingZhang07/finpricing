@@ -1,14 +1,14 @@
 from __future__ import annotations
 from copy import deepcopy
 from typing import TYPE_CHECKING
-from ..utils.interpolator import Interpolator, InterpTypes
-from ..utils.error import NotSupportedError
-from ..utils.bootstrap_tools import swap_value_by_df, newton_solve
+from ...utils.interpolator import Interpolator, InterpTypes
+from ...utils.error import NotSupportedError
+from ...utils.bootstrap_tools import swap_value_by_df, newton_solve
 from .curve import Curve
 if TYPE_CHECKING:
-    from ..instrument.deposit import Deposit
-    from ..instrument.vanilla_swap import VanillaInterestRateSwap
-    from ..market.curve import BaseCurve
+    from ...instrument.deposit import Deposit
+    from ...instrument.vanilla_swap import VanillaInterestRateSwap
+    from .curve import BaseCurve
 
 
 class DiscountCurve(Curve):

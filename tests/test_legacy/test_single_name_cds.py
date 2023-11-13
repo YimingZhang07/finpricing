@@ -1,7 +1,7 @@
 from finpricing.instrument.legacy.cds import SingleNameCDS
 from finpricing.utils.date import Date
-from finpricing.market.discount_curve import DiscountCurve
-from finpricing.market.survival_curve import SurvivalCurve
+from finpricing.market.legacy.discount_curve import DiscountCurve
+from finpricing.market.legacy.survival_curve import SurvivalCurve
 
 
 def test_cds_payment_dates():

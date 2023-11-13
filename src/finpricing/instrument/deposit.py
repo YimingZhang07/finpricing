@@ -5,7 +5,7 @@ from ..utils.holiday import CalendarTypes
 from ..utils.calendar import Calendar
 from ..utils.day_count import DayCountTypes, DayCount
 from ..utils.literal import Literal
-from ..market.discount_curve import DiscountCurve
+from ..market.legacy.discount_curve import DiscountCurve
 from ..utils.tools import dict_to_obj_str
 
 

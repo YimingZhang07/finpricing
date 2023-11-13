@@ -2,7 +2,7 @@ import math
 import datetime
 from bisect import bisect_left
 from typing import Union, List
-from ..utils import ClassUtil, Date, DayCount
+from ..utils import ClassUtil, Date, DayCount, Calendar, BusDayAdjustTypes, DayCountTypes, CDSAccruedStyle
 from ..instrument.cds import CDSFixedCouponLeg, CDSContingentLeg, CreditDefaultSwap
 from ..model.utils.bond_pricing_utils import accrual_integral
 from ..market.lgd_curve import LGDCurve
@@ -35,13 +35,26 @@ class CDSPricer(ClassUtil):
             granularity=granularity,
             include_accrued=include_accrued
         )
+        
+    @property
+    def cds_style(self):
+        return self.fixed_coupon_leg.cds_style
     
-    def _generate_fixed_payments(self,
-                                coupon_leg: CDSFixedCouponLeg):
-        """generate customized fixed payments for a cds fixed coupon leg
+    @property
+    def accrued_interest(self):
+        return self.coupon_leg_accrued_interest()
+    
+    def _generate_payment_dates_with_additional_date(self,
+                                coupon_leg: CDSFixedCouponLeg,
+                                include_spread: bool=False):
+        """generate customized fixed payments for a cds fixed coupon leg with additional day added to the accrual end date
         
         NOTE    this is not a general purpose function, and should be considered as a workaround.
                 The last accrual period of a CDS has an additional day added to the accrual end date.
+                
+        Args:
+            coupon_leg: a CDSFixedCouponLeg object
+            include_spread: if True, the coupon rate is included in the cashflow amount
         """
         if isinstance(coupon_leg, CDSFixedCouponLeg) is False:
             raise TypeError("coupon_leg must be a CDSFixedCouponLeg object")
@@ -53,18 +66,70 @@ class CDSPricer(ClassUtil):
         cashflows = []
         for s, e, p in zip(accrual_start, accrual_end, payment_dates):
             fraction = day_counter.days_between(s, e)[1]
-            amount = coupon_leg.coupon_rate * fraction * coupon_leg.notional
+            if include_spread:
+                amount = coupon_leg.coupon_rate * fraction * coupon_leg.notional
+            else:
+                amount = fraction * coupon_leg.notional
             cashflows.append((p, amount))
         return accrual_start, accrual_end, cashflows
+    
+    def generate_upfront_payment_date(self,
+                                       calendar_type=None,
+                                       date=None):
+        """three business days after the settlement date
+        
+        NOTE   according to the SNAC rule, the upfront payment is exchanged three business day after the trade settlement date
+        """
+        calendar_type = self.first_valid(calendar_type, self.cds_style.calendar_type)
+        date = self.first_valid(date, self.discount_curve.anchor_date)
+        calendar = Calendar(calendar_type)
+        upfront_payment_date = calendar.adjust(date, BusDayAdjustTypes.FOLLOWING)
+        upfront_payment_date = calendar.add_business_days(upfront_payment_date, 3)
+        return upfront_payment_date
+    
+    def coupon_leg_accrued_interest(self,
+                                    valuation_date: Union[datetime.date, Date] = None,
+                                    accrued_style: CDSAccruedStyle = None,
+                                    day_count_type: DayCountTypes = None,):
+        valuation_date = self.first_valid(valuation_date, self.discount_curve.anchor_date)
+        valuation_date = Date.convert_from_datetime(valuation_date)
+        accrued_style = self.first_valid(accrued_style, self.cds_style.accrued_style)
+        day_count_type = self.first_valid(day_count_type, self.cds_style.day_count_type)
+        day_counter = DayCount(day_count_type)
+        
+        if accrued_style == CDSAccruedStyle.SNAC:
+            valuation_date = valuation_date.add_tenor("1d")
+        elif accrued_style == CDSAccruedStyle.CONVENTIONAL:
+            pass
+        else:
+            raise ValueError("accrued_style is not supported")
+        
+        accrual_start, accrual_end, coupon_cashflows = \
+            self._generate_payment_dates_with_additional_date(self.fixed_coupon_leg)
+            
+        # if the valuation date is not in any accrual period, return 0.0
+        if valuation_date < accrual_start[0] or valuation_date > accrual_end[-1]:
+            return 0.0
+        
+        if valuation_date == accrual_end[-1] and accrued_style != CDSAccruedStyle.SNAC:
+            return 0.0
+        
+        idx_start = bisect_left(accrual_start, valuation_date) - 1
+        fraction = day_counter.days_between(accrual_start[idx_start], valuation_date)[1] / \
+            day_counter.days_between(accrual_start[idx_start], accrual_end[idx_start])[1]
+        accrued_interest = fraction * coupon_cashflows[idx_start][1]
+        return accrued_interest
         
     
-    def pv_coupon_leg(self,
+    def pv_annuity(self,
               valuation_date: Union[datetime.date, Date] = None,
               survival_curve = None,
               discount_curve = None,) -> float:
-        """calculate the present value of a coupon leg
+        """calculate the annuity PV of a CDS. This is the PV of the fixed coupon leg when coupon rate is 1.0
         
-        NOTE the recovery rate seems to be not needed in this function, maybe because the CDS will pay the full notional
+        NOTE
+            The notional is included in the annuity calculation.
+            The recovery rate seems to be not needed in this function, maybe because the CDS will pay the full notional
                 
         Returns:
             Dirty price of coupon leg.
@@ -78,14 +143,12 @@ class CDSPricer(ClassUtil):
         pv = 0.0
         
         accrual_start, accrual_end, coupon_cashflows = \
-            self._generate_fixed_payments(self.fixed_coupon_leg)
+            self._generate_payment_dates_with_additional_date(self.fixed_coupon_leg, include_spread=False)
             
-        """
-        NOTE    date is the payment date, for which the discount factor refers to
-                accrual_end_date is the date for which the survival probability refers to and has an additional day\
-                    as adjusted above
-                amount is also determined by the accrual period, so impacted by the last accrual adjustment
-        """
+        # NOTE    date is the payment date, for which the discount factor refers to
+        #         accrual_end_date is the date for which the survival probability refers to and has an additional day\
+        #             at the last period as adjusted above
+        #         amount is also determined by the accrual period, so impacted by the last accrual adjustment
         
         for i, item in enumerate(coupon_cashflows):
             date = item[0]
@@ -108,6 +171,18 @@ class CDSPricer(ClassUtil):
                 )
                 pv = pv + discounted_amount + accrual
         return pv
+    
+    def pv_coupon_leg(self, 
+                       valuation_date: Union[datetime.date, Date] = None,
+                       discount_curve = None,
+                       survival_curve = None,):
+        pv_annuity = self.pv_annuity(
+            valuation_date=valuation_date,
+            discount_curve=discount_curve,
+            survival_curve=survival_curve
+        )
+        pv_coupon_leg = pv_annuity * self.fixed_coupon_leg.coupon_rate
+        return pv_coupon_leg
     
     def pv_contingent_leg_unit_notional(self,
                                         discount_curve,
@@ -197,4 +272,7 @@ class CDSPricer(ClassUtil):
         return PV
     
     def par_spread(self):
-        return -self.pv_contingent_leg / self.pv_coupon_leg
+        return -1 * self.pv_contingent_leg() / self.pv_annuity()
+    
+    def pv(self):
+        return self.pv_coupon_leg() + self.pv_contingent_leg()

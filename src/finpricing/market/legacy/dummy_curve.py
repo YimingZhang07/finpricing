@@ -1,9 +1,9 @@
 # from ..utils.interpolator import DummyInterpolator
 import math
-from ..utils.day_count import DayCountTypes
+from ...utils.day_count import DayCountTypes
 from .curve import BaseCurve
-from ..utils.date import Date
-from ..utils.frequency import FrequencyTypes
+from ...utils.date import Date
+from ...utils.frequency import FrequencyTypes
 
 
 class DummyCurve(BaseCurve):

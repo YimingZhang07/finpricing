@@ -9,7 +9,7 @@ from finpricing.utils.literal import Literal
 from finpricing.instrument.swap_fixed_leg import SwapFixedLeg
 from finpricing.instrument.swap_float_leg import SwapFloatLeg
 from finpricing.instrument.vanilla_swap import VanillaInterestRateSwap, SwapCounterpartyTypes
-from finpricing.market.dummy_curve import DummyCurve
+from finpricing.market.legacy.dummy_curve import DummyCurve
 
 
 def test_fixed_leg():

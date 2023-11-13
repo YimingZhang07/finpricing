@@ -14,7 +14,7 @@ class BondCurveAnalyticsHelper:
             self.bonds = bonds
         else:
             raise TypeError('bonds must be a list of bonds.')
-        self.bond_pricers = list(map(lambda x: FixedBondPricer(x), self.bonds))
+        self.bond_pricers = [FixedBondPricer(bond) for bond in self.bonds]
         self.n_underlyings = len(self.bonds)
         self._dirty_prices = None
         self._discount_curves = None
@@ -126,13 +126,12 @@ class BondCurveAnalyticsHelper:
         """maximum maturity minus minimum maturity in years"""
         return (max(self.maturity_dates) - min(self.maturity_dates)) / 365
     
-    """
-    @staticmethod
-    def _solve_basis(args):
-        bond_pricer = args[0]
-        o_args = args[1:]
-        return bond_pricer.solve_basis(*o_args)
-    """
+    # @staticmethod
+    # def _solve_basis(args):
+    #     bond_pricer = args[0]
+    #     o_args = args[1:]
+    #     return bond_pricer.solve_basis(*o_args)
+        
     def setup(self,
               valuation_date: Union[datetime.date, Date]=None,
               dirty_prices: List[float]=None,

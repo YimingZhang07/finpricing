@@ -91,7 +91,7 @@ class CreditDefaultSwap:
             maturity_date=maturity_date,
             spread=spread,
             notional=notional,
-            cds_style=CDSStyle.from_name(cds_style),
+            cds_style=CDSStyle(cds_style),
             pay_day_delay=pay_day_delay,
         )
         contingent_leg = CDSContingentLeg.make_simple(
