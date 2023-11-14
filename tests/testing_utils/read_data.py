@@ -13,9 +13,11 @@ parent_dir = os.path.dirname(script_dir)
 
 def parse_bond_info(valuation_date,
                     bonds_info_dict,
-                    sort_by_maturity=True):
+                    sort_by_maturity=True,
+                    include_balance=False):
     bonds = []
     dirty_prices = []
+    balance = []
     for bond in bonds_info_dict:
         if bond == "bond3":
             fixed_coupon_leg = FixedCouponLeg.from_cashflows(
@@ -85,21 +87,27 @@ def parse_bond_info(valuation_date,
         )
         bonds.append(bond_inst)
         dirty_prices.append(float(bonds_info_dict[bond]["DirtyPrice"]))
+        balance.append(float(bonds_info_dict[bond]["AmountOutstanding"]))
     if sort_by_maturity:
-        tmp = sorted(list(zip(bonds, dirty_prices)), key = lambda x: x[0].maturity_date)
+        tmp = sorted(list(zip(bonds, dirty_prices, balance)), key = lambda x: x[0].maturity_date)
         bonds = [x[0] for x in tmp]
         dirty_prices = [x[1] for x in tmp]
-    return bonds, dirty_prices
+        balance = [x[2] for x in tmp]
+    if include_balance:
+        return bonds, dirty_prices, balance
+    else:
+        return bonds, dirty_prices
 
 def get_sample_bonds_portfolio(valuation_date=datetime.date(2023, 10, 9),
-                               rel_file_path='testing_data/bondcurve_portfolio.json'):
+                               rel_file_path='testing_data/bondcurve_portfolio.json',
+                               **kwargs):
     assert valuation_date == datetime.date(2023, 10, 9), "All bonds information is as of 2023-10-09."
     file_path = os.path.join(parent_dir, rel_file_path)
     with open(file_path, "rb") as json_data:
         bonds_info_dict = json.load(json_data)
         json_data.close()
 
-    return parse_bond_info(valuation_date, bonds_info_dict)
+    return parse_bond_info(valuation_date, bonds_info_dict, **kwargs)
 
 def get_sample_discount_curve(valuation_date=datetime.date(2023, 10, 9),
                               spot_date=datetime.date(2023, 10, 11),

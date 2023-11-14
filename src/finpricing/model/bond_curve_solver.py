@@ -125,12 +125,6 @@ class BondCurveAnalyticsHelper:
     def maturity_span(self):
         """maximum maturity minus minimum maturity in years"""
         return (max(self.maturity_dates) - min(self.maturity_dates)) / 365
-    
-    # @staticmethod
-    # def _solve_basis(args):
-    #     bond_pricer = args[0]
-    #     o_args = args[1:]
-    #     return bond_pricer.solve_basis(*o_args)
         
     def setup(self,
               valuation_date: Union[datetime.date, Date]=None,
@@ -180,20 +174,6 @@ class BondCurveAnalyticsHelper:
             )
         
         return [f(i) for i in range(len(dirty_prices))]
-
-        # args = [(self.bond_pricers[i],
-        #          valuation_date,
-        #          dirty_prices[i],
-        #          survival_curves[i],
-        #          self._discount_curves[i],
-        #          self.settlement_dates[i],
-        #          self.recovery_rates[i],
-        #          basis_type) for i in range(len(dirty_prices))]
-        # # n_cores = min(len(dirty_prices), os.cpu_count())
-        # with Pool(4) as p:
-        #     res = p.map(self._solve_basis, args)
-
-        # return res
 
 
 @dataclass
@@ -282,10 +262,14 @@ class BondCurveSolver:
         res = scipy.optimize.leastsq(self.get_weighted_residuals_and_penalty,
                                      params,
                                      args = (dirty_prices, weights),
-                                     xtol = 1e-15,
-                                     ftol = 1e-15,
+                                     xtol = 1e-8,
+                                     ftol = 1e-8,
                                      full_output=False)
-        return res
+        
+        if res[1] not in [1, 2, 3, 4]:
+            raise RuntimeError('Optimization failed for Bond Basis Solver.')
+        
+        return res[0]
     
     def get_weighted_residuals_and_penalty(self,
                                            params: List[float],
