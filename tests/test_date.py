@@ -1,4 +1,4 @@
-from finpricing.utils.date import Date
+from finpricing.utils.date import Date, TimeInterval
 
 
 def test_is_weekend():
@@ -44,3 +44,7 @@ def test_add_tenor():
     assert Date(2023, 6, 28).add_tenor("1m") == Date(2023, 7, 28)
     assert Date(2023, 2, 28).add_tenor("1M") == Date(2023, 3, 28)
     assert Date(2023, 2, 28).add_tenor("1W") == Date(2023, 3, 7)
+    
+def test_time_interval():
+    interval = TimeInterval.from_string("3m")
+    assert repr(3 * interval) == "9m"

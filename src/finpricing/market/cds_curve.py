@@ -1,6 +1,6 @@
 import datetime
 from typing import List, Union
-from ..utils import Date, CDSStyle, CalendarTypes
+from ..utils import Date, CDSStyle
 
 
 class CDSCurve:

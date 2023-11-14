@@ -1,6 +1,7 @@
 from prettytable import PrettyTable
 import inspect
 import datetime
+import functools
 from .date import Date
 
 
@@ -64,6 +65,14 @@ def prettyTableByRow(d: dict) -> str:
     for row in d:
         x.add_row([row, d.get(row)])
     return x.get_string()
+
+def datetimeToDates(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        new_args = [Date.from_datetime(arg) if isinstance(arg, datetime.date) else arg for arg in args]
+        new_kwargs = {k: Date.from_datetime(v) if isinstance(v, datetime.date) else v for k, v in kwargs.items()}
+        return func(*new_args, **new_kwargs)
+    return wrapper
 
 class ClassUtil:
     def save_attributes(self, ignore=[]):

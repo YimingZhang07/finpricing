@@ -31,6 +31,9 @@ class TimeInterval:
             return TimeInterval(self.value * other, self.period)
         else:
             raise TypeError("Time interval can only be multiplied by an integer.")
+        
+    def __rmul__(self, other: int):
+        return self.__mul__(other)
 
 # with total_ordering decorator, we only need to implement __eq__ and __lt__
 @total_ordering
@@ -76,8 +79,12 @@ class Date:
         """Return a Date object from a tuple of (year, month, day)"""
         return cls(date_tuple[0], date_tuple[1], date_tuple[2])
 
-    def __sub__(self, other: 'Date') -> int:
-        return (self._date - other._date).days
+    def __sub__(self, other: object) -> int:
+        if isinstance(other, Date):
+            return (self._date - other._date).days
+        if isinstance(other, datetime.date):
+            return (self._date - other).days
+        raise TypeError(f"unsupported operand type(s) for -: 'Date' and '{type(other).__name__}'")        
 
     def __add__(self, days: int) -> 'Date':
         return self.add_days(days)
@@ -100,7 +107,7 @@ class Date:
 
     def __repr__(self) -> str:
         # return "Date({0}, {1:>2s}, {2:>2s})".format(self.year, str(self.month), str(self.day))
-        return self._date.strftime("%a (%Y, %m, %d)")
+        return f"{self._date.strftime('%a (%Y, %m, %d)')} - {self - datetime.date(1601, 1, 1)}"
 
     @property
     def is_weekend(self) -> bool:
@@ -150,7 +157,7 @@ class Date:
             raise ValueError("tenor must be one of 'd', 'w', 'm', 'y'")
         
     def add_interval(self, time_interval: TimeInterval) -> 'Date':
-        return self.add_tenor(time_interval.__repr__())
+        return self.add_tenor(repr(time_interval))
         
     def strftime(self, fmt: str) -> str:
         """Return a string representing the date, controlled by an explicit format string"""

@@ -2,6 +2,7 @@ import math
 import datetime
 from bisect import bisect_left
 from typing import Union, List
+import logging
 from ..utils import ClassUtil, Date, DayCount, Calendar, BusDayAdjustTypes, DayCountTypes, CDSAccruedStyle
 from ..instrument.cds import CDSFixedCouponLeg, CDSContingentLeg, CreditDefaultSwap
 from ..model.utils.bond_pricing_utils import accrual_integral
@@ -60,7 +61,7 @@ class CDSPricer(ClassUtil):
             raise TypeError("coupon_leg must be a CDSFixedCouponLeg object")
         accrual_start = coupon_leg.accrual_start
         accrual_end = coupon_leg.accrual_end.copy()
-        payment_dates = accrual_end.copy()
+        payment_dates = coupon_leg.payment_dates.copy()
         accrual_end[-1] = accrual_end[-1].add_tenor("1d")
         day_counter = DayCount(coupon_leg.day_count_type)
         cashflows = []
@@ -169,6 +170,9 @@ class CDSPricer(ClassUtil):
                     accrual_start_date=accrual_start_date,
                     accrual_end_date=accrual_end_date
                 )
+                
+                logging.debug(f"{date}\t{amount:.12f}\t{discounted_amount:.12f}\t{accrual:.12f}\t{discounted_amount + accrual:.12f}")
+                
                 pv = pv + discounted_amount + accrual
         return pv
     
