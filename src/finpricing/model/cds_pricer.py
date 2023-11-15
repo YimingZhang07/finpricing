@@ -50,8 +50,8 @@ class CDSPricer(ClassUtil):
                                 include_spread: bool=False):
         """generate customized fixed payments for a cds fixed coupon leg with additional day added to the accrual end date
         
-        NOTE    this is not a general purpose function, and should be considered as a workaround.
-                The last accrual period of a CDS has an additional day added to the accrual end date.
+        NOTE this is not a general purpose function, and should be considered as a workaround.\
+            The last accrual period of a CDS has an additional day added to the accrual end date.
                 
         Args:
             coupon_leg: a CDSFixedCouponLeg object

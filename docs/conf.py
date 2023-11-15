@@ -7,8 +7,8 @@
 # -- Project information -----------------------------------------------------
 
 project = u"finpricing"
-copyright = u"2023, Francis Zhang"
-author = u"Francis Zhang"
+copyright = u"2023, Yiming Zhang"
+author = u"Yiming Zhang"
 
 # -- General configuration ---------------------------------------------------
 
@@ -20,17 +20,49 @@ extensions = [
     "autoapi.extension",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
+    "nbsphinx",
 ]
 autoapi_dirs = ["../src"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "/docs/legacy/*"]
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "pydata_sphinx_theme"
+
+nb_execution_mode = "off"
+
+html_context = {
+    'default_mode': 'light',
+    'github_user': 'YimingZhang07',
+    'github_repo': 'finpricing',
+    'github_version': 'master',
+    'doc_path': 'docs',
+}
+
+html_theme_options = {
+    "icon_links": [
+        {
+            # Label for this link
+            "name": "GitHub",
+            # URL where the link will redirect
+            "url": "https://github.com/YimingZhang07/finpricing",  # required
+            # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
+            "icon": "fa-brands fa-square-github",
+            # The type of image to be used (see below for details)
+            "type": "fontawesome",
+        },
+        {
+            "name": "My Website",
+            "url": "https://yimingzhang.netlify.app/",
+            "icon": "fa-solid fa-blog",
+            "type": "fontawesome",
+        }
+   ]
+}

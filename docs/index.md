@@ -5,7 +5,7 @@
 :maxdepth: 1
 :hidden:
 
-example.ipynb
+bond_issuer_curve.ipynb
 changelog.md
 contributing.md
 conduct.md

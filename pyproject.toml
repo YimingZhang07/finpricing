@@ -19,6 +19,11 @@ scipy = "^1.11.3"
 pytest = "^7.4.0"
 pytest-cov = "^4.1.0"
 financepy = "^0.310"
+sphinx = "^7.2.6"
+myst-nb = "^1.0.0"
+sphinx-autoapi = "^3.0.0"
+nbsphinx = "^0.9.3"
+pydata-sphinx-theme = "^0.14.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
