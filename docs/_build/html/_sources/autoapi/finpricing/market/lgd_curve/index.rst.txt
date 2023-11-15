@@ -1,0 +1,38 @@
+:py:mod:`finpricing.market.lgd_curve`
+=====================================
+
+.. py:module:: finpricing.market.lgd_curve
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.market.lgd_curve.LGDCurve
+   finpricing.market.lgd_curve.LGDCurveConstant
+
+
+
+
+.. py:class:: LGDCurve(*args, **kwargs)
+
+
+   .. py:method:: loss(date: Union[finpricing.utils.Date, datetime.date])
+
+
+
+.. py:class:: LGDCurveConstant(lgd: float)
+
+
+   .. py:method:: from_recovery_rate(recovery_rate: float)
+      :classmethod:
+
+
+   .. py:method:: loss(date: Union[finpricing.utils.Date, datetime.date])
+
+
+

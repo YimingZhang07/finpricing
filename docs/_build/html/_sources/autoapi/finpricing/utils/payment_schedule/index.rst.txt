@@ -1,0 +1,52 @@
+:py:mod:`finpricing.utils.payment_schedule`
+===========================================
+
+.. py:module:: finpricing.utils.payment_schedule
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.payment_schedule.FixedBondPaymentSchedule
+   finpricing.utils.payment_schedule.PaymentSchedule
+
+
+
+
+.. py:class:: FixedBondPaymentSchedule(anchor_date, date_gen_rule_type, freq_type, maturity_date)
+
+
+
+.. py:class:: PaymentSchedule(start_date: finpricing.utils.date.Date, maturity_date_or_tenor: tuple((Date, str)), freq_type: finpricing.utils.frequency.FrequencyTypes = FrequencyTypes.QUARTERLY, calendar_type: finpricing.utils.holiday.CalendarTypes = CalendarTypes.WEEKEND, bus_day_adj_type: finpricing.utils.bus_day_adj.BusDayAdjustTypes = BusDayAdjustTypes.FOLLOWING, date_gen_rule_type: finpricing.utils.calendar.DateGenRuleTypes = DateGenRuleTypes.BACKWARD, adjust_maturity_date: bool = False, extended: bool = False)
+
+
+   Generate a list of adjusted payment dates according to the given parameters.
+
+   Aims to provide most naive implementation, independent of any instrument.
+
+   .. py:property:: payment_dates
+      :type: list
+
+      Return the payment dates
+
+   .. py:method:: _generate_unadj_payment_dates() -> list
+
+      Generate unadjusted payment dates
+
+
+   .. py:method:: _generate_adj_payment_dates() -> list
+
+      Return a list of adjusted payment dates
+
+
+   .. py:method:: __repr__() -> str
+
+      Return the string representation of the object
+
+
+

@@ -1,0 +1,108 @@
+:py:mod:`finpricing.utils.day_count`
+====================================
+
+.. py:module:: finpricing.utils.day_count
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.day_count.DayCountTypes
+   finpricing.utils.day_count.DayCount
+
+
+
+
+.. py:class:: DayCountTypes
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: ACT_360
+      :value: 0
+
+      
+
+   .. py:attribute:: ACT_365
+      :value: 1
+
+      
+
+   .. py:attribute:: THIRTY_360
+      :value: 2
+
+      
+
+   .. py:attribute:: ACT_ACT_ISDA
+      :value: 3
+
+      
+
+   .. py:attribute:: Thirty_E_360
+      :value: 4
+
+      
+
+   .. py:attribute:: Thirty_E_360_ISDA
+      :value: 5
+
+      
+
+
+.. py:class:: DayCount(dccType: DayCountTypes)
+
+
+   .. py:attribute:: year_frac
+
+      
+
+   .. py:method:: days_between(start_date: finpricing.utils.date.Date, end_date: finpricing.utils.date.Date, include_end=False) -> tuple
+
+      Return the number of days and year fraction using a specific day count convention
+
+      :returns: (days, fraction of year)
+      :rtype: tuple
+
+
+   .. py:method:: year_fraction(start_date: Union[finpricing.utils.date.Date, datetime.date], end_date: Union[finpricing.utils.date.Date, datetime.date], next_coupon_date: finpricing.utils.date.Date = None) -> float
+
+      Return the fraction of year between two dates using a specific day count convention
+
+      The actual calculation is done in days_between() method.
+
+      :param start_date: start date of the accrual period
+      :type start_date: Date
+      :param end_date: end date of the accrual period. For a bond trade, it is the settlement date of the trade.
+      :type end_date: Date
+      :param next_coupon_date: next coupon date of the bond / maturity date of the bond if no more coupon payment
+      :type next_coupon_date: Date
+
+
+   .. py:method:: convert_dates_to_times(anchor_date: finpricing.utils.date.Date, dates: list[finpricing.utils.date.Date]) -> list[float]
+
+      Return a list of time fraction (year fraction) between anchor date and each date in the list
+
+      :param anchor_date: anchor date
+      :type anchor_date: Date
+      :param dates: list of dates
+      :type dates: list[Date]
+
+      :returns: list of time fraction (year fraction)
+      :rtype: list[float]
+
+
+   .. py:method:: __repr__() -> str
+
+      Return the string representation of the object
+
+
+

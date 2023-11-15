@@ -1,0 +1,982 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fixed Leg Implementation &#8212; finpricing  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'legacy/example_swap';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">finpricing  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../bond_issuer_curve.html">
+                        Read Reference and Market Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changelog.html">
+                        Changelog
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../conduct.html">
+                        Code of Conduct
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../autoapi/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YimingZhang07/finpricing" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://yimingzhang.netlify.app/" title="My Website" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-blog fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">My Website</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../bond_issuer_curve.html">
+                        Read Reference and Market Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changelog.html">
+                        Changelog
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../conduct.html">
+                        Code of Conduct
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../autoapi/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YimingZhang07/finpricing" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://yimingzhang.netlify.app/" title="My Website" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-blog fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">My Website</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Fixed Leg...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="fixed-leg-implementation">
+<h1>Fixed Leg Implementation<a class="headerlink" href="#fixed-leg-implementation" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">finpricing.utils.date</span> <span class="kn">import</span> <span class="n">Date</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.day_count</span> <span class="kn">import</span> <span class="n">DayCountTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.frequency</span> <span class="kn">import</span> <span class="n">FrequencyTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.calendar</span> <span class="kn">import</span> <span class="n">CalendarTypes</span><span class="p">,</span> <span class="n">DateGenRuleTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.bus_day_adj</span> <span class="kn">import</span> <span class="n">BusDayAdjustTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.literal</span> <span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">finpricing.instrument.swap_fixed_leg</span> <span class="kn">import</span> <span class="n">SwapFixedLeg</span>
+<span class="kn">from</span> <span class="nn">finpricing.market.dummy_curve</span> <span class="kn">import</span> <span class="n">DummyCurve</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_leg</span> <span class="o">=</span> <span class="n">SwapFixedLeg</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">Date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span>
+                         <span class="n">maturity_date_or_tenor</span><span class="o">=</span><span class="s2">&quot;10Y&quot;</span><span class="p">,</span>
+                         <span class="n">coupon_rate</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span>
+                         <span class="n">notional</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">Literal</span><span class="o">.</span><span class="n">ONE_MILLION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                         <span class="n">freq_type</span><span class="o">=</span><span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">SEMI_ANNUAL</span><span class="p">,</span>
+                         <span class="n">day_count_type</span><span class="o">=</span><span class="n">DayCountTypes</span><span class="o">.</span><span class="n">ACT_360</span><span class="p">,</span>
+                         <span class="n">calendar_type</span><span class="o">=</span><span class="n">CalendarTypes</span><span class="o">.</span><span class="n">UNITED_STATES</span><span class="p">,</span>
+                         <span class="n">bus_day_adj_type</span><span class="o">=</span><span class="n">BusDayAdjustTypes</span><span class="o">.</span><span class="n">MODIFIED_FOLLOWING</span><span class="p">,</span>
+                         <span class="n">date_gen_rule_type</span><span class="o">=</span><span class="n">DateGenRuleTypes</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_leg</span><span class="o">.</span><span class="n">print_cashflows</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+--------------------+--------------------+--------------------+--------------+----------------+-------------+
+|    PAYMENT_DATE    |   ACCRUAL_START    |    ACCRUAL_END     | ACCRUAL_DAYS | ACCRUAL_FACTOR |   CASHFLOW  |
++--------------------+--------------------+--------------------+--------------+----------------+-------------+
+| Wed (2016, 04, 27) | Tue (2015, 10, 27) | Wed (2016, 04, 27) |     183      |     0.5083     | 127083.3333 |
+| Thu (2016, 10, 27) | Wed (2016, 04, 27) | Thu (2016, 10, 27) |     183      |     0.5083     | 127083.3333 |
+| Thu (2017, 04, 27) | Thu (2016, 10, 27) | Thu (2017, 04, 27) |     182      |     0.5056     | 126388.8889 |
+| Fri (2017, 10, 27) | Thu (2017, 04, 27) | Fri (2017, 10, 27) |     183      |     0.5083     | 127083.3333 |
+| Fri (2018, 04, 27) | Fri (2017, 10, 27) | Fri (2018, 04, 27) |     182      |     0.5056     | 126388.8889 |
+| Mon (2018, 10, 29) | Fri (2018, 04, 27) | Mon (2018, 10, 29) |     185      |     0.5139     | 128472.2222 |
+| Mon (2019, 04, 29) | Mon (2018, 10, 29) | Mon (2019, 04, 29) |     182      |     0.5056     | 126388.8889 |
+| Mon (2019, 10, 28) | Mon (2019, 04, 29) | Mon (2019, 10, 28) |     182      |     0.5056     | 126388.8889 |
+| Mon (2020, 04, 27) | Mon (2019, 10, 28) | Mon (2020, 04, 27) |     182      |     0.5056     | 126388.8889 |
+| Tue (2020, 10, 27) | Mon (2020, 04, 27) | Tue (2020, 10, 27) |     183      |     0.5083     | 127083.3333 |
+| Tue (2021, 04, 27) | Tue (2020, 10, 27) | Tue (2021, 04, 27) |     182      |     0.5056     | 126388.8889 |
+| Wed (2021, 10, 27) | Tue (2021, 04, 27) | Wed (2021, 10, 27) |     183      |     0.5083     | 127083.3333 |
+| Wed (2022, 04, 27) | Wed (2021, 10, 27) | Wed (2022, 04, 27) |     182      |     0.5056     | 126388.8889 |
+| Thu (2022, 10, 27) | Wed (2022, 04, 27) | Thu (2022, 10, 27) |     183      |     0.5083     | 127083.3333 |
+| Thu (2023, 04, 27) | Thu (2022, 10, 27) | Thu (2023, 04, 27) |     182      |     0.5056     | 126388.8889 |
+| Fri (2023, 10, 27) | Thu (2023, 04, 27) | Fri (2023, 10, 27) |     183      |     0.5083     | 127083.3333 |
+| Mon (2024, 04, 29) | Fri (2023, 10, 27) | Mon (2024, 04, 29) |     185      |     0.5139     | 128472.2222 |
+| Mon (2024, 10, 28) | Mon (2024, 04, 29) | Mon (2024, 10, 28) |     182      |     0.5056     | 126388.8889 |
+| Mon (2025, 04, 28) | Mon (2024, 10, 28) | Mon (2025, 04, 28) |     182      |     0.5056     | 126388.8889 |
+| Mon (2025, 10, 27) | Mon (2025, 04, 28) | Mon (2025, 10, 27) |     182      |     0.5056     | 126388.8889 |
++--------------------+--------------------+--------------------+--------------+----------------+-------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_leg</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+--------------------------------------+
+| Attribute     |                                Value |
++---------------+--------------------------------------+
+| INSTRUMENT    |                       SWAP_FIXED_LEG |
+| START_DATE    |                   Tue (2015, 10, 27) |
+| MATURITY_DATE |                   Mon (2025, 10, 27) |
+| COUPON_RATE   |                                0.025 |
+| NOTIONAL      |                             10000000 |
+| PRINCIPAL     |                                  0.0 |
+| PAYMENT_LAG   |                                    0 |
+| FREQUENCY     |           FrequencyTypes.SEMI_ANNUAL |
+| DAY_COUNT     |                DayCountTypes.ACT_360 |
+| CALENDAR      |          CalendarTypes.UNITED_STATES |
+| BUS_DAY_ADJ   | BusDayAdjustTypes.MODIFIED_FOLLOWING |
+| DATE_GEN_RULE |             DateGenRuleTypes.FORWARD |
++---------------+--------------------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_leg</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">valuation_date</span><span class="o">=</span><span class="n">Date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">discount_curve</span><span class="o">=</span><span class="n">DummyCurve</span><span class="p">(</span><span class="n">rate</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2407604.0691161873
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_leg</span><span class="o">.</span><span class="n">print_valuation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+--------------------+--------------------+--------------------+--------------+----------------+-------------+---------+--------+-------------+--------------+
+|    PAYMENT_DATE    |   ACCRUAL_START    |    ACCRUAL_END     | ACCRUAL_DAYS | ACCRUAL_FACTOR |   CASHFLOW  |    DT   |   DF   |      PV     |    CUM_PV    |
++--------------------+--------------------+--------------------+--------------+----------------+-------------+---------+--------+-------------+--------------+
+| Wed (2016, 04, 27) | Tue (2015, 10, 27) | Wed (2016, 04, 27) |     183      |     0.5083     | 127083.3333 |  0.5197 | 0.9948 | 126424.6297 | 126424.6297  |
+| Thu (2016, 10, 27) | Wed (2016, 04, 27) | Thu (2016, 10, 27) |     183      |     0.5083     | 127083.3333 |  1.0197 | 0.9899 | 125794.0842 | 252218.7139  |
+| Thu (2017, 04, 27) | Thu (2016, 10, 27) | Thu (2017, 04, 27) |     182      |     0.5056     | 126388.8889 |  1.5178 | 0.9849 | 124485.0329 | 376703.7469  |
+| Fri (2017, 10, 27) | Thu (2017, 04, 27) | Fri (2017, 10, 27) |     183      |     0.5083     | 127083.3333 |  2.0192 | 0.9800 | 124543.0275 | 501246.7743  |
+| Fri (2018, 04, 27) | Fri (2017, 10, 27) | Fri (2018, 04, 27) |     182      |     0.5056     | 126388.8889 |  2.5178 | 0.9751 | 123246.3862 | 624493.1605  |
+| Mon (2018, 10, 29) | Fri (2018, 04, 27) | Mon (2018, 10, 29) |     185      |     0.5139     | 128472.2222 |  3.0247 | 0.9702 | 124644.5562 | 749137.7167  |
+| Mon (2019, 04, 29) | Mon (2018, 10, 29) | Mon (2019, 04, 29) |     182      |     0.5056     | 126388.8889 |  3.5233 | 0.9654 | 122013.3783 | 871151.0950  |
+| Mon (2019, 10, 28) | Mon (2019, 04, 29) | Mon (2019, 10, 28) |     182      |     0.5056     | 126388.8889 |  4.0219 | 0.9606 | 121406.4971 | 992557.5921  |
+| Mon (2020, 04, 27) | Mon (2019, 10, 28) | Mon (2020, 04, 27) |     182      |     0.5056     | 126388.8889 |  4.5197 | 0.9558 | 120803.6925 | 1113361.2846 |
+| Tue (2020, 10, 27) | Mon (2020, 04, 27) | Tue (2020, 10, 27) |     183      |     0.5083     | 127083.3333 |  5.0197 | 0.9510 | 120861.6276 | 1234222.9122 |
+| Tue (2021, 04, 27) | Tue (2020, 10, 27) | Tue (2021, 04, 27) |     182      |     0.5056     | 126388.8889 |  5.5178 | 0.9463 | 119603.9050 | 1353826.8172 |
+| Wed (2021, 10, 27) | Tue (2021, 04, 27) | Wed (2021, 10, 27) |     183      |     0.5083     | 127083.3333 |  6.0192 | 0.9416 | 119659.6255 | 1473486.4427 |
+| Wed (2022, 04, 27) | Wed (2021, 10, 27) | Wed (2022, 04, 27) |     182      |     0.5056     | 126388.8889 |  6.5178 | 0.9369 | 118413.8262 | 1591900.2690 |
+| Thu (2022, 10, 27) | Wed (2022, 04, 27) | Thu (2022, 10, 27) |     183      |     0.5083     | 127083.3333 |  7.0192 | 0.9322 | 118468.9924 | 1710369.2613 |
+| Thu (2023, 04, 27) | Thu (2022, 10, 27) | Thu (2023, 04, 27) |     182      |     0.5056     | 126388.8889 |  7.5178 | 0.9276 | 117235.5890 | 1827604.8503 |
+| Fri (2023, 10, 27) | Thu (2023, 04, 27) | Fri (2023, 10, 27) |     183      |     0.5083     | 127083.3333 |  8.0192 | 0.9229 | 117290.2062 | 1944895.0565 |
+| Mon (2024, 04, 29) | Fri (2023, 10, 27) | Mon (2024, 04, 29) |     185      |     0.5139     | 128472.2222 |  8.5251 | 0.9183 | 117973.6560 | 2062868.7125 |
+| Mon (2024, 10, 28) | Mon (2024, 04, 29) | Mon (2024, 10, 28) |     182      |     0.5056     | 126388.8889 |  9.0224 | 0.9137 | 115484.8705 | 2178353.5830 |
+| Mon (2025, 04, 28) | Mon (2024, 10, 28) | Mon (2025, 04, 28) |     182      |     0.5056     | 126388.8889 |  9.5205 | 0.9092 | 114911.0205 | 2293264.6034 |
+| Mon (2025, 10, 27) | Mon (2025, 04, 28) | Mon (2025, 10, 27) |     182      |     0.5056     | 126388.8889 | 10.0192 | 0.9047 | 114339.4657 | 2407604.0691 |
++--------------------+--------------------+--------------------+--------------+----------------+-------------+---------+--------+-------------+--------------+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="floating-leg-implementation">
+<h1>Floating Leg Implementation<a class="headerlink" href="#floating-leg-implementation" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">finpricing.utils.date</span> <span class="kn">import</span> <span class="n">Date</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.day_count</span> <span class="kn">import</span> <span class="n">DayCountTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.frequency</span> <span class="kn">import</span> <span class="n">FrequencyTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.calendar</span> <span class="kn">import</span> <span class="n">CalendarTypes</span><span class="p">,</span> <span class="n">DateGenRuleTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.bus_day_adj</span> <span class="kn">import</span> <span class="n">BusDayAdjustTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.literal</span> <span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">finpricing.instrument.swap_float_leg</span> <span class="kn">import</span> <span class="n">SwapFloatLeg</span>
+<span class="kn">from</span> <span class="nn">finpricing.market.dummy_curve</span> <span class="kn">import</span> <span class="n">DummyCurve</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">float_leg</span> <span class="o">=</span> <span class="n">SwapFloatLeg</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">Date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span>
+                         <span class="n">maturity_date_or_tenor</span><span class="o">=</span><span class="s2">&quot;10Y&quot;</span><span class="p">,</span>
+                         <span class="n">spread</span><span class="o">=</span><span class="mf">0.004</span><span class="p">,</span>
+                         <span class="n">notional</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">Literal</span><span class="o">.</span><span class="n">ONE_MILLION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                         <span class="n">freq_type</span><span class="o">=</span><span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">QUARTERLY</span><span class="p">,</span>
+                         <span class="n">day_count_type</span><span class="o">=</span><span class="n">DayCountTypes</span><span class="o">.</span><span class="n">ACT_360</span><span class="p">,</span>
+                         <span class="n">calendar_type</span><span class="o">=</span><span class="n">CalendarTypes</span><span class="o">.</span><span class="n">UNITED_STATES</span><span class="p">,</span>
+                         <span class="n">bus_day_adj_type</span><span class="o">=</span><span class="n">BusDayAdjustTypes</span><span class="o">.</span><span class="n">MODIFIED_FOLLOWING</span><span class="p">,</span>
+                         <span class="n">date_gen_rule_type</span><span class="o">=</span><span class="n">DateGenRuleTypes</span><span class="o">.</span><span class="n">FORWARD</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">valuation_date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">index_curve</span> <span class="o">=</span> <span class="n">DummyCurve</span><span class="p">(</span><span class="n">valuation_date</span><span class="o">=</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="n">discount_curve</span> <span class="o">=</span> <span class="n">DummyCurve</span><span class="p">(</span><span class="n">valuation_date</span><span class="o">=</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">float_leg</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">,</span> <span class="n">index_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2319022.4074340872
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">float_leg</span><span class="o">.</span><span class="n">print_valuation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+--------------------+--------------------+--------------------+--------------+----------------+------------+------------+---------+--------+------------+--------------+
+|    PAYMENT_DATE    |   ACCRUAL_START    |    ACCRUAL_END     | ACCRUAL_DAYS | ACCRUAL_FACTOR | FLOAT_RATE |  CASHFLOW  |    DT   |   DF   |     PV     |    CUM_PV    |
++--------------------+--------------------+--------------------+--------------+----------------+------------+------------+---------+--------+------------+--------------+
+| Wed (2016, 01, 27) | Tue (2015, 10, 27) | Wed (2016, 01, 27) |      92      |     0.2556     |   0.0241   | 61462.2783 |  0.2710 | 0.9973 | 61295.9175 |  61295.9175  |
+| Wed (2016, 04, 27) | Wed (2016, 01, 27) | Wed (2016, 04, 27) |      91      |     0.2528     |   0.0240   | 60792.5735 |  0.5197 | 0.9948 | 60477.4709 | 121773.3885  |
+| Wed (2016, 07, 27) | Wed (2016, 04, 27) | Wed (2016, 07, 27) |      91      |     0.2528     |   0.0240   | 60792.5735 |  0.7683 | 0.9923 | 60327.2902 | 182100.6787  |
+| Thu (2016, 10, 27) | Wed (2016, 07, 27) | Thu (2016, 10, 27) |      92      |     0.2556     |   0.0241   | 61462.0249 |  1.0197 | 0.9899 | 60838.4981 | 242939.1768  |
+| Fri (2017, 01, 27) | Thu (2016, 10, 27) | Fri (2017, 01, 27) |      92      |     0.2556     |   0.0241   | 61462.1247 |  1.2712 | 0.9874 | 60685.7433 | 303624.9201  |
+| Thu (2017, 04, 27) | Fri (2017, 01, 27) | Thu (2017, 04, 27) |      90      |     0.2500     |   0.0240   | 60123.4906 |  1.5178 | 0.9849 | 59217.8218 | 362842.7419  |
+| Thu (2017, 07, 27) | Thu (2017, 04, 27) | Thu (2017, 07, 27) |      91      |     0.2528     |   0.0240   | 60792.9190 |  1.7671 | 0.9825 | 59728.0695 | 422570.8114  |
+| Fri (2017, 10, 27) | Thu (2017, 07, 27) | Fri (2017, 10, 27) |      92      |     0.2556     |   0.0241   | 61462.3781 |  2.0192 | 0.9800 | 60233.7887 | 482804.6001  |
+| Mon (2018, 01, 29) | Fri (2017, 10, 27) | Mon (2018, 01, 29) |      94      |     0.2611     |   0.0241   | 62801.3880 |  2.2767 | 0.9775 | 61387.7345 | 544192.3346  |
+| Fri (2018, 04, 27) | Mon (2018, 01, 29) | Fri (2018, 04, 27) |      88      |     0.2444     |   0.0240   | 58784.7254 |  2.5178 | 0.9751 | 57323.1163 | 601515.4509  |
+| Fri (2018, 07, 27) | Fri (2018, 04, 27) | Fri (2018, 07, 27) |      91      |     0.2528     |   0.0240   | 60792.9190 |  2.7671 | 0.9727 | 59133.7653 | 660649.2162  |
+| Mon (2018, 10, 29) | Fri (2018, 07, 27) | Mon (2018, 10, 29) |      94      |     0.2611     |   0.0241   | 62801.3880 |  3.0247 | 0.9702 | 60930.3007 | 721579.5169  |
+| Mon (2019, 01, 28) | Mon (2018, 10, 29) | Mon (2019, 01, 28) |      91      |     0.2528     |   0.0240   | 60792.9190 |  3.2740 | 0.9678 | 58834.8045 | 780414.3214  |
+| Mon (2019, 04, 29) | Mon (2019, 01, 28) | Mon (2019, 04, 29) |      91      |     0.2528     |   0.0240   | 60792.9190 |  3.5233 | 0.9654 | 58688.3032 | 839102.6246  |
+| Mon (2019, 07, 29) | Mon (2019, 04, 29) | Mon (2019, 07, 29) |      91      |     0.2528     |   0.0240   | 60792.9190 |  3.7726 | 0.9630 | 58542.1666 | 897644.7912  |
+| Mon (2019, 10, 28) | Mon (2019, 07, 29) | Mon (2019, 10, 28) |      91      |     0.2528     |   0.0240   | 60792.9190 |  4.0219 | 0.9606 | 58396.3940 | 956041.1852  |
+| Mon (2020, 01, 27) | Mon (2019, 10, 28) | Mon (2020, 01, 27) |      91      |     0.2528     |   0.0240   | 60792.8203 |  4.2710 | 0.9582 | 58251.0031 | 1014292.1883 |
+| Mon (2020, 04, 27) | Mon (2020, 01, 27) | Mon (2020, 04, 27) |      91      |     0.2528     |   0.0240   | 60792.5735 |  4.5197 | 0.9558 | 58106.1154 | 1072398.3036 |
+| Mon (2020, 07, 27) | Mon (2020, 04, 27) | Mon (2020, 07, 27) |      91      |     0.2528     |   0.0240   | 60792.5735 |  4.7683 | 0.9534 | 57961.8233 | 1130360.1269 |
+| Tue (2020, 10, 27) | Mon (2020, 07, 27) | Tue (2020, 10, 27) |      92      |     0.2556     |   0.0241   | 61462.0249 |  5.0197 | 0.9510 | 58452.9865 | 1188813.1135 |
+| Wed (2021, 01, 27) | Tue (2020, 10, 27) | Wed (2021, 01, 27) |      92      |     0.2556     |   0.0241   | 61462.1247 |  5.2712 | 0.9487 | 58306.2212 | 1247119.3347 |
+| Tue (2021, 04, 27) | Wed (2021, 01, 27) | Tue (2021, 04, 27) |      90      |     0.2500     |   0.0240   | 60123.4906 |  5.5178 | 0.9463 | 56895.8578 | 1304015.1925 |
+| Tue (2021, 07, 27) | Tue (2021, 04, 27) | Tue (2021, 07, 27) |      91      |     0.2528     |   0.0240   | 60792.9190 |  5.7671 | 0.9440 | 57386.0984 | 1361401.2909 |
+| Wed (2021, 10, 27) | Tue (2021, 07, 27) | Wed (2021, 10, 27) |      92      |     0.2556     |   0.0241   | 61462.3781 |  6.0192 | 0.9416 | 57871.9880 | 1419273.2790 |
+| Thu (2022, 01, 27) | Wed (2021, 10, 27) | Thu (2022, 01, 27) |      92      |     0.2556     |   0.0241   | 61462.3781 |  6.2712 | 0.9392 | 57726.3026 | 1476999.5816 |
+| Wed (2022, 04, 27) | Thu (2022, 01, 27) | Wed (2022, 04, 27) |      90      |     0.2500     |   0.0240   | 60123.4906 |  6.5178 | 0.9369 | 56329.7346 | 1533329.3162 |
+| Wed (2022, 07, 27) | Wed (2022, 04, 27) | Wed (2022, 07, 27) |      91      |     0.2528     |   0.0240   | 60792.9190 |  6.7671 | 0.9346 | 56815.0972 | 1590144.4134 |
+| Thu (2022, 10, 27) | Wed (2022, 07, 27) | Thu (2022, 10, 27) |      92      |     0.2556     |   0.0241   | 61462.3781 |  7.0192 | 0.9322 | 57296.1521 | 1647440.5655 |
+| Fri (2023, 01, 27) | Thu (2022, 10, 27) | Fri (2023, 01, 27) |      92      |     0.2556     |   0.0241   | 61462.3781 |  7.2712 | 0.9299 | 57151.9163 | 1704592.4818 |
+| Thu (2023, 04, 27) | Fri (2023, 01, 27) | Thu (2023, 04, 27) |      90      |     0.2500     |   0.0240   | 60123.4906 |  7.5178 | 0.9276 | 55769.2444 | 1760361.7262 |
+| Thu (2023, 07, 27) | Thu (2023, 04, 27) | Thu (2023, 07, 27) |      91      |     0.2528     |   0.0240   | 60792.9190 |  7.7671 | 0.9253 | 56249.7775 | 1816611.5037 |
+| Fri (2023, 10, 27) | Thu (2023, 07, 27) | Fri (2023, 10, 27) |      92      |     0.2556     |   0.0241   | 61462.3781 |  8.0192 | 0.9229 | 56726.0459 | 1873337.5496 |
+| Mon (2024, 01, 29) | Fri (2023, 10, 27) | Mon (2024, 01, 29) |      94      |     0.2611     |   0.0241   | 62801.2781 |  8.2765 | 0.9206 | 57812.8112 | 1931150.3608 |
+| Mon (2024, 04, 29) | Mon (2024, 01, 29) | Mon (2024, 04, 29) |      91      |     0.2528     |   0.0240   | 60792.5735 |  8.5251 | 0.9183 | 55824.6914 | 1986975.0522 |
+| Mon (2024, 07, 29) | Mon (2024, 04, 29) | Mon (2024, 07, 29) |      91      |     0.2528     |   0.0240   | 60792.5735 |  8.7738 | 0.9160 | 55686.0647 | 2042661.1169 |
+| Mon (2024, 10, 28) | Mon (2024, 07, 29) | Mon (2024, 10, 28) |      91      |     0.2528     |   0.0240   | 60792.5735 |  9.0224 | 0.9137 | 55547.7822 | 2098208.8991 |
+| Mon (2025, 01, 27) | Mon (2024, 10, 28) | Mon (2025, 01, 27) |      91      |     0.2528     |   0.0240   | 60792.6722 |  9.2712 | 0.9115 | 55409.8253 | 2153618.7244 |
+| Mon (2025, 04, 28) | Mon (2025, 01, 27) | Mon (2025, 04, 28) |      91      |     0.2528     |   0.0240   | 60792.9190 |  9.5205 | 0.9092 | 55272.0767 | 2208890.8012 |
+| Mon (2025, 07, 28) | Mon (2025, 04, 28) | Mon (2025, 07, 28) |      91      |     0.2528     |   0.0240   | 60792.9190 |  9.7699 | 0.9069 | 55134.4468 | 2264025.2479 |
+| Mon (2025, 10, 27) | Mon (2025, 07, 28) | Mon (2025, 10, 27) |      91      |     0.2528     |   0.0240   | 60792.9190 | 10.0192 | 0.9047 | 54997.1595 | 2319022.4074 |
++--------------------+--------------------+--------------------+--------------+----------------+------------+------------+---------+--------+------------+--------------+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="swap-implementation">
+<h1>Swap Implementation<a class="headerlink" href="#swap-implementation" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">finpricing.utils.date</span> <span class="kn">import</span> <span class="n">Date</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.day_count</span> <span class="kn">import</span> <span class="n">DayCountTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.frequency</span> <span class="kn">import</span> <span class="n">FrequencyTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.calendar</span> <span class="kn">import</span> <span class="n">CalendarTypes</span><span class="p">,</span> <span class="n">DateGenRuleTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.bus_day_adj</span> <span class="kn">import</span> <span class="n">BusDayAdjustTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.utils.literal</span> <span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">finpricing.instrument.vanilla_swap</span> <span class="kn">import</span> <span class="n">VanillaInterestRateSwap</span><span class="p">,</span> <span class="n">SwapCounterpartyTypes</span>
+<span class="kn">from</span> <span class="nn">finpricing.market.dummy_curve</span> <span class="kn">import</span> <span class="n">DummyCurve</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">maturity_date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span> <span class="o">=</span> <span class="n">VanillaInterestRateSwap</span><span class="p">(</span><span class="n">start_date</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span>
+                               <span class="n">maturity_date_or_tenor</span><span class="o">=</span><span class="n">maturity_date</span><span class="p">,</span>
+                               <span class="n">fixed_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                               <span class="n">float_spread</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                               <span class="n">notional</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">Literal</span><span class="o">.</span><span class="n">ONE_MILLION</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                               <span class="n">counterparty_type</span><span class="o">=</span><span class="n">SwapCounterpartyTypes</span><span class="o">.</span><span class="n">FIXED_RATE_RECEIVER</span><span class="p">,</span>
+                               <span class="n">fixed_freq_type</span><span class="o">=</span><span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">ANNUAL</span><span class="p">,</span>
+                               <span class="n">fixed_day_count_type</span><span class="o">=</span><span class="n">DayCountTypes</span><span class="o">.</span><span class="n">ACT_360</span><span class="p">,</span>
+                               <span class="n">float_freq_type</span><span class="o">=</span><span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">SEMI_ANNUAL</span><span class="p">,</span>
+                               <span class="n">float_day_count_type</span><span class="o">=</span><span class="n">DayCountTypes</span><span class="o">.</span><span class="n">ACT_360</span><span class="p">,</span>
+                               <span class="n">calendar_type</span><span class="o">=</span><span class="n">CalendarTypes</span><span class="o">.</span><span class="n">UNITED_STATES</span><span class="p">,</span>
+                               <span class="n">bus_day_adj_type</span><span class="o">=</span><span class="n">BusDayAdjustTypes</span><span class="o">.</span><span class="n">FOLLOWING</span><span class="p">,</span>
+                               <span class="n">date_gen_rule_type</span><span class="o">=</span><span class="n">DateGenRuleTypes</span><span class="o">.</span><span class="n">BACKWARD</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">valuation_date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">discount_curve</span> <span class="o">=</span> <span class="n">DummyCurve</span><span class="p">(</span><span class="n">valuation_date</span><span class="o">=</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">freq_type</span><span class="o">=</span><span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">SEMI_ANNUAL</span><span class="p">)</span>
+<span class="n">index_curve</span> <span class="o">=</span> <span class="n">DummyCurve</span><span class="p">(</span><span class="n">valuation_date</span><span class="o">=</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">freq_type</span><span class="o">=</span><span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">SEMI_ANNUAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">,</span> <span class="n">index_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>219755.21155106276
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">fixed_leg</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+-----------------------------+
+| Attribute     |                       Value |
++---------------+-----------------------------+
+| INSTRUMENT    |              SWAP_FIXED_LEG |
+| START_DATE    |          Wed (2018, 06, 20) |
+| MATURITY_DATE |          Mon (2025, 09, 22) |
+| COUPON_RATE   |                        0.05 |
+| NOTIONAL      |                    10000000 |
+| PRINCIPAL     |                         0.0 |
+| PAYMENT_LAG   |                           0 |
+| FREQUENCY     |       FrequencyTypes.ANNUAL |
+| DAY_COUNT     |       DayCountTypes.ACT_360 |
+| CALENDAR      | CalendarTypes.UNITED_STATES |
+| BUS_DAY_ADJ   | BusDayAdjustTypes.FOLLOWING |
+| DATE_GEN_RULE |   DateGenRuleTypes.BACKWARD |
++---------------+-----------------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="o">.</span><span class="n">print_valuation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+--------------------+--------------------+--------------------+--------------+----------------+------------+-------------+---------+--------+-------------+--------------+
+|    PAYMENT_DATE    |   ACCRUAL_START    |    ACCRUAL_END     | ACCRUAL_DAYS | ACCRUAL_FACTOR | FLOAT_RATE |   CASHFLOW  |    DT   |   DF   |      PV     |    CUM_PV    |
++--------------------+--------------------+--------------------+--------------+----------------+------------+-------------+---------+--------+-------------+--------------+
+| Thu (2018, 09, 20) | Wed (2018, 06, 20) | Thu (2018, 09, 20) |      92      |     0.2556     |   0.0497   | 126995.4527 | -1.4980 | 0.0000 |    0.0000   |    0.0000    |
+| Wed (2019, 03, 20) | Thu (2018, 09, 20) | Wed (2019, 03, 20) |     181      |     0.5028     |   0.0500   | 251363.2756 | -1.0021 | 0.0000 |    0.0000   |    0.0000    |
+| Fri (2019, 09, 20) | Wed (2019, 03, 20) | Fri (2019, 09, 20) |     184      |     0.5111     |   0.0500   | 255581.5969 | -0.4980 | 0.0000 |    0.0000   |    0.0000    |
+| Fri (2020, 03, 20) | Fri (2019, 09, 20) | Fri (2020, 03, 20) |     182      |     0.5056     |   0.0500   | 252765.4863 |  0.0000 | 0.0000 |    0.0000   |    0.0000    |
+| Mon (2020, 09, 21) | Fri (2020, 03, 20) | Mon (2020, 09, 21) |     185      |     0.5139     |   0.0500   | 256979.2604 |  0.5055 | 0.9753 | 250643.8245 | 250643.8245  |
+| Mon (2021, 03, 22) | Mon (2020, 09, 21) | Mon (2021, 03, 22) |     182      |     0.5056     |   0.0500   | 252764.4074 |  1.0033 | 0.9517 | 240545.2273 | 491189.0518  |
+| Mon (2021, 09, 20) | Mon (2021, 03, 22) | Mon (2021, 09, 20) |     182      |     0.5056     |   0.0500   | 252769.1924 |  1.5020 | 0.9285 | 234698.5903 | 725887.6420  |
+| Mon (2022, 03, 21) | Mon (2021, 09, 20) | Mon (2022, 03, 21) |     182      |     0.5056     |   0.0500   | 252769.1924 |  2.0006 | 0.9059 | 228989.7253 | 954877.3673  |
+| Tue (2022, 09, 20) | Mon (2022, 03, 21) | Tue (2022, 09, 20) |     183      |     0.5083     |   0.0500   | 254175.2996 |  2.5020 | 0.8838 | 224632.1704 | 1179509.5377 |
+| Mon (2023, 03, 20) | Tue (2022, 09, 20) | Mon (2023, 03, 20) |     181      |     0.5028     |   0.0500   | 251363.2756 |  2.9979 | 0.8624 | 216772.7626 | 1396282.3002 |
+| Wed (2023, 09, 20) | Mon (2023, 03, 20) | Wed (2023, 09, 20) |     184      |     0.5111     |   0.0500   | 255581.5969 |  3.5020 | 0.8412 | 214991.0881 | 1611273.3884 |
+| Wed (2024, 03, 20) | Wed (2023, 09, 20) | Wed (2024, 03, 20) |     182      |     0.5056     |   0.0500   | 252765.4863 |  4.0000 | 0.8207 | 207456.4061 | 1818729.7945 |
+| Fri (2024, 09, 20) | Wed (2024, 03, 20) | Fri (2024, 09, 20) |     184      |     0.5111     |   0.0500   | 255572.8686 |  4.5027 | 0.8006 | 204616.8331 | 2023346.6276 |
+| Thu (2025, 03, 20) | Fri (2024, 09, 20) | Thu (2025, 03, 20) |     181      |     0.5028     |   0.0500   | 251358.4706 |  4.9979 | 0.7813 | 196381.6699 | 2219728.2976 |
+| Mon (2025, 09, 22) | Thu (2025, 03, 20) | Mon (2025, 09, 22) |     186      |     0.5167     |   0.0500   | 258394.7626 |  5.5074 | 0.7619 | 196861.8680 | 2416590.1655 |
++--------------------+--------------------+--------------------+--------------+----------------+------------+-------------+---------+--------+-------------+--------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">fixed_leg</span><span class="o">.</span><span class="n">print_valuation</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+--------------------+--------------------+--------------------+--------------+----------------+-------------+---------+--------+-------------+--------------+
+|    PAYMENT_DATE    |   ACCRUAL_START    |    ACCRUAL_END     | ACCRUAL_DAYS | ACCRUAL_FACTOR |   CASHFLOW  |    DT   |   DF   |      PV     |    CUM_PV    |
++--------------------+--------------------+--------------------+--------------+----------------+-------------+---------+--------+-------------+--------------+
+| Thu (2018, 09, 20) | Wed (2018, 06, 20) | Thu (2018, 09, 20) |      92      |     0.2556     | 127777.7778 | -1.4980 | 0.0000 |    0.0000   |    0.0000    |
+| Fri (2019, 09, 20) | Thu (2018, 09, 20) | Fri (2019, 09, 20) |     365      |     1.0139     | 506944.4444 | -0.4980 | 0.0000 |    0.0000   |    0.0000    |
+| Mon (2020, 09, 21) | Fri (2019, 09, 20) | Mon (2020, 09, 21) |     367      |     1.0194     | 509722.2222 |  0.5055 | 0.9753 | 497155.7900 | 497155.7900  |
+| Mon (2021, 09, 20) | Mon (2020, 09, 21) | Mon (2021, 09, 20) |     364      |     1.0111     | 505555.5556 |  1.5020 | 0.9285 | 469413.1236 | 966568.9137  |
+| Tue (2022, 09, 20) | Mon (2021, 09, 20) | Tue (2022, 09, 20) |     365      |     1.0139     | 506944.4444 |  2.5020 | 0.8838 | 448021.6253 | 1414590.5390 |
+| Wed (2023, 09, 20) | Tue (2022, 09, 20) | Wed (2023, 09, 20) |     365      |     1.0139     | 506944.4444 |  3.5020 | 0.8412 | 426433.4328 | 1841023.9718 |
+| Fri (2024, 09, 20) | Wed (2023, 09, 20) | Fri (2024, 09, 20) |     366      |     1.0167     | 508333.3333 |  4.5027 | 0.8006 | 406981.9985 | 2248005.9703 |
+| Mon (2025, 09, 22) | Fri (2024, 09, 20) | Mon (2025, 09, 22) |     367      |     1.0194     | 509722.2222 |  5.5074 | 0.7619 | 388339.4068 | 2636345.3771 |
++--------------------+--------------------+--------------------+--------------+----------------+-------------+---------+--------+-------------+--------------+
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="hash-test">
+<h1>Hash Test<a class="headerlink" href="#hash-test" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="o">.</span><span class="n">_spread</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HASH for float leg&quot;</span><span class="p">,</span> <span class="nb">hash</span><span class="p">(</span><span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HASH for swap&quot;</span><span class="p">,</span> <span class="nb">hash</span><span class="p">(</span><span class="n">swap</span><span class="p">))</span>
+<span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">,</span> <span class="n">index_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HASH for float leg -7702755141838099907
+HASH for swap -8776440948283722267
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2416590.1655450277
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="o">.</span><span class="n">_spread</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HASH for float leg&quot;</span><span class="p">,</span> <span class="nb">hash</span><span class="p">(</span><span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HASH for swap&quot;</span><span class="p">,</span> <span class="nb">hash</span><span class="p">(</span><span class="n">swap</span><span class="p">))</span>
+<span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">,</span> <span class="n">index_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HASH for float leg -2764863411939125166
+HASH for swap 765662768009918850
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2899900.2507987297
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="lru-cache-test">
+<h1>LRU Cache Test<a class="headerlink" href="#lru-cache-test" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">swap</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">,</span> <span class="n">index_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">float_leg</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">cache_info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CacheInfo(hits=11, misses=3, maxsize=1, currsize=1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">fixed_leg</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">cache_info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CacheInfo(hits=10, misses=2, maxsize=1, currsize=1)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Fixed Leg Implementation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-leg-implementation">Floating Leg Implementation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#swap-implementation">Swap Implementation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hash-test">Hash Test</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#lru-cache-test">LRU Cache Test</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/legacy/example_swap.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Yiming Zhang.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

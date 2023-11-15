@@ -1,0 +1,75 @@
+:py:mod:`finpricing.model.utils.bond_pricing_utils`
+===================================================
+
+.. py:module:: finpricing.model.utils.bond_pricing_utils
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.utils.bond_pricing_utils.hazard_rate_from_probs
+   finpricing.model.utils.bond_pricing_utils.principal_integral
+   finpricing.model.utils.bond_pricing_utils.accrual_integral
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.utils.bond_pricing_utils.MINIMUM_DENOMINATOR
+
+
+.. py:data:: MINIMUM_DENOMINATOR
+   :value: 1e-12
+
+   
+
+.. py:function:: hazard_rate_from_probs(start_p, end_p, start_date, end_date, day_count_type=DayCountTypes.ACT_ACT_ISDA)
+
+   Calculate the constant hazard rate given the survival probabilities at two time points.
+
+   :param start_p: Survival probability at start date
+   :param end_p: Survival probability at end date
+   :param start_date: Start date.
+   :param end_date: End date.
+
+   :returns: The hazard rate.
+
+
+.. py:function:: principal_integral(N, R, valuation_date: Union[datetime.date, finpricing.utils.Date], maturity_date: Union[datetime.date, finpricing.utils.Date], granularity_in_days: int, survival_curve, discount_curve)
+
+   Calculate the principal integral.
+
+   :param N: Total notional.
+   :param R: Recovery rate.
+   :param end_date: End date.
+   :param granularity_in_days: The granularity parameter in days.
+   :param survival_curve: Function that returns the survival probability at a given date.
+   :param discount_curve: Function that returns the bond price at a given date.
+
+   :returns: The principal integral value.
+
+
+.. py:function:: accrual_integral(survival_curve, discount_curve, accrual_start_date, accrual_end_date, granularity_in_days, R, day_count_type=DayCountTypes.ACT_ACT_ISDA)
+
+   calculate the accrual of a coupon leg
+
+   :param start_date: start date of the calculation period
+   :param granularity_in_days: granularity of the partition in days
+   :param R: recovery rate
+   :param survival_curve: survival curve
+   :param discount_curve: discount curve
+   :param accrual_start_date: accrual start date, the lower bound of the integral
+   :param accrual_end_date: accrual end date, the upper bound of the integral
+
+   :returns: The accrual value
+
+

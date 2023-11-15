@@ -1,0 +1,176 @@
+:py:mod:`finpricing.utils.date`
+===============================
+
+.. py:module:: finpricing.utils.date
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.date.TimeInterval
+   finpricing.utils.date.Date
+
+
+
+
+.. py:class:: TimeInterval(value: int, period: str)
+
+
+   .. py:method:: from_string(interval_string)
+      :classmethod:
+
+
+   .. py:method:: __neg__()
+
+
+   .. py:method:: __repr__() -> str
+
+      Return repr(self).
+
+
+   .. py:method:: __mul__(other: int)
+
+
+   .. py:method:: __rmul__(other: int)
+
+
+
+.. py:class:: Date(year: int, month: int, day: int)
+
+
+   .. py:property:: is_weekend
+      :type: bool
+
+      Return True if the date is a weekend, False otherwise
+
+      Monday is 0 and Sunday is 6.
+
+   .. py:attribute:: MON
+      :value: 0
+
+      
+
+   .. py:attribute:: TUE
+      :value: 1
+
+      
+
+   .. py:attribute:: WED
+      :value: 2
+
+      
+
+   .. py:attribute:: THU
+      :value: 3
+
+      
+
+   .. py:attribute:: FRI
+      :value: 4
+
+      
+
+   .. py:attribute:: SAT
+      :value: 5
+
+      
+
+   .. py:attribute:: SUN
+      :value: 6
+
+      
+
+   .. py:method:: to_tuple() -> tuple
+
+      Return a tuple of (year, month, day)
+
+
+   .. py:method:: convert_from_datetime(date: Union[datetime.date, Date]) -> Date
+      :classmethod:
+
+      Return a Date object from a datetime.date object
+
+
+   .. py:method:: convert_from_datetimes(dates: list[Union[datetime.date, Date]]) -> list[Date]
+      :classmethod:
+
+      Return a list of Date objects from a list of datetime.date objects
+
+
+   .. py:method:: from_datetime(date: datetime.date) -> Date
+      :classmethod:
+
+      Return a Date object from a datetime.date object
+
+
+   .. py:method:: from_tuple(date_tuple: tuple) -> Date
+      :classmethod:
+
+      Return a Date object from a tuple of (year, month, day)
+
+
+   .. py:method:: __sub__(other: object) -> int
+
+
+   .. py:method:: __add__(days: int) -> Date
+
+
+   .. py:method:: __eq__(other: object) -> bool
+
+      Return self==value.
+
+
+   .. py:method:: __lt__(other: object) -> bool
+
+      Return self<value.
+
+
+   .. py:method:: __repr__() -> str
+
+      Return repr(self).
+
+
+   .. py:method:: add_days(days: int) -> Date
+
+      Return a new Date object by adding days to self
+
+
+   .. py:method:: add_months(months: int) -> Date
+
+      Return a new Date object by adding months to self
+
+
+   .. py:method:: add_weeks(weeks: int) -> Date
+
+      Return a new Date object by adding weeks to self
+
+
+   .. py:method:: add_years(years: int) -> Date
+
+      Return a new Date object by adding years to self
+
+
+   .. py:method:: add_tenor(tenor: str) -> Date
+
+      Return a new Date object by adding tenor to self
+
+
+   .. py:method:: add_interval(time_interval: TimeInterval) -> Date
+
+
+   .. py:method:: strftime(fmt: str) -> str
+
+      Return a string representing the date, controlled by an explicit format string
+
+
+   .. py:method:: __hash__() -> int
+
+      Return hash(self).
+
+
+

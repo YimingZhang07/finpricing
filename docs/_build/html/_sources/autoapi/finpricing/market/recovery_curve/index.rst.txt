@@ -1,0 +1,35 @@
+:py:mod:`finpricing.market.recovery_curve`
+==========================================
+
+.. py:module:: finpricing.market.recovery_curve
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.market.recovery_curve.RecoveryCurve
+   finpricing.market.recovery_curve.RecoveryCurveConstant
+
+
+
+
+.. py:class:: RecoveryCurve
+
+
+
+.. py:class:: RecoveryCurveConstant(recovery_rate: float)
+
+
+   .. py:method:: from_recovery_rate(recovery_rate: float)
+      :classmethod:
+
+
+   .. py:method:: loss(date: Union[finpricing.utils.date.Date, datetime.date])
+
+
+

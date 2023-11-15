@@ -1,12 +1,10 @@
 from enum import Enum
-from finpricing.utils import (
-    TimeInterval,
-    FrequencyTypes,
-    BusDayAdjustTypes,
-    ClassUtil,
-    CalendarTypes,
-    DayCountTypes
-)
+from finpricing.utils.date import TimeInterval
+from finpricing.utils.frequency import FrequencyTypes
+from finpricing.utils.bus_day_adj import BusDayAdjustTypes
+from finpricing.utils.calendar import CalendarTypes
+from finpricing.utils.day_count import DayCountTypes
+from finpricing.utils.tools import ClassUtil
 
 
 class CDSStubType(Enum):

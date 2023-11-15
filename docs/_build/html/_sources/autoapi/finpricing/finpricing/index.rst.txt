@@ -1,0 +1,6 @@
+:py:mod:`finpricing.finpricing`
+===============================
+
+.. py:module:: finpricing.finpricing
+
+

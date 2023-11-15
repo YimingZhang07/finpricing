@@ -1,0 +1,74 @@
+:py:mod:`finpricing.utils.date_generator`
+=========================================
+
+.. py:module:: finpricing.utils.date_generator
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.date_generator.DateGenerator
+
+
+
+
+.. py:class:: DateGenerator
+
+
+   .. py:method:: generate_extended(start_date: Union[datetime.date, finpricing.utils.date.Date], maturity_date: Union[datetime.date, finpricing.utils.date.Date], time_interval: Union[finpricing.utils.date.TimeInterval, str], stub_at_end: bool)
+      :staticmethod:
+
+      generate a list of dates from start_date to maturity_date with given time_interval
+
+      .. note::
+
+         if stub_at_end is True, the dates will be generated from start_date and roll forward until and after maturity_date
+         if stub_at_end is False, the dates will be generated from maturity_date and roll backward until and before start_date
+
+      :param start_date: start date
+      :type start_date: Union[datetime.date, Date]
+      :param maturity_date: maturity date
+      :type maturity_date: Union[datetime.date, Date]
+      :param time_interval: time interval
+      :type time_interval: Union[TimeInterval, str]
+      :param stub_at_end: whether the stub is at the end of the period
+      :type stub_at_end: bool
+
+
+   .. py:method:: generate_cds(start_date, maturity_date, cds_style: finpricing.utils.cds_style.CDSStyle, stub_at_end: bool = False)
+      :staticmethod:
+
+      generate a list of dates from start_date to maturity_date with given cds_style
+
+      .. note:: Most likely, the stub is at the end of the period. In a NO_STUB case, the first date will be removed.                 So the first date will be after start_date.
+
+
+   .. py:method:: generate_cds_adjust(start_date, maturity_date, cds_style: finpricing.utils.cds_style.CDSStyle, stub_at_end: bool = False)
+      :staticmethod:
+
+      generate accrual start dates, accrual end dates, and calendar adjusted payment dates for a cds contract
+
+      NOTE only the payment dates are adjusted!
+
+
+   .. py:method:: generate_cds_maturity_date(market_date: Union[finpricing.utils.date.Date, datetime.date], maturity_date: Union[finpricing.utils.date.Date, datetime.date], term_style: str = None)
+      :staticmethod:
+
+      return the adjusted maturity date for a cds contract by its term style
+
+      FIXME This is not effectively implemented yet. It seems IMM CORPORATE returns the same maturity date as the input.
+
+
+   .. py:method:: generate_cds_effective_date(market_date: Union[finpricing.utils.date.Date, datetime.date], maturity_date: Union[finpricing.utils.date.Date, datetime.date], cds_style: Union[finpricing.utils.cds_style.CDSStyle, str])
+      :staticmethod:
+
+      generate the effective date for a cds contract when market date is in between coupon dates
+
+
+
+

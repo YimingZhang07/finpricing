@@ -1,0 +1,18 @@
+:py:mod:`finpricing.instrument`
+===============================
+
+.. py:module:: finpricing.instrument
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cds/index.rst
+   fixed_bond/index.rst
+   fixed_coupon_leg/index.rst
+   principal_leg/index.rst
+
+

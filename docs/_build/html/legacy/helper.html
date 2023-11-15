@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; finpricing  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'legacy/helper';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">finpricing  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../bond_issuer_curve.html">
+                        Read Reference and Market Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changelog.html">
+                        Changelog
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../conduct.html">
+                        Code of Conduct
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../autoapi/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YimingZhang07/finpricing" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://yimingzhang.netlify.app/" title="My Website" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-blog fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">My Website</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../bond_issuer_curve.html">
+                        Read Reference and Market Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../changelog.html">
+                        Changelog
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../conduct.html">
+                        Code of Conduct
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../autoapi/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/YimingZhang07/finpricing" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://yimingzhang.netlify.app/" title="My Website" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-solid fa-blog fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">My Website</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">&lt;no title&gt;</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">financepy.utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">financepy.products.rates</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>####################################################################
+# FINANCEPY BETA Version 0.300 - This build:  29 May 2023 at 11:50 #
+#     This software is distributed FREE AND WITHOUT ANY WARRANTY   #
+#  Report bugs as issues at https://github.com/domokane/FinancePy  #
+####################################################################
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swapCalendarType</span> <span class="o">=</span> <span class="n">CalendarTypes</span><span class="o">.</span><span class="n">TARGET</span>
+<span class="n">bus_day_adjust_type</span> <span class="o">=</span> <span class="n">BusDayAdjustTypes</span><span class="o">.</span><span class="n">FOLLOWING</span>
+<span class="n">date_gen_rule_type</span> <span class="o">=</span> <span class="n">DateGenRuleTypes</span><span class="o">.</span><span class="n">BACKWARD</span>
+
+<span class="n">fixed_coupon</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">fixedFreqType</span> <span class="o">=</span> <span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">ANNUAL</span>
+<span class="n">fixed_day_count_type</span> <span class="o">=</span> <span class="n">DayCountTypes</span><span class="o">.</span><span class="n">ACT_360</span>
+
+<span class="n">float_spread</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">floatFreqType</span> <span class="o">=</span> <span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">SEMI_ANNUAL</span>
+<span class="n">float_day_count_type</span> <span class="o">=</span> <span class="n">DayCountTypes</span><span class="o">.</span><span class="n">ACT_360</span>
+
+<span class="n">swapType</span> <span class="o">=</span> <span class="n">SwapTypes</span><span class="o">.</span><span class="n">RECEIVE</span>
+<span class="n">notional</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">ONE_MILLION</span>
+
+<span class="n">start_date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2018</span><span class="p">)</span>
+<span class="n">maturity_date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2025</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span> <span class="o">=</span> <span class="n">IborSwap</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span>
+                    <span class="n">maturity_date</span><span class="p">,</span>
+                    <span class="n">swapType</span><span class="p">,</span>
+                    <span class="n">fixed_coupon</span><span class="p">,</span>
+                    <span class="n">fixedFreqType</span><span class="p">,</span>
+                    <span class="n">fixed_day_count_type</span><span class="p">,</span>
+                    <span class="n">notional</span><span class="p">,</span>
+                    <span class="n">float_spread</span><span class="p">,</span>
+                    <span class="n">floatFreqType</span><span class="p">,</span>
+                    <span class="n">float_day_count_type</span><span class="p">,</span>
+                    <span class="n">swapCalendarType</span><span class="p">,</span>
+                    <span class="n">bus_day_adjust_type</span><span class="p">,</span>
+                    <span class="n">date_gen_rule_type</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">valuation_date</span> <span class="o">=</span> <span class="n">Date</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2020</span><span class="p">)</span>
+<span class="n">settlement_date</span> <span class="o">=</span> <span class="n">valuation_date</span><span class="o">.</span><span class="n">add_weekdays</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">financepy.market.curves.discount_curve_flat</span> <span class="kn">import</span> <span class="n">DiscountCurveFlat</span>
+<span class="n">discount_curve</span> <span class="o">=</span> <span class="n">DiscountCurveFlat</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">FrequencyTypes</span><span class="o">.</span><span class="n">SEMI_ANNUAL</span><span class="p">)</span>
+<span class="n">swap</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">settlement_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>219755.21155157546
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">print_fixed_leg_pv</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>START DATE: 20-JUN-2018
+MATURITY DATE: 22-SEP-2025
+COUPON (%): 5.0
+FREQUENCY: FrequencyTypes.ANNUAL
+DAY COUNT: DayCountTypes.ACT_360
+
+PAYMENTS VALUATION:
++---------+-------------+----------+------+-----------+--------+-----------+------------+
+| PAY_NUM |   PAY_DATE  | NOTIONAL | RATE |    PMNT   |   DF   |     PV    |   CUM_PV   |
++---------+-------------+----------+------+-----------+--------+-----------+------------+
+|    1    | 20-SEP-2018 | 10000000 | 5.0  | 127777.78 |  0.0   |    0.0    |    0.0     |
+|    2    | 20-SEP-2019 | 10000000 | 5.0  | 506944.44 |  0.0   |    0.0    |    0.0     |
+|    3    | 21-SEP-2020 | 10000000 | 5.0  | 509722.22 | 0.9753 | 497155.79 | 497155.79  |
+|    4    | 20-SEP-2021 | 10000000 | 5.0  | 505555.56 | 0.9285 | 469413.12 | 966568.91  |
+|    5    | 20-SEP-2022 | 10000000 | 5.0  | 506944.44 | 0.8838 | 448021.63 | 1414590.54 |
+|    6    | 20-SEP-2023 | 10000000 | 5.0  | 506944.44 | 0.8412 | 426433.43 | 1841023.97 |
+|    7    | 20-SEP-2024 | 10000000 | 5.0  | 508333.33 | 0.8006 |  406982.0 | 2248005.97 |
+|    8    | 22-SEP-2025 | 10000000 | 5.0  | 509722.22 | 0.7619 | 388339.41 | 2636345.38 |
++---------+-------------+----------+------+-----------+--------+-----------+------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">_fixed_leg</span><span class="o">.</span><span class="n">_year_fracs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.25555555555555554,
+ 1.0138888888888888,
+ 1.0194444444444444,
+ 1.011111111111111,
+ 1.0138888888888888,
+ 1.0138888888888888,
+ 1.0166666666666666,
+ 1.0194444444444444]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">print_float_leg_pv</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>START DATE: 20-JUN-2018
+MATURITY DATE: 22-SEP-2025
+SPREAD (BPS): 0.0
+FREQUENCY: FrequencyTypes.SEMI_ANNUAL
+DAY COUNT: DayCountTypes.ACT_360
+START DATE: 20-JUN-2018
+MATURITY DATE: 22-SEP-2025
+SPREAD (bp): 0.0
+FREQUENCY: FrequencyTypes.SEMI_ANNUAL
+DAY COUNT: DayCountTypes.ACT_360
+
+PAYMENTS SCHEDULE:
++---------+-------------+-------------+-------------+-------+----------+
+| PAY_NUM |   PAY_DATE  |  ACCR_START |   ACCR_END  |  DAYS | YEARFRAC |
++---------+-------------+-------------+-------------+-------+----------+
+|    1    | 20-SEP-2018 | 20-JUN-2018 | 20-SEP-2018 |  92.0 |  0.2556  |
+|    2    | 20-MAR-2019 | 20-SEP-2018 | 20-MAR-2019 | 181.0 |  0.5028  |
+|    3    | 20-SEP-2019 | 20-MAR-2019 | 20-SEP-2019 | 184.0 |  0.5111  |
+|    4    | 20-MAR-2020 | 20-SEP-2019 | 20-MAR-2020 | 182.0 |  0.5056  |
+|    5    | 21-SEP-2020 | 20-MAR-2020 | 21-SEP-2020 | 185.0 |  0.5139  |
+|    6    | 22-MAR-2021 | 21-SEP-2020 | 22-MAR-2021 | 182.0 |  0.5056  |
+|    7    | 20-SEP-2021 | 22-MAR-2021 | 20-SEP-2021 | 182.0 |  0.5056  |
+|    8    | 21-MAR-2022 | 20-SEP-2021 | 21-MAR-2022 | 182.0 |  0.5056  |
+|    9    | 20-SEP-2022 | 21-MAR-2022 | 20-SEP-2022 | 183.0 |  0.5083  |
+|    10   | 20-MAR-2023 | 20-SEP-2022 | 20-MAR-2023 | 181.0 |  0.5028  |
+|    11   | 20-SEP-2023 | 20-MAR-2023 | 20-SEP-2023 | 184.0 |  0.5111  |
+|    12   | 20-MAR-2024 | 20-SEP-2023 | 20-MAR-2024 | 182.0 |  0.5056  |
+|    13   | 20-SEP-2024 | 20-MAR-2024 | 20-SEP-2024 | 184.0 |  0.5111  |
+|    14   | 20-MAR-2025 | 20-SEP-2024 | 20-MAR-2025 | 181.0 |  0.5028  |
+|    15   | 22-SEP-2025 | 20-MAR-2025 | 22-SEP-2025 | 186.0 |  0.5167  |
++---------+-------------+-------------+-------------+-------+----------+
+
+PAYMENTS VALUATION:
++---------+-------------+----------+--------+-----------+--------+-----------+------------+
+| PAY_NUM |   PAY_DATE  | NOTIONAL |  IBOR  |    PMNT   |   DF   |     PV    |   CUM_PV   |
++---------+-------------+----------+--------+-----------+--------+-----------+------------+
+|    1    | 20-SEP-2018 | 10000000 |  0.0   |    0.0    |  0.0   |    0.0    |    0.0     |
+|    2    | 20-MAR-2019 | 10000000 |  0.0   |    0.0    |  0.0   |    0.0    |    0.0     |
+|    3    | 20-SEP-2019 | 10000000 |  0.0   |    0.0    |  0.0   |    0.0    |    0.0     |
+|    4    | 20-MAR-2020 | 10000000 |  0.0   |    0.0    |  0.0   |    0.0    |    0.0     |
+|    5    | 21-SEP-2020 | 10000000 | 5.0007 | 256979.26 | 0.9753 | 250643.82 | 250643.82  |
+|    6    | 22-MAR-2021 | 10000000 | 4.9997 | 252764.41 | 0.9517 | 240545.23 | 491189.05  |
+|    7    | 20-SEP-2021 | 10000000 | 4.9998 | 252769.19 | 0.9285 | 234698.59 | 725887.64  |
+|    8    | 21-MAR-2022 | 10000000 | 4.9998 | 252769.19 | 0.9059 | 228989.73 | 954877.37  |
+|    9    | 20-SEP-2022 | 10000000 | 5.0002 |  254175.3 | 0.8838 | 224632.17 | 1179509.54 |
+|    10   | 20-MAR-2023 | 10000000 | 4.9995 | 251363.28 | 0.8624 | 216772.76 | 1396282.3  |
+|    11   | 20-SEP-2023 | 10000000 | 5.0005 |  255581.6 | 0.8412 | 214991.09 | 1611273.39 |
+|    12   | 20-MAR-2024 | 10000000 | 4.9998 | 252765.49 | 0.8207 | 207456.41 | 1818729.79 |
+|    13   | 20-SEP-2024 | 10000000 | 5.0003 | 255572.87 | 0.8006 | 204616.83 | 2023346.63 |
+|    14   | 20-MAR-2025 | 10000000 | 4.9994 | 251358.47 | 0.7813 | 196381.67 | 2219728.3  |
+|    15   | 22-SEP-2025 | 10000000 | 5.0012 | 258394.76 | 0.7619 | 196861.87 | 2416590.17 |
++---------+-------------+----------+--------+-----------+--------+-----------+------------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">pv01</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.272690754192439
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">swap_rate</span><span class="p">(</span><span class="n">valuation_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.04516388971357023
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap2</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">swap</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap2</span><span class="o">.</span><span class="n">_fixed_leg</span><span class="o">.</span><span class="n">_coupon</span> <span class="o">+=</span> <span class="mf">0.0001</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="o">.</span><span class="n">_fixed_leg</span><span class="o">.</span><span class="n">generate_payments</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">swap</span><span class="o">.</span><span class="n">_fixed_leg</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">settlement_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">swap2</span><span class="o">.</span><span class="n">_fixed_leg</span><span class="o">.</span><span class="n">generate_payments</span><span class="p">()</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">swap2</span><span class="o">.</span><span class="n">_fixed_leg</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="n">settlement_date</span><span class="p">,</span> <span class="n">discount_curve</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">/</span> <span class="n">ONE_MILLION</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.0005272690754192415
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">1e-4</span> <span class="o">*</span> <span class="mf">1e7</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1000.0
+</pre></div>
+</div>
+</div>
+</div>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/legacy/helper.ipynb.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Yiming Zhang.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

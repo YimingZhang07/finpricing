@@ -1,0 +1,52 @@
+:py:mod:`finpricing.model.fixed_bond_pricer`
+============================================
+
+.. py:module:: finpricing.model.fixed_bond_pricer
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.fixed_bond_pricer.FixedBondPricer
+
+
+
+
+.. py:class:: FixedBondPricer(inst: finpricing.instrument.fixed_bond.FixedBond)
+
+
+   Bases: :py:obj:`finpricing.utils.ClassUtil`
+
+   .. py:property:: principal_amount
+
+
+   .. py:property:: coupon_cashflows
+
+
+   .. py:method:: principal_pv(valuation_date, discount_curve, survival_curve, recovery_rate)
+
+
+   .. py:method:: price(valuation_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date], survival_curve, discount_curve, recovery_rate: float = 0.4) -> float
+
+      risky pricing of a fixed bond
+
+      :param valuation_date: valuation date
+      :param survival_curve: survival curve
+      :param discount_curve: discount curve
+      :param recovery_rate: recovery rate
+
+      :returns: Dirty price of the bond.
+
+
+   .. py:method:: price_with_basis(valuation_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date], survival_curve, discount_curve, recovery_rate: float = 0.4, basis: float = 0.0, basis_type: str = 'AdditiveZeroRates') -> float
+
+
+   .. py:method:: solve_basis(valuation_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date], dirty_price: float, survival_curve, discount_curve, settlement_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date] = None, recovery_rate: float = 0.4, basis_type: str = 'AdditiveZeroRates', basis_solver_params=BASIS_SOLVER_PARAMS) -> float
+
+
+

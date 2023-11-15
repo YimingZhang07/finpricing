@@ -1,0 +1,32 @@
+:py:mod:`finpricing.utils.reconcile`
+====================================
+
+.. py:module:: finpricing.utils.reconcile
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.reconcile.discount_curve_recon
+
+
+
+.. py:function:: discount_curve_recon(finpricing_curve: finpricing.market.legacy.discount_curve.DiscountCurve, financepy_curve: financepy.products.rates.ibor_single_curve.IborSingleCurve) -> dict
+
+   Compare discount factors of two curves
+
+   :param finpricing_curve: finpricing discount curve
+   :type finpricing_curve: DiscountCurve
+   :param financepy_curve: financepy discount curve
+   :type financepy_curve: IborSingleCurve
+
+   :returns: dictionary of times, finpricing discount factors, financepy discount factors and difference
+   :rtype: dict
+
+

@@ -1,0 +1,73 @@
+:py:mod:`finpricing.utils.interpolator`
+=======================================
+
+.. py:module:: finpricing.utils.interpolator
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.interpolator.InterpTypes
+   finpricing.utils.interpolator.CurveInterpolator
+   finpricing.utils.interpolator.Interpolator
+
+
+
+
+.. py:class:: InterpTypes
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: FLAT_FWD_RATES
+      :value: 1
+
+      
+
+
+.. py:class:: CurveInterpolator
+
+
+
+.. py:class:: Interpolator(times, dfs, method: InterpTypes = InterpTypes.FLAT_FWD_RATES)
+
+
+   Bases: :py:obj:`CurveInterpolator`
+
+   .. py:property:: times
+
+
+   .. py:property:: dfs
+
+
+   .. py:method:: __repr__() -> str
+
+      Return repr(self).
+
+
+   .. py:method:: validate() -> None
+
+      Validate input data
+
+
+   .. py:method:: eval(t: float) -> float
+
+      Evaluate discount factor at time t
+
+      :param t: time (fraction of year)
+      :type t: float
+
+      :returns: interpolated discount factor
+      :rtype: float
+
+
+

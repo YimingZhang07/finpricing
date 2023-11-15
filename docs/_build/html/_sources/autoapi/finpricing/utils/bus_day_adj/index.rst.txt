@@ -1,0 +1,54 @@
+:py:mod:`finpricing.utils.bus_day_adj`
+======================================
+
+.. py:module:: finpricing.utils.bus_day_adj
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.bus_day_adj.BusDayAdjustTypes
+
+
+
+
+.. py:class:: BusDayAdjustTypes
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: NONE
+      :value: 1
+
+      
+
+   .. py:attribute:: FOLLOWING
+      :value: 2
+
+      
+
+   .. py:attribute:: MODIFIED_FOLLOWING
+      :value: 3
+
+      
+
+   .. py:attribute:: PREVIOUS
+      :value: 4
+
+      
+
+   .. py:attribute:: MODIFIED_PREVIOUS
+      :value: 5
+
+      
+
+

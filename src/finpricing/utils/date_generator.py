@@ -1,7 +1,11 @@
 import datetime
 from bisect import bisect_left
 from typing import Union, List
-from finpricing.utils import TimeInterval, CDSStyle, CDSStubType, Date, Calendar, CDSTermStyle, datetimeToDates
+
+from finpricing.utils.date import TimeInterval, Date
+from finpricing.utils.cds_style import CDSStyle, CDSStubType, CDSTermStyle
+from finpricing.utils.tools import datetimeToDates
+from finpricing.utils.calendar import Calendar
 
 class DateGenerator:
     def __init__(self):

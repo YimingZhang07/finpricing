@@ -1,0 +1,52 @@
+:py:mod:`finpricing.market.survival_curve_ns`
+=============================================
+
+.. py:module:: finpricing.market.survival_curve_ns
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.market.survival_curve_ns.SurvivalCurve
+   finpricing.market.survival_curve_ns.SurvivalCurveNelsonSiegel
+
+
+
+
+.. py:class:: SurvivalCurve(anchor_date)
+
+
+   .. py:method:: survival(date: Union[finpricing.utils.date.Date, datetime.date])
+
+
+
+.. py:class:: SurvivalCurveNelsonSiegel(anchor_date: Union[finpricing.utils.date.Date, datetime.date], pivot_dates: list[Union[finpricing.utils.date.Date, datetime.date]], params: list[float] = None)
+
+
+   Bases: :py:obj:`SurvivalCurve`
+
+   .. py:method:: f(t, a)
+      :staticmethod:
+
+
+   .. py:method:: f_integral(t, a)
+      :staticmethod:
+
+
+   .. py:method:: hazard_rates(t: float) -> float
+
+
+   .. py:method:: survival(date: Union[finpricing.utils.date.Date, datetime.date])
+
+
+   .. py:method:: getSurvivalCurve(params: list[float])
+
+      create a new survival curve with the same anchor date and pivot dates but different parameters
+
+
+

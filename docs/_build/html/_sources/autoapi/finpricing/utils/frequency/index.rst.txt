@@ -1,0 +1,54 @@
+:py:mod:`finpricing.utils.frequency`
+====================================
+
+.. py:module:: finpricing.utils.frequency
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.frequency.FrequencyTypes
+
+
+
+
+.. py:class:: FrequencyTypes
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: ANNUAL
+      :value: 1
+
+      
+
+   .. py:attribute:: SEMI_ANNUAL
+      :value: 2
+
+      
+
+   .. py:attribute:: QUARTERLY
+      :value: 4
+
+      
+
+   .. py:attribute:: MONTHLY
+      :value: 12
+
+      
+
+   .. py:attribute:: CONTINUOUS
+      :value: 99
+
+      
+
+

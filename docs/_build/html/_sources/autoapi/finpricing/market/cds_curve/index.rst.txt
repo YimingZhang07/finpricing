@@ -1,0 +1,23 @@
+:py:mod:`finpricing.market.cds_curve`
+=====================================
+
+.. py:module:: finpricing.market.cds_curve
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.market.cds_curve.CDSCurve
+
+
+
+
+.. py:class:: CDSCurve(market_date: Union[datetime.date, finpricing.utils.Date], expiries: List[Union[datetime.date, finpricing.utils.Date]], spreads: List[float], upfronts: List[float], cds_style: Union[finpricing.utils.CDSStyle, str])
+
+
+

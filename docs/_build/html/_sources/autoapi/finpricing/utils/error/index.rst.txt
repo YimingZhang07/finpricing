@@ -1,0 +1,17 @@
+:py:mod:`finpricing.utils.error`
+================================
+
+.. py:module:: finpricing.utils.error
+
+
+Module Contents
+---------------
+
+.. py:exception:: NotSupportedError
+
+
+   Bases: :py:obj:`Exception`
+
+   Common base class for all non-exit exceptions.
+
+

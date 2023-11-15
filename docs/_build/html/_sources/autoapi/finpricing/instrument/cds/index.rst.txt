@@ -1,0 +1,45 @@
+:py:mod:`finpricing.instrument.cds`
+===================================
+
+.. py:module:: finpricing.instrument.cds
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.instrument.cds.CDSFixedCouponLeg
+   finpricing.instrument.cds.CDSContingentLeg
+   finpricing.instrument.cds.CreditDefaultSwap
+
+
+
+
+.. py:class:: CDSFixedCouponLeg(effective_date: Union[finpricing.utils.Date, datetime.date], maturity_date: Union[finpricing.utils.Date, datetime.date], spread: float, notional: float = Literal.UNIT.value, cds_style: finpricing.utils.CDSStyle = CDSStyle.CORP_NA(), pay_day_delay: int = 0)
+
+
+   Bases: :py:obj:`finpricing.utils.ClassUtil`, :py:obj:`finpricing.instrument.fixed_coupon_leg.FixedCouponLegBase`
+
+
+.. py:class:: CDSContingentLeg(protection_start_date: Union[finpricing.utils.Date, datetime.date], protection_end_date: Union[finpricing.utils.Date, datetime.date], notional: float, fixed_recovery: bool, recovery_rate: float, pay_at_end: bool, payment_date: Union[finpricing.utils.Date, datetime.date])
+
+
+   Bases: :py:obj:`finpricing.utils.ClassUtil`
+
+   .. py:method:: make_simple(protection_start_date: Union[finpricing.utils.Date, datetime.date], protection_end_date: Union[finpricing.utils.Date, datetime.date], notional: float = Literal.UNIT.value)
+      :classmethod:
+
+
+
+.. py:class:: CreditDefaultSwap(fixed_coupon_leg: CDSFixedCouponLeg, contingent_leg: CDSContingentLeg)
+
+
+   .. py:method:: make_standard(effective_date: Union[finpricing.utils.Date, datetime.date], maturity_date: Union[finpricing.utils.Date, datetime.date], spread: float, notional: float = Literal.UNIT.value, cds_style: Union[finpricing.utils.CDSStyle, str] = 'CORP_NA', pay_day_delay: int = 0)
+      :classmethod:
+
+
+

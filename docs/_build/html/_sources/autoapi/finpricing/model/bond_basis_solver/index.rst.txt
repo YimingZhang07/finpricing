@@ -1,0 +1,34 @@
+:py:mod:`finpricing.model.bond_basis_solver`
+============================================
+
+.. py:module:: finpricing.model.bond_basis_solver
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.bond_basis_solver.BondBasisSolver
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.bond_basis_solver.BASIS_SOLVER_PARAMS
+
+
+.. py:data:: BASIS_SOLVER_PARAMS
+
+   
+
+.. py:function:: BondBasisSolver(bond_pricer, valuation_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date], dirty_price: float, survival_curve, discount_curve, recovery_rate: float = 0.4, basis_type: str = 'AdditiveZeroRates', basis_solver_params=BASIS_SOLVER_PARAMS)
+
+

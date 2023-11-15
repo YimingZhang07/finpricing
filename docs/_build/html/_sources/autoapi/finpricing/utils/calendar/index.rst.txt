@@ -1,0 +1,67 @@
+:py:mod:`finpricing.utils.calendar`
+===================================
+
+.. py:module:: finpricing.utils.calendar
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.calendar.DateGenRuleTypes
+   finpricing.utils.calendar.Calendar
+
+
+
+
+.. py:class:: DateGenRuleTypes
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: FORWARD
+      :value: 1
+
+      
+
+   .. py:attribute:: BACKWARD
+      :value: 2
+
+      
+
+
+.. py:class:: Calendar(calendarType: finpricing.utils.holiday.CalendarTypes)
+
+
+   .. py:method:: is_holiday(date: finpricing.utils.date.Date) -> bool
+
+
+   .. py:method:: is_business_day(date: finpricing.utils.date.Date) -> bool
+
+      Return True if the date is a business day
+
+      Weekend or not is determined solely by the date itself.
+      Holiday or not is determined by the calendar.
+
+
+   .. py:method:: add_business_days(date: finpricing.utils.date.Date, num_days: int) -> finpricing.utils.date.Date
+
+      Return a new Date object by adding num_days business days to the date
+
+
+   .. py:method:: adjust(date: finpricing.utils.date.Date, busDayAdjType: finpricing.utils.bus_day_adj.BusDayAdjustTypes) -> finpricing.utils.date.Date
+
+      Return a new Date object by adjusting the date according to the Business Day Convention
+
+      For details, https://jollycontrarian.com/index.php?title=Business_Day_Convention_-_ISDA_Definition
+
+
+

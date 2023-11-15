@@ -1,0 +1,164 @@
+:py:mod:`finpricing.model`
+==========================
+
+.. py:module:: finpricing.model
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   utils/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   bond_basis_solver/index.rst
+   bond_curve_solver/index.rst
+   cds_analytics/index.rst
+   cds_pricer/index.rst
+   fixed_bond_pricer/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.FixedBondPricer
+   finpricing.model.BondCurveAnalyticsHelper
+   finpricing.model.BondCurveSolver
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.cds_market_spreads
+
+
+
+.. py:class:: FixedBondPricer(inst: finpricing.instrument.fixed_bond.FixedBond)
+
+
+   Bases: :py:obj:`finpricing.utils.ClassUtil`
+
+   .. py:property:: principal_amount
+
+
+   .. py:property:: coupon_cashflows
+
+
+   .. py:method:: principal_pv(valuation_date, discount_curve, survival_curve, recovery_rate)
+
+
+   .. py:method:: price(valuation_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date], survival_curve, discount_curve, recovery_rate: float = 0.4) -> float
+
+      risky pricing of a fixed bond
+
+      :param valuation_date: valuation date
+      :param survival_curve: survival curve
+      :param discount_curve: discount curve
+      :param recovery_rate: recovery rate
+
+      :returns: Dirty price of the bond.
+
+
+   .. py:method:: price_with_basis(valuation_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date], survival_curve, discount_curve, recovery_rate: float = 0.4, basis: float = 0.0, basis_type: str = 'AdditiveZeroRates') -> float
+
+
+   .. py:method:: solve_basis(valuation_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date], dirty_price: float, survival_curve, discount_curve, settlement_date: finpricing.utils.Union[finpricing.utils.datetime.date, finpricing.utils.Date] = None, recovery_rate: float = 0.4, basis_type: str = 'AdditiveZeroRates', basis_solver_params=BASIS_SOLVER_PARAMS) -> float
+
+
+
+.. py:class:: BondCurveAnalyticsHelper(bonds)
+
+
+   .. py:property:: recovery_rates
+
+
+   .. py:property:: dirty_prices
+
+
+   .. py:property:: discount_curves
+
+
+   .. py:property:: survival_curves
+
+
+   .. py:property:: settlement_dates
+
+
+   .. py:property:: valuation_date
+
+
+   .. py:property:: maturity_dates
+
+      maturity dates of all bonds in the portfolio
+
+   .. py:property:: maturity_span
+
+      maximum maturity minus minimum maturity in years
+
+   .. py:method:: setup(valuation_date: Union[datetime.date, finpricing.utils.date.Date] = None, dirty_prices: List[float] = None, discount_curves=None, survival_curves=None, recovery_rates=None, settlement_dates=None)
+
+      setup the helper in one go
+
+
+   .. py:method:: get_bond_bases(valuation_date: Union[datetime.date, finpricing.utils.date.Date] = None, dirty_prices: List[float] = None, survival_curves=None, basis_type: str = 'AdditiveZeroRates')
+
+
+
+.. py:class:: BondCurveSolver(bondAnalyticsHelper: BondCurveAnalyticsHelper, initial_params=None, weights=None, penalty_params: PenaltyParameter = None)
+
+
+   .. py:method:: getSurvivalCurveGenerator(bondAnalyticsHelper: BondCurveAnalyticsHelper)
+
+      return a survival curve generator that can generate survival curves from parameters
+
+      This is actually not a true generator, but a survival curve that has the method to recreate            a new survival curve with the same anchor date and pivot dates but different parameters.
+
+
+   .. py:method:: get_euqal_weights()
+
+      return a list of equal weights for all bonds
+
+
+   .. py:method:: welsch_loss(x)
+      :staticmethod:
+
+
+   .. py:method:: get_penalty(params: List[float])
+
+
+   .. py:method:: _get_tuning_scalar()
+
+
+   .. py:method:: _get_hazard_rate_derivative_at_zero(params: List[float])
+
+
+   .. py:method:: solve(dirty_prices: List[float] = None, weights: List[float] = None, params: List[float] = None)
+
+      solve the best parameters for the survival curve that minimizes the weighted residuals
+
+
+   .. py:method:: get_weighted_residuals_and_penalty(params: List[float], dirty_prices: List[float], weights: List[float], valuation_date: Union[datetime.date, finpricing.utils.date.Date] = None, basis_type: str = 'AdditiveZeroRates')
+
+
+
+.. py:function:: cds_market_spreads(discount_curve, survival_curve, recovery_rate: float, expiries: List[Union[datetime.date, finpricing.utils.Date]], **kwargs)
+
+   Calculate CDS market spreads for a list of expiries
+
+

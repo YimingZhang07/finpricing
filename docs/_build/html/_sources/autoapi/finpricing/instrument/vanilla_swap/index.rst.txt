@@ -1,0 +1,104 @@
+:py:mod:`finpricing.instrument.vanilla_swap`
+============================================
+
+.. py:module:: finpricing.instrument.vanilla_swap
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.instrument.vanilla_swap.SwapCounterpartyTypes
+   finpricing.instrument.vanilla_swap.VanillaInterestRateSwap
+
+
+
+
+.. py:class:: SwapCounterpartyTypes
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Swap counterparty types
+
+   .. py:attribute:: FIXED_RATE_PAYER
+      :value: 0
+
+      
+
+   .. py:attribute:: FIXED_RATE_RECEIVER
+      :value: 1
+
+      
+
+
+.. py:class:: VanillaInterestRateSwap(start_date: finpricing.utils.date.Date, maturity_date_or_tenor: tuple((Date, str)), fixed_rate: float, float_spread: float = 0.0, notional: float = Literal.ONE_MILLION.value, counterparty_type: SwapCounterpartyTypes = SwapCounterpartyTypes.FIXED_RATE_PAYER, fixed_freq_type: finpricing.utils.frequency.FrequencyTypes = FrequencyTypes.QUARTERLY, fixed_day_count_type: finpricing.utils.day_count.DayCountTypes = DayCountTypes.THIRTY_360, float_freq_type: finpricing.utils.frequency.FrequencyTypes = FrequencyTypes.QUARTERLY, float_day_count_type: finpricing.utils.day_count.DayCountTypes = DayCountTypes.Thirty_E_360, calendar_type: finpricing.utils.holiday.CalendarTypes = CalendarTypes.WEEKEND, bus_day_adj_type: finpricing.utils.bus_day_adj.BusDayAdjustTypes = BusDayAdjustTypes.FOLLOWING, date_gen_rule_type: finpricing.utils.calendar.DateGenRuleTypes = DateGenRuleTypes.BACKWARD)
+
+
+   A standard fixed vs floating interest rate swap
+
+   .. py:property:: notional
+
+
+   .. py:property:: start_date
+
+
+   .. py:property:: maturity_date
+
+      Maturity date of the swap
+
+      This maturity date is supposed to be the actual last payment date (adjusted).
+
+      TODO: check if the float leg maturity date is the same as the fixed leg maturity date and has been adjusted.
+
+   .. py:method:: value(valuation_date: finpricing.utils.date.Date, discount_curve: finpricing.market.legacy.curve.BaseCurve, index_curve: finpricing.market.legacy.curve.BaseCurve) -> float
+
+      Value the swap
+
+      This method calls the value() method of the fixed leg and the float leg.
+      :param valuation_date: valuation date
+      :type valuation_date: Date
+      :param discount_curve: discount curve
+      :type discount_curve: BaseCurve
+      :param index_curve: index curve
+      :type index_curve: BaseCurve
+
+      :returns: swap value
+      :rtype: float
+
+
+   .. py:method:: __repr__()
+
+      Representation of the swap
+
+
+   .. py:method:: __hash__() -> int
+
+      Hash of the swap
+
+
+   .. py:method:: pv01(valuation_date: finpricing.utils.date.Date, discount_curve: finpricing.market.legacy.curve.BaseCurve) -> float
+
+      PV01 of the swap fixed leg.
+
+      TODO: implement this method using repricing approach and test
+
+      This is defined as the present value of an annualized coupon of 1 dollar on the fixed leg only.
+      This could be achieved by bumping the coupon rate by 1 basis point and repricing the swap.
+      Alternatively, this is the average swap value on yearly total dollar payment.
+
+
+   .. py:method:: swap_rate(valuation_date: finpricing.utils.date.Date, discount_curve: finpricing.market.legacy.curve.BaseCurve, index_curve: finpricing.market.legacy.curve.BaseCurve = None) -> float
+
+      Swap rate
+
+      This is the fixed rate that makes the swap value zero.
+
+      reference: Modeling single name and multi-name credit derivatives, 2008, p. 20
+
+
+

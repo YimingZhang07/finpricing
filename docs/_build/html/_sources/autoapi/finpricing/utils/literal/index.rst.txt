@@ -1,0 +1,67 @@
+:py:mod:`finpricing.utils.literal`
+==================================
+
+.. py:module:: finpricing.utils.literal
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.literal.Literal
+
+
+
+
+.. py:class:: Literal
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Literal constants
+
+   .. py:attribute:: ONE_BASIS_POINT
+      :value: 0.0001
+
+      
+
+   .. py:attribute:: ONE_PERCENT
+      :value: 0.01
+
+      
+
+   .. py:attribute:: ZERO
+      :value: 0
+
+      
+
+   .. py:attribute:: UNIT
+      :value: 1
+
+      
+
+   .. py:attribute:: ONE_HUNDRED
+      :value: 100
+
+      
+
+   .. py:attribute:: ONE_THOUSAND
+      :value: 1000
+
+      
+
+   .. py:attribute:: ONE_MILLION
+      :value: 1000000
+
+      
+
+   .. py:attribute:: ONE_BILLION
+      :value: 1000000000
+
+      
+
+

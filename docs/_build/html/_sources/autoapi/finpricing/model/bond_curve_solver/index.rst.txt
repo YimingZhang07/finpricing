@@ -1,0 +1,142 @@
+:py:mod:`finpricing.model.bond_curve_solver`
+============================================
+
+.. py:module:: finpricing.model.bond_curve_solver
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.bond_curve_solver.BondCurveAnalyticsHelper
+   finpricing.model.bond_curve_solver.PenaltyParameter
+   finpricing.model.bond_curve_solver.BondCurveSolver
+
+
+
+
+.. py:class:: BondCurveAnalyticsHelper(bonds)
+
+
+   .. py:property:: recovery_rates
+
+
+   .. py:property:: dirty_prices
+
+
+   .. py:property:: discount_curves
+
+
+   .. py:property:: survival_curves
+
+
+   .. py:property:: settlement_dates
+
+
+   .. py:property:: valuation_date
+
+
+   .. py:property:: maturity_dates
+
+      maturity dates of all bonds in the portfolio
+
+   .. py:property:: maturity_span
+
+      maximum maturity minus minimum maturity in years
+
+   .. py:method:: setup(valuation_date: Union[datetime.date, finpricing.utils.date.Date] = None, dirty_prices: List[float] = None, discount_curves=None, survival_curves=None, recovery_rates=None, settlement_dates=None)
+
+      setup the helper in one go
+
+
+   .. py:method:: get_bond_bases(valuation_date: Union[datetime.date, finpricing.utils.date.Date] = None, dirty_prices: List[float] = None, survival_curves=None, basis_type: str = 'AdditiveZeroRates')
+
+
+
+.. py:class:: PenaltyParameter
+
+
+   .. py:attribute:: penalty_ridge_tuning
+      :type: float
+      :value: 0.0001
+
+      
+
+   .. py:attribute:: penalize_sample_size
+      :type: bool
+      :value: True
+
+      
+
+   .. py:attribute:: penalize_maturity_span
+      :type: bool
+      :value: True
+
+      
+
+   .. py:attribute:: penalize_inverted_curve
+      :type: bool
+      :value: True
+
+      
+
+   .. py:attribute:: penalty_inverted_tuning
+      :type: float
+      :value: 0.2
+
+      
+
+   .. py:attribute:: penalty_inverted_threshold
+      :type: float
+      :value: 0.01
+
+      
+
+   .. py:attribute:: median_dummy_curve_level
+      :type: float
+      :value: 0.009730434692816878
+
+      
+
+
+.. py:class:: BondCurveSolver(bondAnalyticsHelper: BondCurveAnalyticsHelper, initial_params=None, weights=None, penalty_params: PenaltyParameter = None)
+
+
+   .. py:method:: getSurvivalCurveGenerator(bondAnalyticsHelper: BondCurveAnalyticsHelper)
+
+      return a survival curve generator that can generate survival curves from parameters
+
+      This is actually not a true generator, but a survival curve that has the method to recreate            a new survival curve with the same anchor date and pivot dates but different parameters.
+
+
+   .. py:method:: get_euqal_weights()
+
+      return a list of equal weights for all bonds
+
+
+   .. py:method:: welsch_loss(x)
+      :staticmethod:
+
+
+   .. py:method:: get_penalty(params: List[float])
+
+
+   .. py:method:: _get_tuning_scalar()
+
+
+   .. py:method:: _get_hazard_rate_derivative_at_zero(params: List[float])
+
+
+   .. py:method:: solve(dirty_prices: List[float] = None, weights: List[float] = None, params: List[float] = None)
+
+      solve the best parameters for the survival curve that minimizes the weighted residuals
+
+
+   .. py:method:: get_weighted_residuals_and_penalty(params: List[float], dirty_prices: List[float], weights: List[float], valuation_date: Union[datetime.date, finpricing.utils.date.Date] = None, basis_type: str = 'AdditiveZeroRates')
+
+
+

@@ -1,0 +1,34 @@
+:py:mod:`finpricing`
+====================
+
+.. py:module:: finpricing
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   instrument/index.rst
+   market/index.rst
+   model/index.rst
+   utils/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   finpricing/index.rst
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+
+   
+

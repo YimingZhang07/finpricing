@@ -1,0 +1,76 @@
+:py:mod:`finpricing.market`
+===========================
+
+.. py:module:: finpricing.market
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cds_curve/index.rst
+   discount_curve_zero/index.rst
+   lgd_curve/index.rst
+   recovery_curve/index.rst
+   survival_curve_ns/index.rst
+   survival_curve_step/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.market.SurvivalCurveNelsonSiegel
+   finpricing.market.SurvivalCurveStep
+   finpricing.market.CDSCurve
+   finpricing.market.RecoveryCurve
+
+
+
+
+.. py:class:: SurvivalCurveNelsonSiegel(anchor_date: Union[finpricing.utils.date.Date, datetime.date], pivot_dates: list[Union[finpricing.utils.date.Date, datetime.date]], params: list[float] = None)
+
+
+   Bases: :py:obj:`SurvivalCurve`
+
+   .. py:method:: f(t, a)
+      :staticmethod:
+
+
+   .. py:method:: f_integral(t, a)
+      :staticmethod:
+
+
+   .. py:method:: hazard_rates(t: float) -> float
+
+
+   .. py:method:: survival(date: Union[finpricing.utils.date.Date, datetime.date])
+
+
+   .. py:method:: getSurvivalCurve(params: list[float])
+
+      create a new survival curve with the same anchor date and pivot dates but different parameters
+
+
+
+.. py:class:: SurvivalCurveStep(anchor_date: Union[finpricing.utils.Date, finpricing.utils.datetime.date], dates: List[Union[finpricing.utils.Date, finpricing.utils.datetime.date]], hazard_rates: List[float], day_count_type=DayCountTypes.ACT_ACT_ISDA)
+
+
+   .. py:method:: survival(date: Union[finpricing.utils.datetime.date, finpricing.utils.Date]) -> float
+
+
+
+.. py:class:: CDSCurve(market_date: Union[datetime.date, finpricing.utils.Date], expiries: List[Union[datetime.date, finpricing.utils.Date]], spreads: List[float], upfronts: List[float], cds_style: Union[finpricing.utils.CDSStyle, str])
+
+
+
+.. py:class:: RecoveryCurve
+
+
+

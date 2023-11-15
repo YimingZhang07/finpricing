@@ -22,7 +22,9 @@ extensions = [
     "sphinx.ext.viewcode",
     "nbsphinx",
 ]
+
 autoapi_dirs = ["../src"]
+autoapi_ignore = ["*legacy*"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

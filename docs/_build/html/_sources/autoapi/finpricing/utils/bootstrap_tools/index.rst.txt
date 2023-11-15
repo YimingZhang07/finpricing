@@ -1,0 +1,38 @@
+:py:mod:`finpricing.utils.bootstrap_tools`
+==========================================
+
+.. py:module:: finpricing.utils.bootstrap_tools
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.bootstrap_tools.swap_value_by_df
+   finpricing.utils.bootstrap_tools.brent_solve
+   finpricing.utils.bootstrap_tools.newton_solve
+
+
+
+.. py:function:: swap_value_by_df(df_input: float, swap: finpricing.instrument.vanilla_swap.VanillaInterestRateSwap, valuation_date: finpricing.utils.date.Date, discount_curve: finpricing.market.legacy.curve.BaseCurve, index_curve: finpricing.market.legacy.curve.BaseCurve = None) -> float
+
+   Value the swap by tweaking the last discount factor in discount curve. Returns the value with unit notional.
+
+   This is used as a helper function for bootstraping the discount curve.
+
+
+.. py:function:: brent_solve(f: callable, left: float, right: float, args: tuple = (), max_iter: int = 50) -> float
+
+   Solve f(x) = 0 by Brent's method.
+
+
+.. py:function:: newton_solve(f: callable, x0: float, args: tuple = (), max_iter: int = 50) -> float
+
+   Solve f(x) = 0 by Newton's method.
+
+

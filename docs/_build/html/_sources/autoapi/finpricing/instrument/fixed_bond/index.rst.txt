@@ -1,0 +1,36 @@
+:py:mod:`finpricing.instrument.fixed_bond`
+==========================================
+
+.. py:module:: finpricing.instrument.fixed_bond
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.instrument.fixed_bond.FixedBond
+
+
+
+
+.. py:class:: FixedBond(fixed_coupon_leg: finpricing.instrument.fixed_coupon_leg.FixedCouponLeg, principal_leg: finpricing.instrument.principal_leg.PrincipalLeg)
+
+
+   Bases: :py:obj:`finpricing.utils.ClassUtil`
+
+   .. py:property:: maturity_date
+
+
+   .. py:property:: coupon_rate
+
+
+   .. py:method:: __repr__() -> str
+
+      Return repr(self).
+
+
+

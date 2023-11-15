@@ -1,0 +1,81 @@
+:py:mod:`finpricing.model.cds_pricer`
+=====================================
+
+.. py:module:: finpricing.model.cds_pricer
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.cds_pricer.CDSPricer
+
+
+
+
+.. py:class:: CDSPricer(fixed_coupon_leg: finpricing.instrument.cds.CDSFixedCouponLeg, contingent_leg: finpricing.instrument.cds.CDSContingentLeg, discount_curve, survival_curve, recovery_rate, granularity: int = 14, include_accrued: bool = True)
+
+
+   Bases: :py:obj:`finpricing.utils.ClassUtil`
+
+   .. py:property:: cds_style
+
+
+   .. py:property:: accrued_interest
+
+
+   .. py:method:: from_cds(cds: finpricing.instrument.cds.CreditDefaultSwap, discount_curve, survival_curve, recovery_rate, granularity: int = 14, include_accrued: bool = True)
+      :classmethod:
+
+
+   .. py:method:: _generate_payment_dates_with_additional_date(coupon_leg: finpricing.instrument.cds.CDSFixedCouponLeg, include_spread: bool = False)
+
+      generate customized fixed payments for a cds fixed coupon leg with additional day added to the accrual end date
+
+      NOTE this is not a general purpose function, and should be considered as a workaround.            The last accrual period of a CDS has an additional day added to the accrual end date.
+
+      :param coupon_leg: a CDSFixedCouponLeg object
+      :param include_spread: if True, the coupon rate is included in the cashflow amount
+
+
+   .. py:method:: generate_upfront_payment_date(calendar_type=None, date=None)
+
+      three business days after the settlement date
+
+      NOTE   according to the SNAC rule, the upfront payment is exchanged three business day after the trade settlement date
+
+
+   .. py:method:: coupon_leg_accrued_interest(valuation_date: Union[datetime.date, finpricing.utils.Date] = None, accrued_style: finpricing.utils.CDSAccruedStyle = None, day_count_type: finpricing.utils.DayCountTypes = None)
+
+
+   .. py:method:: pv_annuity(valuation_date: Union[datetime.date, finpricing.utils.Date] = None, survival_curve=None, discount_curve=None) -> float
+
+      calculate the annuity PV of a CDS. This is the PV of the fixed coupon leg when coupon rate is 1.0
+
+      NOTE
+          The notional is included in the annuity calculation.
+          The recovery rate seems to be not needed in this function, maybe because the CDS will pay the full notional
+
+      :returns: Dirty price of coupon leg.
+
+
+   .. py:method:: pv_coupon_leg(valuation_date: Union[datetime.date, finpricing.utils.Date] = None, discount_curve=None, survival_curve=None)
+
+
+   .. py:method:: pv_contingent_leg_unit_notional(discount_curve, survival_curve, lgd_curve: finpricing.market.lgd_curve.LGDCurve, start_date: Union[datetime.date, finpricing.utils.Date], end_date: Union[datetime.date, finpricing.utils.Date], granularity: int, special_dates: List, is_first_period: bool)
+
+
+   .. py:method:: pv_contingent_leg(valuation_date: Union[datetime.date, finpricing.utils.Date] = None, discount_curve=None, survival_curve=None, recovery_rate=None)
+
+
+   .. py:method:: par_spread()
+
+
+   .. py:method:: pv()
+
+
+

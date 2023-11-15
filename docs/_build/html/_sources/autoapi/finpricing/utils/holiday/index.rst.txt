@@ -1,0 +1,60 @@
+:py:mod:`finpricing.utils.holiday`
+==================================
+
+.. py:module:: finpricing.utils.holiday
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.holiday.CalendarTypes
+   finpricing.utils.holiday.Holiday
+
+
+
+
+.. py:class:: CalendarTypes
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: NONE
+      :value: 0
+
+      
+
+   .. py:attribute:: WEEKEND
+      :value: 1
+
+      
+
+   .. py:attribute:: UNITED_STATES
+      :value: 2
+
+      
+
+
+.. py:class:: Holiday(calendarType: CalendarTypes)
+
+
+   .. py:method:: is_holiday(date: finpricing.utils.date.Date) -> bool
+
+
+   .. py:method:: holiday_united_states(date: finpricing.utils.date.Date) -> bool
+
+      Return True if the date is a holiday in the United States, False otherwise
+
+      Need to verify and enhance the dates.
+      Reference: https://github.com/domokane/FinancePy/blob/master/financepy/utils/calendar.py#L830
+
+
+

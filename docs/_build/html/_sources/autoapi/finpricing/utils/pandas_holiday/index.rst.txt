@@ -1,0 +1,31 @@
+:py:mod:`finpricing.utils.pandas_holiday`
+=========================================
+
+.. py:module:: finpricing.utils.pandas_holiday
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.pandas_holiday.USBankHolidaysCalendar
+
+
+
+
+.. py:class:: USBankHolidaysCalendar(name: str = '', rules=None)
+
+
+   Bases: :py:obj:`pandas.tseries.holiday.AbstractHolidayCalendar`
+
+   Abstract interface to create holidays following certain rules.
+
+   .. py:attribute:: rules
+
+      
+
+

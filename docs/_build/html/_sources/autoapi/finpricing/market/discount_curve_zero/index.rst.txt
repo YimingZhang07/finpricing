@@ -1,0 +1,83 @@
+:py:mod:`finpricing.market.discount_curve_zero`
+===============================================
+
+.. py:module:: finpricing.market.discount_curve_zero
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.market.discount_curve_zero.DiscountCurve
+   finpricing.market.discount_curve_zero.FlatForwardInterpolator
+   finpricing.market.discount_curve_zero.DiscountCurveZeroRates
+   finpricing.market.discount_curve_zero.DiscountCurveZeroShifted
+
+
+
+
+.. py:class:: DiscountCurve
+
+
+   .. py:method:: discount(date: Union[finpricing.utils.date.Date, datetime.date])
+
+      discount factor for date
+
+
+
+.. py:class:: FlatForwardInterpolator(anchor_date: Union[finpricing.utils.date.Date, datetime.date], spot_date, dates, rates, day_counter, continuous_compounding)
+
+
+   .. py:method:: run_continuous_flat_forward_rates()
+
+      "derive forward rates using ontinuous compounding
+
+
+   .. py:method:: continuous_discount(dt)
+
+      "discount using continuous compounding
+
+
+   .. py:method:: _annual_discount(rate, time)
+
+
+   .. py:method:: run_annual_compounding()
+
+      derive forward rates using annual compounding
+
+
+   .. py:method:: annual_discount(dt)
+
+      discount using annual compounding
+
+
+   .. py:method:: eval(dt)
+
+      "evaluate discount factor for dt using the correct discounting method
+
+
+
+.. py:class:: DiscountCurveZeroRates(anchor_date=None, dates: list[float] = None, rates: list[float] = None, spot_date=None, continuous_compounding: bool = True, interp_type=InterpTypes.FLAT_FWD_RATES, day_count_type: finpricing.utils.day_count.DayCountTypes = DayCountTypes.ACT_365)
+
+
+   Bases: :py:obj:`DiscountCurve`
+
+   .. py:method:: discount(date: finpricing.utils.date.Date)
+
+      discount factor for date
+
+
+
+.. py:class:: DiscountCurveZeroShifted(underlying_curve: DiscountCurveZeroRates, alpha: float, beta: float = 1.0, day_count_type: finpricing.utils.day_count.DayCountTypes = DayCountTypes.ACT_365)
+
+
+   .. py:method:: discount(date: Union[finpricing.utils.date.Date, datetime.date])
+
+      discount factor for date
+
+
+

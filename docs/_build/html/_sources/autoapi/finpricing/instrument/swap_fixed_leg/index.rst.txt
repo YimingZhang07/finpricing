@@ -1,0 +1,104 @@
+:py:mod:`finpricing.instrument.swap_fixed_leg`
+==============================================
+
+.. py:module:: finpricing.instrument.swap_fixed_leg
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.instrument.swap_fixed_leg.SwapFixedLeg
+
+
+
+
+.. py:class:: SwapFixedLeg(start_date: finpricing.utils.date.Date, maturity_date_or_tenor: tuple((Date, str)), coupon_rate: float, notional: float = Literal.ONE_MILLION.value, principal: float = 0.0, payment_lag: int = 0, freq_type: finpricing.utils.frequency.FrequencyTypes = FrequencyTypes.SEMI_ANNUAL, day_count_type: finpricing.utils.day_count.DayCountTypes = DayCountTypes.ACT_360, calendar_type: finpricing.utils.holiday.CalendarTypes = CalendarTypes.WEEKEND, bus_day_adj_type: finpricing.utils.bus_day_adj.BusDayAdjustTypes = BusDayAdjustTypes.FOLLOWING, date_gen_rule_type: finpricing.utils.calendar.DateGenRuleTypes = DateGenRuleTypes.BACKWARD)
+
+
+   .. py:property:: cashflows_pv
+      :type: list
+
+      Return the cashflows present values
+
+   .. py:property:: maturity_date
+      :type: finpricing.utils.date.Date
+
+      Return the maturity date
+
+   .. py:attribute:: _valuation_vars
+      :value: ['_accrual_start', '_accrual_end', '_accrual_days', '_accrual_factor', '_cashflows', '_dt',...
+
+      
+
+   .. py:attribute:: _instrument_vars
+      :value: ['_start_date', '_maturity_date', '_coupon_rate', '_notional', '_principal', '_payment_lag',...
+
+      
+
+   .. py:attribute:: _derived_vars
+      :value: ['_calendar', '_day_count', '_payment_dates']
+
+      
+
+   .. py:method:: generate_cashflows() -> None
+
+      Generate cashflows
+
+
+   .. py:method:: _reset_valuation_vars()
+
+      Reset the valuation intermediate variables
+
+
+   .. py:method:: value(valuation_date: finpricing.utils.date.Date, discount_curve: finpricing.market.legacy.curve.BaseCurve) -> float
+
+      Instrument valuation
+
+      :param valuation_date: valuation date
+      :type valuation_date: Date
+      :param discount_curve: discount curve
+      :type discount_curve: BaseCurve
+
+
+   .. py:method:: print_cashflows()
+
+      Print the cashflows intermediate results
+
+
+   .. py:method:: print_valuation()
+
+      Print the valuation intermediate results
+
+
+   .. py:method:: __repr__() -> str
+
+      Return repr(self).
+
+
+   .. py:method:: as_dict() -> dict
+
+
+   .. py:method:: as_tuple() -> tuple
+
+
+   .. py:method:: __hash__() -> int
+
+      Return hash(self).
+
+
+   .. py:method:: debug_attrs_match() -> bool
+
+      Check if the instance attributes match the class attributes we predefined
+
+
+   .. py:method:: pv01(valuation_date: finpricing.utils.date.Date, discount_curve: finpricing.market.legacy.curve.BaseCurve) -> float
+
+      Calculate the PV01
+
+
+

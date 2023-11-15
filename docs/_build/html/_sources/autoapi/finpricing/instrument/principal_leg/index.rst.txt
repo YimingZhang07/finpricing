@@ -1,0 +1,25 @@
+:py:mod:`finpricing.instrument.principal_leg`
+=============================================
+
+.. py:module:: finpricing.instrument.principal_leg
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.instrument.principal_leg.PrincipalLeg
+
+
+
+
+.. py:class:: PrincipalLeg(maturity_date: Union[datetime.date, finpricing.utils.Date], principal_amount: float)
+
+
+   Bases: :py:obj:`finpricing.utils.ClassUtil`
+
+

@@ -1,0 +1,32 @@
+:py:mod:`finpricing.model.cds_analytics`
+========================================
+
+.. py:module:: finpricing.model.cds_analytics
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.model.cds_analytics.cds_market_spread
+   finpricing.model.cds_analytics.cds_market_spreads
+
+
+
+.. py:function:: cds_market_spread(discount_curve, survival_curve, recovery_rate: float, expiry: Union[datetime.date, finpricing.utils.Date], cds_style: Union[finpricing.utils.CDSStyle, str] = 'CORP_NA', granularity: int = 14)
+
+   Calculate CDS market spread
+
+   NOTE this returns the par spread of a temporary CDS contract and priced by the given discount curve         and survival curve
+
+
+.. py:function:: cds_market_spreads(discount_curve, survival_curve, recovery_rate: float, expiries: List[Union[datetime.date, finpricing.utils.Date]], **kwargs)
+
+   Calculate CDS market spreads for a list of expiries
+
+

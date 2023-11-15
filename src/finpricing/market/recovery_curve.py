@@ -1,6 +1,6 @@
 import datetime
 from typing import Union
-from ..utils import Date
+from finpricing.utils.date import Date
 
 
 class RecoveryCurve:

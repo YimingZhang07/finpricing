@@ -1,0 +1,72 @@
+:py:mod:`finpricing.utils.tools`
+================================
+
+.. py:module:: finpricing.utils.tools
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.tools.ClassUtil
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.tools.dict_to_obj_str
+   finpricing.utils.tools.prettyTableByColumn
+   finpricing.utils.tools.prettyTableByRow
+   finpricing.utils.tools.datetimeToDates
+
+
+
+.. py:function:: dict_to_obj_str(d: dict) -> str
+
+   Return the string representation of a dictionary
+
+
+.. py:function:: prettyTableByColumn(d: dict, align='') -> str
+
+   Return the string representation of a dictionary in a pretty table format where
+   dictionary values can be either iterables for direct use or tuples where the first
+   element is an iterable and the second is a format string.
+
+   Args:
+   d (dict): Dictionary with data to be displayed by the table.
+   align (str): String with column alignments. Use 'l' for left, 'r' for right, and 'c' for center.
+
+   Returns:
+   str: A string representation of the table.
+
+
+.. py:function:: prettyTableByRow(d: dict) -> str
+
+   Return the string representation of a dictionary in a pretty table format
+
+   The dictionary contains the row names as keys and the list of values as values.
+
+
+.. py:function:: datetimeToDates(func)
+
+
+.. py:class:: ClassUtil
+
+
+   .. py:method:: save_attributes(ignore=[])
+
+
+   .. py:method:: resolve_dates(start_date, maturity_date_or_tenor)
+
+
+   .. py:method:: first_valid(*args)
+
+
+

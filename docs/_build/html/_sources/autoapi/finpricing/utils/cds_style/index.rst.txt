@@ -1,0 +1,118 @@
+:py:mod:`finpricing.utils.cds_style`
+====================================
+
+.. py:module:: finpricing.utils.cds_style
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.cds_style.CDSStubType
+   finpricing.utils.cds_style.CDSEffectiveDateStyle
+   finpricing.utils.cds_style.CDSTermStyle
+   finpricing.utils.cds_style.CDSAccruedStyle
+   finpricing.utils.cds_style.CDSStyle
+   finpricing.utils.cds_style.CDSStyleBase
+   finpricing.utils.cds_style.CDSStyleCorpNA
+
+
+
+
+.. py:class:: CDSStubType
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: NO_STUB
+      :value: 'NO_STUB'
+
+      
+
+
+.. py:class:: CDSEffectiveDateStyle
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: PCD
+      :value: 'PCD'
+
+      
+
+
+.. py:class:: CDSTermStyle
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: IMM_CORPORATE
+      :value: 'IMM_CORPORATE'
+
+      
+
+
+.. py:class:: CDSAccruedStyle
+
+
+   Bases: :py:obj:`enum.Enum`
+
+   Generic enumeration.
+
+   Derive from this class to define new enumerations.
+
+   .. py:attribute:: SNAC
+      :value: 'SNAC'
+
+      
+
+   .. py:attribute:: CONVENTIONAL
+      :value: 'CONVENTIONAL'
+
+      
+
+
+.. py:class:: CDSStyle
+
+
+   Bases: :py:obj:`finpricing.utils.tools.ClassUtil`
+
+   .. py:method:: from_name(name)
+      :classmethod:
+
+      Return a CDSStyle instance from a string of name
+
+
+   .. py:method:: CORP_NA()
+      :classmethod:
+
+
+
+.. py:class:: CDSStyleBase(name, day_count_type, frequency_type, bus_day_adj_type, cds_term_style, cds_effective_date_style, cds_stub_length, minimal_stub_period: int, eom_adj: bool, calendar_type, accrued_style)
+
+
+   Bases: :py:obj:`finpricing.utils.tools.ClassUtil`
+
+
+.. py:class:: CDSStyleCorpNA
+
+
+   Bases: :py:obj:`CDSStyleBase`
+
+

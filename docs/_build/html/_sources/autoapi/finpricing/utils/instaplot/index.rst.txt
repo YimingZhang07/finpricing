@@ -1,0 +1,47 @@
+:py:mod:`finpricing.utils.instaplot`
+====================================
+
+.. py:module:: finpricing.utils.instaplot
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.instaplot.bps_formatter
+   finpricing.utils.instaplot.plotting_decorator
+   finpricing.utils.instaplot.plot
+   finpricing.utils.instaplot.scatter
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.utils.instaplot.WRAPPING_ARGS
+
+
+.. py:data:: WRAPPING_ARGS
+   :value: ['x', 'y', 'title', 'x_label', 'y_label', 'x_axis_formatter', 'y_axis_formatter',...
+
+   
+
+.. py:function:: bps_formatter(x, pos)
+
+
+.. py:function:: plotting_decorator(func)
+
+
+.. py:function:: plot(x, y, **kwargs)
+
+
+.. py:function:: scatter(x, y, **kwargs)
+
+

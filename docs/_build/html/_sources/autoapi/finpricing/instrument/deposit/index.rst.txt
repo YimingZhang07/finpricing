@@ -1,0 +1,65 @@
+:py:mod:`finpricing.instrument.deposit`
+=======================================
+
+.. py:module:: finpricing.instrument.deposit
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   finpricing.instrument.deposit.Deposit
+
+
+
+
+.. py:class:: Deposit(start_date: finpricing.utils.date.Date, maturity_date_or_tenor: tuple((Date, str)), deposit_rate: float, notional: float = Literal.ONE_HUNDRED.value, day_count_type: finpricing.utils.day_count.DayCountTypes = DayCountTypes.ACT_360, calendar_type: finpricing.utils.holiday.CalendarTypes = CalendarTypes.WEEKEND, bus_day_adj_type: finpricing.utils.bus_day_adj.BusDayAdjustTypes = BusDayAdjustTypes.FOLLOWING)
+
+
+   .. py:property:: start_date
+      :type: finpricing.utils.date.Date
+
+      Return the start date
+
+   .. py:property:: maturity_date
+      :type: finpricing.utils.date.Date
+
+      Return the maturity date
+
+   .. py:property:: day_count_func
+      :type: finpricing.utils.day_count.DayCount
+
+      Return the day count function
+
+   .. py:property:: accrual_days_factor
+      :type: float
+
+      Return the accrual factor between the start date and the maturity date
+
+   .. py:property:: fwd_discount_factor
+      :type: float
+
+      Return the forward discount factor from the start date to the maturity date
+
+      .. note::
+
+         1. This is not to discount back to the valuation date!
+         2. This factor is based on day count type of the deposit object itself.
+
+   .. py:method:: value(valuation_date: finpricing.utils.date.Date, discount_curve: finpricing.market.legacy.discount_curve.DiscountCurve) -> float
+
+      Return the value of the deposit
+
+      .. todo:: It is unclear which date is this discounted to.
+
+
+   .. py:method:: __repr__() -> str
+
+      Return the string representation of the object
+
+
+
