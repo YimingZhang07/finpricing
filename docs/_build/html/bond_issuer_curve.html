@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Read Reference and Market Data &#8212; finpricing  documentation</title>
+    <title>Bond Survival Curve &#8212; finpricing  documentation</title>
   
   
   
@@ -139,7 +139,7 @@
     
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Read Reference and Market Data
+                        Bond Survival Curve
                       </a>
                     </li>
                 
@@ -282,7 +282,7 @@ document.write(`
     
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Read Reference and Market Data
+                        Bond Survival Curve
                       </a>
                     </li>
                 
@@ -398,7 +398,7 @@ document.write(`
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">Read...</li>
+    <li class="breadcrumb-item active" aria-current="page">Bond Survival Curve</li>
   </ul>
 </nav>
 </div>
@@ -415,7 +415,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="cell docutils container">
+  <section id="bond-survival-curve">
+<h1>Bond Survival Curve<a class="headerlink" href="#bond-survival-curve" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
@@ -432,7 +434,7 @@ document.write(`
 </div>
 </div>
 <section id="read-reference-and-market-data">
-<h1>Read Reference and Market Data<a class="headerlink" href="#read-reference-and-market-data" title="Link to this heading">#</a></h1>
+<h2>Read Reference and Market Data<a class="headerlink" href="#read-reference-and-market-data" title="Link to this heading">#</a></h2>
 <p>We pick 10 bonds from the same issuer on 2023-10-09, and fix all the market data accordingly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -511,14 +513,14 @@ document.write(`
 </div>
 </section>
 <section id="bond-basis">
-<h1>Bond Basis<a class="headerlink" href="#bond-basis" title="Link to this heading">#</a></h1>
+<h2>Bond Basis<a class="headerlink" href="#bond-basis" title="Link to this heading">#</a></h2>
 <p>Bond basis is the additional spread to add on top of the discount curve to match the marked price of the bond. Bond basis can be a large topic, and can be calibrated on top of discount curve, or on top of a survival curve. Here, we assume this spread is added on top of the discount curve. Two special cases are worth mentioning,</p>
 <ol class="arabic simple">
 <li><p>In absence of recovery and survival probability, the bond basis is the same as Z-spread.</p></li>
 <li><p>Theoretically, a “perfect” recovery curve and survival curve should make the bond basis equal to zero, if all credit risks are priced in.</p></li>
 </ol>
 <section id="z-spread">
-<h2>Z-Spread<a class="headerlink" href="#z-spread" title="Link to this heading">#</a></h2>
+<h3>Z-Spread<a class="headerlink" href="#z-spread" title="Link to this heading">#</a></h3>
 <p>As mentioned, while calibrating Z-Spread, recovery rate and survival curve are not included, so we set them both to zeros. The <code class="docutils literal notranslate"><span class="pre">BondCurveAnalyticsHelper</span></code> creates a portfolio of bonds making easier to analyze the basket.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -574,7 +576,7 @@ document.write(`
 </section>
 </section>
 <section id="bond-issuer-curve-nelson-siegel-svensson-form">
-<h1>Bond Issuer Curve: Nelson Siegel Svensson Form<a class="headerlink" href="#bond-issuer-curve-nelson-siegel-svensson-form" title="Link to this heading">#</a></h1>
+<h2>Bond Issuer Curve: Nelson Siegel Svensson Form<a class="headerlink" href="#bond-issuer-curve-nelson-siegel-svensson-form" title="Link to this heading">#</a></h2>
 <p>The bond issuer curve, is essentially a survival curve calibrated from portfolio of bonds from the same issuer. When survival curve is constructed “perfectly”, the model price of the bond should match the market price, as it shou reflect the credit risks of the issuer on any time horizon.</p>
 <p>The Nelson Siegel Svensson form is a parametric form of the survival curve, and therefore can be calibrated.</p>
 <p>The calibration of the bond issuer curve will search the best parameters for the NS curve that minimizes the overall unexplained error between the model price and the market price for the portfolio of bonds. Bond basis, in this case, is the “error” term.</p>
@@ -648,7 +650,7 @@ document.write(`
 </div>
 </section>
 <section id="bond-curve-par-spreads">
-<h1>Bond Curve Par Spreads<a class="headerlink" href="#bond-curve-par-spreads" title="Link to this heading">#</a></h1>
+<h2>Bond Curve Par Spreads<a class="headerlink" href="#bond-curve-par-spreads" title="Link to this heading">#</a></h2>
 <p>With the calibrated continous survival curve, we can calculate the par spreads for sythetic CDSs with various maturities. And, ideally, these par spreads should be comparable to the CDS par spreads on the market.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -685,6 +687,7 @@ document.write(`
 <img alt="_images/c6958e8689663e7e8d2e2e7f76afec9f3564f6dc30a9fd983e1fac32d9cb7138.png" src="_images/c6958e8689663e7e8d2e2e7f76afec9f3564f6dc30a9fd983e1fac32d9cb7138.png" />
 </div>
 </div>
+</section>
 </section>
 
 
@@ -730,15 +733,14 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Read Reference and Market Data</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-basis">Bond Basis</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#z-spread">Z-Spread</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-reference-and-market-data">Read Reference and Market Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-basis">Bond Basis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#z-spread">Z-Spread</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-issuer-curve-nelson-siegel-svensson-form">Bond Issuer Curve: Nelson Siegel Svensson Form</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-curve-par-spreads">Bond Curve Par Spreads</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-issuer-curve-nelson-siegel-svensson-form">Bond Issuer Curve: Nelson Siegel Svensson Form</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bond-curve-par-spreads">Bond Curve Par Spreads</a></li>
 </ul>
-
   </nav></div>
 
   <div class="sidebar-secondary-item">
