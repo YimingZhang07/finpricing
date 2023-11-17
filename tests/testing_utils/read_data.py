@@ -7,9 +7,11 @@ from finpricing.instrument.fixed_coupon_leg import FixedCouponLeg
 from finpricing.instrument.fixed_bond import FixedBond
 from finpricing.instrument.principal_leg import PrincipalLeg
 from finpricing.market.discount_curve_zero import DiscountCurveZeroRates
+from finpricing.utils.tools import read_private_params_for_key, load_and_decrypt_data
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(script_dir)
+project_dir = os.path.dirname(parent_dir)
 
 def parse_bond_info(valuation_date,
                     bonds_info_dict,
@@ -98,24 +100,51 @@ def parse_bond_info(valuation_date,
     else:
         return bonds, dirty_prices
 
+# def get_sample_bonds_portfolio(valuation_date=datetime.date(2023, 10, 9),
+#                                rel_file_path='testing_data/bondcurve_portfolio.json',
+#                                **kwargs):
+#     assert valuation_date == datetime.date(2023, 10, 9), "All bonds information is as of 2023-10-09."
+#     file_path = os.path.join(parent_dir, rel_file_path)
+#     with open(file_path, "rb") as json_data:
+#         bonds_info_dict = json.load(json_data)
+#         json_data.close()
+
+#     return parse_bond_info(valuation_date, bonds_info_dict, **kwargs)
+
 def get_sample_bonds_portfolio(valuation_date=datetime.date(2023, 10, 9),
-                               rel_file_path='testing_data/bondcurve_portfolio.json',
+                               rel_file_path='testing_data/bondcurve_portfolio_20231009.pkl',
                                **kwargs):
     assert valuation_date == datetime.date(2023, 10, 9), "All bonds information is as of 2023-10-09."
+    private_params_path = os.path.join(project_dir, 'private_params.yml')
+    key = read_private_params_for_key(private_params_path)
     file_path = os.path.join(parent_dir, rel_file_path)
-    with open(file_path, "rb") as json_data:
-        bonds_info_dict = json.load(json_data)
-        json_data.close()
-
+    bonds_info_dict = load_and_decrypt_data(file_path, key)
     return parse_bond_info(valuation_date, bonds_info_dict, **kwargs)
+
+# def get_sample_discount_curve(valuation_date=datetime.date(2023, 10, 9),
+#                               spot_date=datetime.date(2023, 10, 11),
+#                               rel_file_path='testing_data/discount_curve_rates_20231009.pickle'):
+#     file_path = os.path.join(parent_dir, rel_file_path)
+#     with open(file_path, "rb") as f:
+#         dates_rates = pickle.load(f)
+
+#     discount_curve = DiscountCurveZeroRates(
+#         anchor_date=valuation_date,
+#         dates=[x[0] for x in dates_rates],
+#         rates=[x[1] for x in dates_rates],
+#         spot_date=spot_date,
+#         continuous_compounding=False,
+#     )
+#     return discount_curve
 
 def get_sample_discount_curve(valuation_date=datetime.date(2023, 10, 9),
                               spot_date=datetime.date(2023, 10, 11),
-                              rel_file_path='testing_data/discount_curve_rates_20231009.pickle'):
-    file_path = os.path.join(parent_dir, rel_file_path)
-    with open(file_path, "rb") as f:
-        dates_rates = pickle.load(f)
+                              rel_file_path='testing_data/discount_curve_20231009.pkl'):
 
+    private_params_path = os.path.join(project_dir, 'private_params.yml')
+    key = read_private_params_for_key(private_params_path)
+    file_path = os.path.join(parent_dir, rel_file_path)
+    dates_rates = load_and_decrypt_data(file_path, key)
     discount_curve = DiscountCurveZeroRates(
         anchor_date=valuation_date,
         dates=[x[0] for x in dates_rates],

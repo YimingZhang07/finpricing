@@ -2,6 +2,15 @@ from prettytable import PrettyTable
 import inspect
 import datetime
 import functools
+import os
+import yaml
+import base64
+import pickle
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.fernet import Fernet
+
 from .date import Date
 
 
@@ -75,11 +84,6 @@ def datetimeToDates(func):
         return func(*new_args, **new_kwargs)
     return wrapper
 
-def read_private_params():
-    pass
-
-def generate_key_from_password()
-
 class ClassUtil:
     def save_attributes(self, ignore=None):
         """save all attributes of the class to self.attributes"""
@@ -105,3 +109,76 @@ class ClassUtil:
             if arg is not None:
                 return arg
         return None
+
+
+#########################################
+# Encryption Utilities
+#########################################
+
+def read_private_params_for_key(file_path):
+    """read private params from file and generate key from password and salt_seed"""
+    if not isinstance(file_path, str):
+        raise TypeError('File path must be a string')
+    
+    if not os.path.exists(file_path):
+        raise FileNotFoundError("private_params.yml file under project root not found. Testing data is not open source.")
+    
+    with open(file_path, 'r', encoding='utf-8') as file:
+        private_params = yaml.safe_load(file)
+    if private_params.get('testing_data_pwd', None) is None or private_params.get('testing_data_salt', None) is None:
+        raise ValueError('Private params file must contain testing_data_pwd and salt_seed')
+    key = generate_key_from_password(private_params['testing_data_pwd'], private_params['testing_data_salt'])
+    return key
+    
+def pickle_encrypt_and_store_data(data, file_path, key):
+    try:
+        pickled_data = pickle.dumps(data)
+    except Exception as e:
+        raise ValueError('Data must be pickle-able') from e
+    encrypted_data = encrypt_data_with_key(pickled_data, key)
+    store_encrypted_data(encrypted_data, file_path)
+    
+def generate_key_from_password(password, salt_str):
+    if not isinstance(password, str):
+        raise TypeError('Password must be a string')
+    if not isinstance(salt_str, str):
+        raise TypeError('Salt must be a string.')
+    salt = salt_str.encode()
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100000,
+        backend=default_backend()
+    )
+    key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
+    return key
+
+def encrypt_data_with_key(data: str | bytes, key: bytes):
+    if not isinstance(data, str) and not isinstance(data, bytes):
+        raise TypeError('Data must be a string / bytes')
+    if isinstance(data, str):
+        data = data.encode()
+    cipher_suite = Fernet(key)
+    encrypted_data = cipher_suite.encrypt(data)
+    return encrypted_data
+
+def store_encrypted_data(encrypted_data, file_path):
+    if not isinstance(encrypted_data, bytes):
+        raise TypeError('Encrypted data must be bytes')
+    if not isinstance(file_path, str):
+        raise TypeError('File path must be a string')
+    with open(file_path, 'wb') as file:
+        pickle.dump(encrypted_data, file)
+        
+def load_and_decrypt_data(file_path, key):
+    if not isinstance(file_path, str):
+        raise TypeError('File path must be a string')
+    if not isinstance(key, bytes):
+        raise TypeError('Key must be bytes')
+    with open(file_path, 'rb') as file:
+        encrypted_data = pickle.load(file)
+    cipher_suite = Fernet(key)
+    decrypted_data = cipher_suite.decrypt(encrypted_data)
+    assert isinstance(decrypted_data, bytes), "Decrypted data must be bytes, and then loaded by pickle"
+    return pickle.loads(decrypted_data)
