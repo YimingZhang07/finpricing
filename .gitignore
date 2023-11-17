@@ -8,3 +8,6 @@ __pypackages__/
 
 # MacOS
 .DS_Store
+
+# project
+private_params.yml

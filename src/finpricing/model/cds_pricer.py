@@ -245,7 +245,7 @@ class CDSPricer(ClassUtil):
         
         discount_curve = self.first_valid(discount_curve, self.discount_curve)
         survival_curve = self.first_valid(survival_curve, self.survival_curve)
-        recovery_rate = self.first_valid(recovery_rate, self.recovery_rate)
+        recovery_rate  = self.first_valid(recovery_rate, self.recovery_rate)
         valuation_date = self.first_valid(valuation_date, discount_curve.anchor_date)
         
         valuation_date = Date.convert_from_datetime(valuation_date)

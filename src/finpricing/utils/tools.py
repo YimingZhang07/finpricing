@@ -67,6 +67,7 @@ def prettyTableByRow(d: dict) -> str:
     return x.get_string()
 
 def datetimeToDates(func):
+    """decorator to convert datetime.date to Date"""
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         new_args = [Date.from_datetime(arg) if isinstance(arg, datetime.date) else arg for arg in args]
@@ -74,8 +75,15 @@ def datetimeToDates(func):
         return func(*new_args, **new_kwargs)
     return wrapper
 
+def read_private_params():
+    pass
+
+def generate_key_from_password()
+
 class ClassUtil:
-    def save_attributes(self, ignore=[]):
+    def save_attributes(self, ignore=None):
+        """save all attributes of the class to self.attributes"""
+        ignore = ignore or []
         frame = inspect.currentframe().f_back
         _, _, _, local_vars = inspect.getargvalues(frame)
         self.attributes = {k:v for k, v in local_vars.items()
