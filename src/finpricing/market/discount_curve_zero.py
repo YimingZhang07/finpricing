@@ -42,7 +42,7 @@ class FlatForwardInterpolator:
             self.dicount_handle = self.annual_discount
 
     def run_continuous_flat_forward_rates(self):
-        """"derive forward rates using ontinuous compounding"""
+        """"derive forward rates using continuous compounding"""
         for i, _ in enumerate(self.times_relateive_to_spot):
             if i == 0:
                 self.forwards.append(self.rates[0])

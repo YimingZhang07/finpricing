@@ -10,6 +10,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
+from typing import Union
 
 from .date import Date
 
@@ -154,7 +155,7 @@ def generate_key_from_password(password, salt_str):
     key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
     return key
 
-def encrypt_data_with_key(data: str | bytes, key: bytes):
+def encrypt_data_with_key(data: Union[str, bytes], key: bytes):
     if not isinstance(data, str) and not isinstance(data, bytes):
         raise TypeError('Data must be a string / bytes')
     if isinstance(data, str):
